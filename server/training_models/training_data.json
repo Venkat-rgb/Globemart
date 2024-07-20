@@ -1,0 +1,803 @@
+{
+  "documents": [
+    {
+      "text": "Show me men's clothing.",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Display men's apparel.",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Show men's fashion.",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "I want to see men's attire.",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Show me men's outfits.",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Display men's wear.",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Show me men's clothing options.",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "I'm interested in men's fashion.",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Can you show me men's clothing?",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Show me the men's section.",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "I'm looking for a new pair of jeans",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Can I see what kind of shirts you have on sale?",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Do you have any graphic T-shirts in stock?",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Are there any traditional dhotis available?",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Show me some stylish suits for a formal event",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "I need some comfortable pants for everyday wear",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Do you have any shorts for the summer season?",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "I'm interested in seeing your collection of sherwanis for a wedding",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Can I look at some lungis for lounging around?",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "I need a new outfit, maybe a nice shirt and some dress pants",
+      "intent": "men_clothes_intent"
+    },
+    {
+      "text": "Can you show me women's clothing?",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Display women's apparel.",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Show women's fashion.",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "I want to see women's attire.",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Show me women's outfits.",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Display women's wear.",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Show me women's clothing options.",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "I'm interested in women's fashion.",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Can you show me women's clothing?",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Show me the women's section.",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "I'm looking for a nice summer dress",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Can I see what kind of sarees you have in stock?",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Do you have any new lehenga designs?",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "I'd like to browse your selection of kurtas and churidars",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Are there any Indowestern outfits available?",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Show me some Patiala suits for everyday wear",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "I'm interested in seeing your collection of Banarasi sarees",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Can I look at Ghagra cholis for a festive occasion?",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Do you have any Anarkali salwar suits in stock?",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "I'm looking for something comfortable yet stylish, like a salwar kameez",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Do you have any, Kanchi pattu (or) Kanchipuram sarees",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Do you have any, Leggings?",
+      "intent": "women_clothes_intent"
+    },
+    {
+      "text": "Show me mobile phones.",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Display mobile devices.",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "I want to see mobile options.",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Show me the mobile section.",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Can you show me some mobiles?",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Display mobile phone models.",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Show me mobile varieties.",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "I'm interested in mobile devices.",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Show me the mobile collection.",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Can you show me some mobile choices?",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "I'm looking for a new phone, do you have any Samsung phones?",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Can I see what kind of iPhones you have in stock?",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Are there any budget-friendly Redmi phones available?",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Show me the latest smartphones from OnePlus",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "I'm interested in Realme phone, any recommendations?",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Do you have any deals on Vivo phones this month?",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "I'm looking for Oppo phone, any suggestions?",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Can I see what kind of Poco phones are available?",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "I'm a big fan of Motorola, do you have any new models?",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "Thinking about getting a new Xiaomi phone, what do you have?",
+      "intent": "mobiles_intent"
+    },
+    {
+      "text": "I'm interested in seeing laptops.",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Show me laptop options.",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Can you display laptops?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Show me the laptop collection.",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "I want to see some laptops.",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Display laptop models.",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Can you show me laptop varieties?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "I'm looking for laptops, can you help?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Show me the laptop section.",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "I'm interested in laptops, can you show me some?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "I'm in the market for a new laptop, any Dell laptops in stock?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Can I see what kind of Macbooks you have available?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Do you have any gaming laptops from Asus in stock?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Show me some budget-friendly laptops, maybe HP or Lenovo",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "I'm looking for a LG laptop with a good battery life, any recommendations?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Do you have any deals on Infinix laptops?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "What are the latest laptops from Acer?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "I'm a creative professional, are there any laptops suitable for video editing?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Can I see what kind of Toshiba laptops you have?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Thinking about getting a new Huawei laptop, what do you have in stock?",
+      "intent": "laptops_intent"
+    },
+    {
+      "text": "Show me cameras.",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "Display cameras.",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "I want to see camera options.",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "Show me the camera section.",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "Can you show me some cameras?",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "Display camera models.",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "Show me camera varieties.",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "I'm interested in cameras.",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "Show me the camera collection.",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "Can you show me some camera choices?",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "I'm interested in getting a new camera, do you have any Canon EOS series cameras?",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "Can I see what kind of Sony mirrorless cameras you have in stock?",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "Are there any beginner-friendly Nikon cameras available?",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "Show me some high-resolution Fujifilm cameras for professional use",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "I'm looking for a good vlogging camera, any recommendations between Panasonic and Sony?",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "Do you have any OM system camera?",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "I'm on a tight budget, are there any entry-level Pentax cameras?",
+      "intent": "cameras_intent"
+    },
+    { "text": "Can you show me Leica camera?", "intent": "cameras_intent" },
+    {
+      "text": "Do you have any instant print cameras like the Kodak ones?",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "I'm looking for a tough and compact camera for travel, any Casio camera options?",
+      "intent": "cameras_intent"
+    },
+    {
+      "text": "I'm interested in seeing headphones.",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Show me headphone options.",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Can you display headphones?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Show me the headphone collection.",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "I want to see some headphones.",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Display headphone models.",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Can you show me headphone varieties?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "I'm looking for headphones, can you help?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Show me the headphone section.",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "I'm interested in headphones, can you show me some?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "I'm looking for a new pair of headphones, do you have any noise-canceling options like Sony headphones or Bose headphones?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Can I see what kind of wireless headphones you have in stock, maybe JBL or Beats headphones?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Are there any budget-friendly headphones available, like those from Boat headphones or Philips headphones?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Show me some good headphones for working out, preferably sweatproof",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "I'm interested in headphones with good sound quality for music production, any recommendations?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Do you have any Apple headphones in stock?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Looking for a comfortable pair of headphones for long calls, any suggestions?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Can I see what kind of gaming headphones you have, like Logitech headphones or Sennheiser headphones?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "I'm a big fan of Noise headphones, do you have any new models?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "Thinking about getting a new pair of wireless headphones for travel, what do you have?",
+      "intent": "headphones_intent"
+    },
+    {
+      "text": "I'd like to see some earphones.",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Show me the earphone selection.",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Can you display earphones?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Show me earphone options.",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "I'm interested in earphones, can you show me?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Display earphone models.",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Can you show me some earphone varieties?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "I'm looking for earphones, can you help?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Show me the earphone section.",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "I'm interested in earphones, can you show me some?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "I'm looking for a new pair of earphones, do you have any with good noise isolation like Sony earphones or Bose earphones?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Can I see what kind of wireless earphones you have in stock, maybe JBL earphones or Beats earphones?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Are there any budget-friendly earphones available, like those from Boat earphones or Realme buds 2 earphones?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Show me some comfortable earphones for calls that won't fall out easily",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "I'm interested in earphones with clear sound quality for listening to audiobooks, any recommendations?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Do you have any Apple earphones in stock?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Looking for a good pair of earphones for working out, preferably sweatproof and secure",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Can I see what kind of Philips earphones you have?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "I'm a big fan of Noise earphones, do you have any new models?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "Thinking about getting a new pair of earphones with good sound quality, what do you have from Sennheiser earphones?",
+      "intent": "earphones_intent"
+    },
+    {
+      "text": "I'd like to see some watches, please.",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Show me the watch collection.",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Can you display watches?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Show me watch options.",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "I'm interested in watches, can you show me?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Display watch models.",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Can you show me some watch varieties?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "I'm looking for watches, can you help?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "I'm interested in watches, can you show me some?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "I'm looking for a new watch, do you have any smartwatches like Apple Watch or Fitbit sense watch?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Can I see what kind of sports watches you have in stock, maybe Timex watch or Casio watch?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Are there any stylish watches for women, like Fossil watch or Titan watch?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Show me some classic men's watches, like Rolex Watch or Tissot (replace Tissot with a similar brand if needed based on your target audience)",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "I'm on a budget, are there any Sonata watches?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Do you have any Fastrack watches?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Looking for a watch for everyday wear, any suggestions?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Can I see what kind of smartwatches you have from Boat watch?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "I'm interested in a watch with a minimalist design, any recommendations?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Do you have any watches with specific functionalities, like chronograph or water resistance?",
+      "intent": "watches_intent"
+    },
+    {
+      "text": "Show me speakers, please.",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "I'd like to see some JBL speakers.",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Can you display speaker options?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Show me the speaker collection.",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "I'm interested in speakers, can you show me?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Display speaker models.",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Can you show me some speaker varieties?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "I'm looking for speakers, can you help?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Show me the speaker section.",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "I'm interested in speakers, can you show me some?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "I'm looking for a new speaker for my living room, any recommendations on good sound quality brands like Sonos speaker or Bose speaker?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Can I get Panasonic speaker?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Are there any wireless speakers with a powerful bass, like JBL speaker or Sony speaker?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Show me some soundbars for enhancing my TV sound, maybe Samsung speaker or LG speaker?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "I'm on a budget, are there any good speakers like KLIPSCH speaker?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Do you have any speakers with smart features like voice assistant compatibility?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Looking for a speaker for outdoor parties, something portable and waterproof",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Can I see what kind of speakers you have from Marshall speaker, known for their classic rock sound?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "I'm interested in a high-fidelity speaker system for audiophiles, any recommendations?",
+      "intent": "speakers_intent"
+    },
+    {
+      "text": "Do you have any speakers from Bang & Olufsen speaker, known for their sleek design?",
+      "intent": "speakers_intent"
+    },
+
+    { "text": "Show me some shoes, please.", "intent": "shoes_intent" },
+    {
+      "text": "I'd like to see the shoe collection.",
+      "intent": "shoes_intent"
+    },
+    { "text": "Can you display shoe options?", "intent": "shoes_intent" },
+    { "text": "Show me the shoes available.", "intent": "shoes_intent" },
+    {
+      "text": "I'm interested in shoes, can you show me?",
+      "intent": "shoes_intent"
+    },
+    { "text": "Display shoe models.", "intent": "shoes_intent" },
+    {
+      "text": "Can you show me some shoe varieties?",
+      "intent": "shoes_intent"
+    },
+    {
+      "text": "I'm looking for shoes, can you help?",
+      "intent": "shoes_intent"
+    },
+    { "text": "Show me the shoe section.", "intent": "shoes_intent" },
+    {
+      "text": "I'm interested in shoes, can you show me some?",
+      "intent": "shoes_intent"
+    },
+    {
+      "text": "I'm looking for a new pair of running shoes, do you have any Nikes or Adidas?",
+      "intent": "shoes_intent"
+    },
+    {
+      "text": "Can I see what kind of casual shoes you have in stock, maybe something from Skechers or Bata?",
+      "intent": "shoes_intent"
+    },
+    {
+      "text": "Are there any comfortable sandals available for summer, like Khadim's or Sparx?",
+      "intent": "shoes_intent"
+    },
+    {
+      "text": "Show me some stylish shoes from New balance",
+      "intent": "shoes_intent"
+    },
+    {
+      "text": "I'm on a tight budget, are there any shoes under ₹1000 (adjust currency based on your region)?",
+      "intent": "shoes_intent"
+    },
+    {
+      "text": "Do you have any waterproof shoes suitable for hiking?",
+      "intent": "shoes_intent"
+    },
+    {
+      "text": "Looking for a pair of dress shoes for a formal event, any recommendations?",
+      "intent": "shoes_intent"
+    },
+    {
+      "text": "Can I see what kind of sports shoes you have from Reebok or Puma?",
+      "intent": "shoes_intent"
+    },
+    {
+      "text": "I'm interested in a good pair of walking shoes for daily use, any suggestions?",
+      "intent": "shoes_intent"
+    },
+    {
+      "text": "Do you have any shoes from Woodland, known for their outdoor footwear?",
+      "intent": "shoes_intent"
+    }
+  ],
+  "answers": [
+    { "intent": "men_clothes_intent", "answer": "men clothes" },
+    { "intent": "women_clothes_intent", "answer": "women clothes" },
+    { "intent": "mobiles_intent", "answer": "mobiles" },
+    { "intent": "laptops_intent", "answer": "laptops" },
+    { "intent": "cameras_intent", "answer": "cameras" },
+    { "intent": "headphones_intent", "answer": "headphones" },
+    { "intent": "earphones_intent", "answer": "earphones" },
+    { "intent": "watches_intent", "answer": "watches" },
+    { "intent": "speakers_intent", "answer": "speakers" },
+    { "intent": "shoes_intent", "answer": "shoes" }
+  ]
+}
