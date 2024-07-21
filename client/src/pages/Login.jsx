@@ -142,21 +142,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// {
-/* <button
-            className={`bg-indigo-600 ${
-              isLoading && "bg-indigo-500"
-            }  px-4 py-2 rounded shadow-lg transition-all duration-300 font-medium text-neutral-600 w-full flex items-center justify-center`}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <CircularProgress
-                sx={{ color: "white", opacity: 0.8 }}
-                size={20}
-              />
-            ) : (
-              <p className="text-[#f1f1f1]">Log In</p>
-            )}
-          </button> */
-// }

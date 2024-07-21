@@ -162,27 +162,3 @@ const Chat = () => {
 };
 
 export default Chat;
-
-// Adding New User to socket
-// useEffect(() => {
-//   const isAgentOnlineListener = (data) => {
-//     if (data) {
-//       setAgentStatus(true);
-//     } else {
-//       setAgentStatus(false);
-//     }
-//     console.log("isAgentOnline: ", data);
-//   };
-
-//   if (socket) {
-//     socket.emit("addNewUser", { userId: userInfo?.id, role: userInfo?.role });
-
-//     socket.on("isAgentOnline", isAgentOnlineListener);
-//   }
-
-//   return () => {
-//     if (socket) {
-//       socket.off("isAgentOnline", isAgentOnlineListener);
-//     }
-//   };
-// }, [socket]);

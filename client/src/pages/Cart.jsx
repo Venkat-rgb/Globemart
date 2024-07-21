@@ -137,13 +137,3 @@ const Cart = () => {
 };
 
 export default Cart;
-
-// {
-/* <motion.button
-              className="font-inter bg-gradient-to-br from-orange-100 via-orange-200 to-orange-300 rounded-md py-2 px-5 font-medium w-full shadow text-neutral-700"
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate("/order")}
-            >
-              Checkout Now
-            </motion.button> */
-// }

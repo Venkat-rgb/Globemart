@@ -1,17 +1,3 @@
-// import { useEffect, useState, memo } from "react";
-// import {
-//   CategoriesSection,
-//   Loader,
-//   MetaData,
-//   ProductItem,
-// } from "../components";
-// import { productCategories } from "../utils/general/productCategories";
-// import { IconButton, Pagination } from "@mui/material";
-// import { useGetProductsQuery } from "../redux/features/products/productsApiSlice";
-// import { sortCategories } from "../utils/general/sortCategories";
-// import { useGetWishlistQuery } from "../redux/features/wishlist/wishlistApiSlice";
-// import { FiFilter } from "react-icons/fi";
-
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Loader, MetaData } from "../components";
 import { Pagination } from "@mui/material";
@@ -28,10 +14,6 @@ const Products = () => {
   const { getSessionData } = useSessionStorage();
   const matches = useMediaQuery("(max-width:600px)");
   const productsRef = useRef();
-
-  // const currencyData =
-  //   sessionStorage.getItem("currencyData") &&
-  //   JSON.parse(sessionStorage.getItem("currencyData"));
 
   const currencyData = getSessionData("currencyData");
 
@@ -142,9 +124,6 @@ const Products = () => {
             // className="grid grid-cols-3 max-[1100px]:grid-cols-2 max-[800px]:grid-cols-1 gap-4 flex-[4_4_0%]"
             className="grid grid-cols-3 max-[1100px]:grid-cols-2 max-[800px]:grid-cols-1 max-[600px]:grid-cols-2 max-[500px]:grid-cols-1 gap-4"
           >
-            {/* {isLoading &&
-              [...new Array(9)].map((_, i) => <LazyProductLoading key={i} />)} */}
-
             {!areProductsLoading &&
               productsData?.products?.map((product) => (
                 <ProductItem
@@ -162,19 +141,15 @@ const Products = () => {
                   numOfReviews={product?.numOfReviews}
                   skeletonWidth={312}
                   skeletonHeight={208}
-                  // wishListProducts={wishlistData?.wishList?.products}
                   wishListProducts={wishlistData?.wishList}
                 />
               ))}
-
-            {/* <div className="flex items-center justify-center"> */}
 
             {productsData?.products?.length === 0 && (
               <p className="font-public-sans text-2xl font-medium text-neutral-500 w-full mx-72 max-[600px]:mx-0 max-[600px]:text-xl text-center pt-10">
                 No Products Found! Please change your filters
               </p>
             )}
-            {/* </div> */}
           </div>
 
           {/* Showing Pagination only when products exists */}

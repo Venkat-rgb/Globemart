@@ -79,15 +79,6 @@ const Orders = () => {
               skeletonWidth={skeletonDimensions}
               skeletonHeight={skeletonDimensions}
             />
-
-            {/* <LazyImage
-              imageProps={{
-                src: OrderImage,
-                alt: "order-img",
-                className: "object-cover w-full rounded-xl",
-              }}
-              
-            /> */}
           </div>
           <p className="drop-shadow text-2xl max-[500px]:text-lg font-semibold text-neutral-600 font-inter">
             Your Orders are empty!

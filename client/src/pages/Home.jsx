@@ -13,19 +13,14 @@ const Home = () => {
   const featuredProductsRef = useRef(null);
 
   const navigate = useNavigate();
-  // const { couponText } = useSelector((state) => state?.coupon);
   const { userInfo } = useSelector((state) => state?.auth);
 
-  // className={`${
-  //   couponText ? "pt-[9rem]" : "pt-28"
-  // } pb-16 space-y-32 max-w-7xl mx-auto px-4`}
   return (
     <div className={`pt-28 pb-16 space-y-32 max-w-7xl mx-auto px-4 relative`}>
       <MetaData title="Home" />
 
       <LandingPage featuredProductsRef={featuredProductsRef} />
 
-      {/* fixed z-50 top-[26.5rem] right-14 bg-[#f1f1f1] rounded-t-full rounded-br-full p-3 cursor-pointer */}
       {/* Showing ChatIcon only if user's role is not admin */}
       {userInfo?.username && userInfo?.role !== "admin" && (
         <Tooltip

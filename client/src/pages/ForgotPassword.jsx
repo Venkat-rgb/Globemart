@@ -82,18 +82,3 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
-
-// {
-/* <motion.div whileTap={{ scale: 0.97 }}>
-            <button
-              className="bg-gradient-to-br from-orange-100 via-orange-200 to-orange-300 px-4 py-2 rounded shadow-lg transition-all duration-300 font-medium text-neutral-600 w-full flex items-center justify-center"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <CircularProgress color="inherit" size={20} />
-              ) : (
-                "Send Verification Link"
-              )}
-            </button>
-          </motion.div> */
-// }

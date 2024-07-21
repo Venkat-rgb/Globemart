@@ -52,9 +52,7 @@ export const getOrdersColumns = (placeOfUse, widthSizes) => {
           <RowActions
             size="small"
             route="/admin/order/update"
-            // deleteHandler={deleteOrderHandler}
             id={params?.row?._id}
-            // isLoading={isOrderDeleting ? isOrderDeleting : false}
             placeOfUse="Orders"
           />
         );

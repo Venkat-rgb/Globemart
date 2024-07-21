@@ -85,20 +85,12 @@ const SignUp = () => {
         })
       );
 
-      // Saving accessToken in localStorage for persistent login
-      // setLocalData("token", res?.accessToken);
-      // localStorage.setItem("token", res?.accessToken);
-
       // Displaying successfully registered message
       toast.success(res?.message);
     } catch (err) {
       toast.error(err?.message || err?.data?.message);
     }
   };
-
-  // if (isUserLoggedIn) {
-  //   return <Navigate to="/" replace={true} />;
-  // }
 
   // Redirecting to Home page if user is already logged in
   if (token) {
@@ -217,19 +209,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-// {
-/* <motion.div whileTap={{ scale: 0.97 }}>
-            <button
-              className="bg-gradient-to-br from-indigo-300 via-indigo-600 to-indigo-700 px-4 py-2 rounded shadow-lg transition-all duration-300   text-white w-full flex items-center justify-center"
-              // font-medium text-neutral-600
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <CircularProgress color="inherit" size={20} />
-              ) : (
-                "Create Account"
-              )}
-            </button>
-          </motion.div> */
-// }
