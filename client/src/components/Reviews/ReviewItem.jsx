@@ -18,17 +18,6 @@ const ReviewItem = ({ image, alt, customerName, time, rating, review }) => {
           skeletonWidth={56}
           skeletonHeight={56}
         />
-
-        {/* <LazyImage
-          imageProps={{
-            src: image,
-            alt,
-            className: "object-cover rounded-full w-full h-full",
-          }}
-          skeletonWidth={64}
-          skeletonHeight={64}
-          placeOfUse="Product"
-        /> */}
       </div>
 
       <div className="font-inter space-y-1.5">
@@ -40,16 +29,6 @@ const ReviewItem = ({ image, alt, customerName, time, rating, review }) => {
           {/* Time when he posted the review of product */}
           <span className="pl-2 text-[0.8rem]">{moment(time).fromNow()}</span>
         </p>
-        {/* <ReactStars
-          count={5}
-          isHalf={true}
-          edit={false}
-          value={rating}
-          emptyIcon={<FaRegStar />}
-          halfIcon={<FaStarHalfAlt />}
-          filledIcon={<FaStar />}
-          activeColor="#ffd700"
-        /> */}
 
         {/* Customer Rating */}
         <Rating

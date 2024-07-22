@@ -79,12 +79,7 @@ const ProductFormData = ({
           value={category ? category : "Choose Category"}
         >
           {productCategories.map((cat, i) => (
-            <option
-              value={cat}
-              key={i}
-              // selected={cat === "Choose Category"}
-              disabled={cat === "Choose Category"}
-            >
+            <option value={cat} key={i} disabled={cat === "Choose Category"}>
               {lodash.capitalize(cat)}
             </option>
           ))}
@@ -167,12 +162,9 @@ const ProductFormData = ({
           {imgData?.map((image, i) => (
             <div className="w-20 h-20" key={i}>
               <LazyImage
-                // key={i}
                 imageProps={{
                   src: image?.url || image,
                   alt: `image-${i}`,
-                  // className:
-                  //   "object-cover w-20 h-20 drop-shadow-md rounded-lg border",
                 }}
                 styleProp="drop-shadow-md rounded-lg border"
                 skeletonWidth={80}

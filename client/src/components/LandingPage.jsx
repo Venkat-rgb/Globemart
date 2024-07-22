@@ -16,8 +16,6 @@ const LandingPage = ({ featuredProductsRef }) => {
       top: featuredProductsRef?.current?.offsetTop,
       behavior: "smooth",
     });
-
-    // featuredProductsRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -54,14 +52,8 @@ const LandingPage = ({ featuredProductsRef }) => {
       </div>
 
       {/* Landing page image */}
-      {/* className="object-cover max-w-2xl h-full" */}
 
       <div className="max-w-1/2 h-[415px] max-[1024px]:max-w-[80%] max-[550px]:w-full max-[1024px]:h-auto">
-        {/* <img
-          src={EcommerceImage}
-          alt="landing-page-image"
-          className="object-cover w-full h-full"
-        /> */}
         <LazyImage
           imageProps={{
             src: EcommerceImage,
@@ -70,8 +62,6 @@ const LandingPage = ({ featuredProductsRef }) => {
           skeletonVariant="circular"
           skeletonWidth={skeletonDimensions}
           skeletonHeight={skeletonDimensions}
-          // skeletonWidth="100%"
-          // skeletonHeight="100%"
         />
       </div>
     </header>

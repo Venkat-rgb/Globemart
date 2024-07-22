@@ -14,16 +14,6 @@ const ChatHeader = ({
       <div className="flex items-center gap-4">
         <div className="flex-shrink-0 relative w-10 h-10">
           {/* User profile Image */}
-          {/* <Avatar
-            src={profileImg}
-            alt="profile-img"
-            sx={{
-              width: 40,
-              height: 40,
-              cursor: "pointer",
-              border: "1px solid #f1f1f1",
-            }}
-          /> */}
 
           <LazyImage
             imageProps={{

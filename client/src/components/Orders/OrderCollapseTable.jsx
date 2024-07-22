@@ -61,28 +61,8 @@ const OrderCollapseTable = ({
                 </TableCell>
               </TableRow>
             </TableHead>
-            {/* <TableBody> */}
-            {/* {ordersData?.orders?.map((order) => (
-                <OrderRow key={order?._id} order={order} />
-              ))} */}
-
-            {/* Showing all orders of customer */}
-            {/* {(rowsPerPage > 0
-                ? ordersData?.orders?.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
-                : ordersData?.orders
-              )?.map((order) => (
-                <OrderRow key={order?._id} order={order} />
-              ))} */}
-            {/* </TableBody> */}
 
             <TableBody>
-              {/* {ordersData?.orders?.map((order) => (
-                <OrderRow key={order?._id} order={order} />
-              ))} */}
-
               {/* Showing all orders of customer */}
               {ordersData?.orders?.map((order) => (
                 <OrderRow key={order?._id} order={order} />
@@ -103,17 +83,6 @@ const OrderCollapseTable = ({
         onPageChange={newPageHandler}
         onRowsPerPageChange={rowsPerPageHandler}
       />
-
-      {/* <TablePagination
-        rowsPerPageOptions={[]}
-        component="div"
-        count={ordersData?.orders?.length ? ordersData.orders.length : 0}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        hidden={ordersData?.orders?.length <= 10 ? true : false}
-        onPageChange={newPageHandler}
-        onRowsPerPageChange={rowsPerPageHandler}
-      /> */}
     </>
   );
 };

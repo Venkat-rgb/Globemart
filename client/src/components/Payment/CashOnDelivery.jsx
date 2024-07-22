@@ -17,10 +17,6 @@ const CashOnDelivery = () => {
 
   const orderInfo = getSessionData("orderInfo");
 
-  // const orderInfo =
-  //   sessionStorage.getItem("orderInfo") &&
-  //   JSON.parse(sessionStorage.getItem("orderInfo"));
-
   const [createOrder, { isLoading: isOrderGettingCreated }] =
     useCreateOrderMutation();
 

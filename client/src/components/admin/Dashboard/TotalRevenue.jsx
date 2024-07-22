@@ -13,10 +13,6 @@ const TotalRevenue = ({ statsData }) => {
     0
   );
 
-  {
-    /* <div className="p-3 drop-shadow-xl h-80 rounded-xl bg-neutral-50 col-span-4 md:col-span-2 space-y-3"></div> */
-  }
-
   return (
     <div className="p-3 drop-shadow-xl h-auto rounded-xl bg-neutral-50 md:col-span-2 space-y-3">
       <div className="flex items-center flex-col space-y-2">
@@ -29,7 +25,6 @@ const TotalRevenue = ({ statsData }) => {
           <LazyImage
             imageProps={{
               src: RevenueIcon,
-              // className: `object-cover w-80 rounded-xl -mt-10`,
               alt: "revenue-img",
             }}
             styleProp="rounded-xl"

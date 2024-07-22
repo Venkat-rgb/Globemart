@@ -16,13 +16,6 @@ const LoginLayout = ({ image, children }) => {
         exit={{ opacity: 0, y: 10 }}
         transition={{ delay: 0.2 }}
       >
-        {/* <img
-          src={image}
-          className="object-cover"
-          alt="login-register-image"
-          // loading="lazy"
-        /> */}
-
         <LazyImage
           imageProps={{
             src: image,

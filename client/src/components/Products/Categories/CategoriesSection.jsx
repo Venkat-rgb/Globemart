@@ -7,12 +7,6 @@ import { productCategories } from "../../../utils/general/productCategories";
 import { sortCategories } from "../../../utils/general/sortCategories";
 import useSessionStorage from "../../../hooks/basic/useSessionStorage";
 
-/*
-initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.1 }}
-*/
-
 const CategoriesSection = ({
   page,
   setPage,
@@ -25,10 +19,6 @@ const CategoriesSection = ({
   const { getSessionData } = useSessionStorage();
 
   const userCurrency = getSessionData("userCurrency");
-
-  // const userCurrency =
-  //   sessionStorage.getItem("userCurrency") &&
-  //   JSON.parse(sessionStorage.getItem("userCurrency"));
 
   // Calculating first and second price which is used for filtering through price
   const firstPrice = Number((50 / currencyDataConversion).toFixed(2)),
@@ -152,9 +142,6 @@ const CategoriesSection = ({
         <div className="flex items-center font-inter gap-4 justify-evenly ">
           <input
             type="number"
-            // value={Number(
-            //   (startPrice / currencyData?.conversion).toFixed(2)
-            // )}
             value={startPrice}
             className="border w-20 text-center outline-none rounded-md text-sm py-1 px-2"
             onChange={startPriceHandler}
@@ -162,7 +149,6 @@ const CategoriesSection = ({
 
           <input
             type="number"
-            // value={Number((endPrice / currencyData?.conversion).toFixed(2))}
             value={endPrice}
             className="border w-20 text-center rounded-md outline-none text-sm py-1 px-2"
             onChange={endPriceHandler}
@@ -205,142 +191,3 @@ const CategoriesSection = ({
 };
 
 export default memo(CategoriesSection);
-
-// const CategoriesSection = ({
-//   selectedCategory,
-//   setSelectedCategory,
-//   clearFiltersHandler,
-//   productCategories,
-//   priceRange,
-//   priceRangeHandler,
-//   firstPrice,
-//   secondPrice,
-//   startPrice,
-//   startPriceHandler,
-//   endPrice,
-//   endPriceHandler,
-//   productRating,
-//   setProductRating,
-//   sortCategories,
-//   sort,
-//   setSort,
-// }) => {
-//   const userCurrency =
-//     sessionStorage.getItem("userCurrency") &&
-//     JSON.parse(sessionStorage.getItem("userCurrency"));
-
-//   /*
-// initial={{ opacity: 0, x: -10 }}
-//               animate={{ opacity: 1, x: 0 }}
-//               transition={{ delay: i * 0.1 }}
-// */
-
-//   console.log("Categories rendered!");
-
-//   return (
-//     <motion.div
-//       className="flex-1 shadow-lg rounded-md p-4 space-y-3"
-//       initial={{ opacity: 0, x: -100 }}
-//       animate={{ opacity: 1, x: 0 }}
-//       transition={{ delay: 0.2 }}
-//     >
-//       <div className="space-y-4">
-//         <div className="flex items-center justify-between gap-6">
-//           <p className="font-semibold text-lg text-neutral-500 underline underline-offset-4 font-public-sans decoration-neutral-300">
-//             Categories
-//           </p>
-//           <motion.button
-//             className="font-inter bg-neutral-100 rounded-md py-1 px-3 font-semibold text-neutral-400 text-sm drop-shadow-md"
-//             whileTap={{ scale: 0.95 }}
-//             whileHover={{ scale: 1.05 }}
-//             onClick={clearFiltersHandler}
-//           >
-//             Clear Filters
-//           </motion.button>
-//         </div>
-//         <div className="space-y-2">
-//           {productCategories.map((category, i) => (
-//             <motion.p
-//               className={`flex items-center justify-between font-inter capitalize ${
-//                 selectedCategory === category && "font-semibold"
-//               }`}
-//               initial={{ opacity: 0 }}
-//               animate={{ opacity: 1 }}
-//               transition={{ delay: i * 0.1 }}
-//               key={i}
-//               onClick={() => setSelectedCategory(category)}
-//             >
-//               <motion.span
-//                 whileHover={{ scale: 1.07 }}
-//                 whileTap={{ scale: 0.98 }}
-//                 className="cursor-pointer"
-//               >
-//                 {category}
-//               </motion.span>
-//               <FiChevronRight className="text-[1.2rem]" />
-//             </motion.p>
-//           ))}
-//         </div>
-//       </div>
-//       <div className="border-t pt-3 space-y-2">
-//         <p className="font-semibold text-lg text-neutral-500 underline underline-offset-4 font-public-sans decoration-neutral-300">
-//           Price ({userCurrency?.currency})
-//         </p>
-//         <Slider
-//           value={priceRange}
-//           onChange={priceRangeHandler}
-//           color="secondary"
-//           size="small"
-//           min={firstPrice}
-//           max={secondPrice}
-//         />
-//         <div className="flex items-center font-inter gap-4 justify-evenly ">
-//           <input
-//             type="number"
-//             // value={Number(
-//             //   (startPrice / currencyData?.conversion).toFixed(2)
-//             // )}
-//             value={startPrice}
-//             className="border w-20 text-center outline-none rounded-md text-sm py-1 px-2"
-//             onChange={startPriceHandler}
-//           />
-
-//           <input
-//             type="number"
-//             // value={Number((endPrice / currencyData?.conversion).toFixed(2))}
-//             value={endPrice}
-//             className="border w-20 text-center rounded-md outline-none text-sm py-1 px-2"
-//             onChange={endPriceHandler}
-//           />
-//         </div>
-//       </div>
-//       <div className="border-t pt-3 space-y-2">
-//         <p className="font-semibold text-lg text-neutral-500 underline underline-offset-4 font-public-sans decoration-neutral-300">
-//           Rating
-//         </p>
-//         <Slider
-//           value={productRating}
-//           onChange={(e, newRating) => setProductRating(newRating)}
-//           valueLabelDisplay="auto"
-//           min={0}
-//           max={5}
-//           step={0.1}
-//           size="small"
-//           color="secondary"
-//         />
-//       </div>
-//       <div className="border-t pt-3 space-y-2">
-//         <p className="font-semibold text-lg text-neutral-500 underline underline-offset-4 font-public-sans decoration-neutral-300">
-//           Sort
-//         </p>
-//         <Select
-//           options={sortCategories}
-//           placeholder="Select sort type..."
-//           className="font-inter"
-//           onChange={(newValue) => setSort(newValue)}
-//           value={sort}
-//         />
-//       </div>
-//     </motion.div>
-//   );
-// };

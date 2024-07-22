@@ -48,35 +48,3 @@ const Message = ({ role, message, username, messageTime, messageSeen }) => {
 };
 
 export default Message;
-
-{
-  /* <div
-      className={`flex flex-col gap-1.5 ${
-        role === "sender"
-          ? "items-start justify-start"
-          : "items-end justify-end"
-      } w-full`}
-    >
-      <p
-        className={`text-sm max-w-1/2 py-1 px-2 rounded-lg shadow-md ${
-          role === "sender"
-            ? "bg-white text-neutral-500"
-            : "bg-neutral-800 text-white/80"
-        } `}
-      >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde alias
-        repudiandae modi. Quam porro dolorum inventore, accusantium dolore quis
-        illum animi officia nulla saepe ex voluptate natus veniam, provident
-        ratione.
-      </p>
-      <div className="text-xs font-medium text-neutral-400 flex items-center gap-1">
-        <span>{role === "sender" ? "Michael Jordan" : "Venkat Reddy"} </span>
-        <div className="flex items-center gap-1">
-          <span> • 3:40PM</span>
-          {role !== "sender" && (
-            <IoCheckmarkDone className={`text-[1rem] text-indigo-600`} />
-          )}
-        </div>
-      </div>
-    </div> */
-}

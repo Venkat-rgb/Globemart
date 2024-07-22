@@ -61,9 +61,7 @@ const CartItem = ({ image, title, price, id, quantity, stock, placeOfUse }) => {
             imageProps={{
               src: image,
               alt: `cart-img-${id}`,
-              // className: "object-cover overflow-hidden w-full h-full",
             }}
-            // styleProp="h-16 overflow-hidden"
             skeletonWidth={96}
             skeletonHeight={64}
           />

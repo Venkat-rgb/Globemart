@@ -13,14 +13,6 @@ const StoresMap = ({ userCoordinates, storeInfo }) => {
   // Storing userCoordinates and storeCoordinates in array
   const polyLine = storeInfo && [userPositions, storeInfo?.coordinates];
 
-  //   <MapContainer
-  //   center={[userCoordinates?.latitude, userCoordinates?.longitude]}
-  //   zoom={13}
-  //   scrollWheelZoom={true}
-  //   style={{ height: matches ? "40vh" : "90vh", width: "100%" }}
-  //   zoomAnimation={true}
-  // >
-
   // Displaying Map
   return (
     <MapContainer

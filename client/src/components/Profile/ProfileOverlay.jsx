@@ -2,8 +2,6 @@ import { FiEdit } from "react-icons/fi";
 import { motion } from "framer-motion";
 import LazyImage from "../LazyImage";
 
-// bg-gradient-to-br from-neutral-100 via-purple-50 to-purple-200
-
 const ProfileOverlay = ({ placeOfUse, image, onChange = () => {} }) => {
   return (
     <div className="h-52 relative bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-500 to-neutral-900 shadow-md">
@@ -27,36 +25,6 @@ const ProfileOverlay = ({ placeOfUse, image, onChange = () => {} }) => {
               skeletonHeight={90}
             />
           </div>
-          {/* <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: 0.7,
-            }}
-          > */}
-          {/* <img
-              src={
-                placeOfUse === "editProfile"
-                  ? image
-                    ? URL.createObjectURL(image)
-                    : ""
-                  : image
-              }
-              className="rounded-full w-full object-cover p-1 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"
-              alt="profile-img"
-              loading="lazy"
-            /> */}
-
-          {/* Avatar returns dummy profile image if there is no src */}
-          {/* <Avatar
-              src={placeOfUse === "editProfile" ? (image ? image : "") : image}
-              alt="profile-img"
-              sx={{
-                width: 90,
-                height: 90,
-              }}
-            /> */}
-          {/* </motion.div> */}
         </div>
 
         {placeOfUse === "editProfile" && (

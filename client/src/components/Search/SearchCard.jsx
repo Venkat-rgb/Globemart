@@ -12,26 +12,14 @@ const SearchCard = ({ title, description, image, id }) => {
       >
         {/* Product image */}
         <div className="w-20 h-[60px] border border-gray-100 rounded-md flex-shrink-0">
-          {/* <LazyImage
-            imageProps={{
-              src: image,
-              alt: `product-image-${id}`,
-              className: "rounded w-full h-full object-cover",
-            }}
-            skeletonWidth={80}
-            skeletonHeight={60}
-            placeOfUse="SearchCard"
-          /> */}
           <LazyImage
             imageProps={{
               src: image,
               alt: `product-image-${id}`,
-              // className: "rounded w-full h-full object-cover",
             }}
             styleProp="rounded-md"
             skeletonWidth={80}
             skeletonHeight={60}
-            // placeOfUse="SearchCard"
           />
         </div>
 

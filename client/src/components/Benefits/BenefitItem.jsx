@@ -1,9 +1,5 @@
 import { motion } from "framer-motion";
 
-// className={`w-full py-4 px-6 shadow-lg flex items-center flex-col gap-5 ${
-//   i === 2 ? "max-[1024px]:col-span-2" : ""
-// } ${backgroundColor} rounded-lg`}
-
 const BenefitItem = ({ i, title, desc, icon, backgroundColor }) => {
   return (
     <motion.div

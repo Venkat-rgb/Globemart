@@ -9,9 +9,7 @@ const ChooseChatBanner = () => {
           imageProps={{
             src: chatImg,
             alt: `chat-wallpaper`,
-            // className: "w-44 h-44 object-cover",
           }}
-          // styleProp="h-44"
           skeletonWidth={176}
           skeletonHeight={176}
         />

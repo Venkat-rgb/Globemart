@@ -37,7 +37,6 @@ const OrderInfoForm = ({
         }}
       />
 
-      {/* userCurrency?.countryCode?.toLowerCase() */}
       <div className="flex items-center max-[600px]:flex-wrap gap-4">
         <div className="w-full">
           <div className="pb-1">Phone No*</div>

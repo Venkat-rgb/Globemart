@@ -9,10 +9,6 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const matches = useMediaQuery(`(max-width:1100px)`);
 
-  // className={`w-52 fixed left-0 top-[3.1rem] transition-all duration-300 h-full border-r pl-3 pt-5 space-y-9 bg-white z-50  ${
-  //   isSidebarOpen ? "translate-x-0" : "max-[1024px]:-translate-x-full"
-  // } `}
-
   return (
     <div
       className={`w-52 fixed left-0 top-[2.8rem] transition-all duration-300 border-r pl-3 pt-5 space-y-9 bg-white z-40 h-full ${

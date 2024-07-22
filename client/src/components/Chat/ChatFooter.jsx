@@ -57,11 +57,6 @@ const ChatFooter = ({
   };
 
   const addEmoji = (e) => {
-    // let sym = e.unified.split("-");
-    // let codesArray = [];
-    // sym.forEach((el) => codesArray.push("0x" + el));
-    // let emoji = String.fromCodePoint(...codesArray);
-
     // Adding the emoji to current message
     setMessage(message + e.native);
   };
@@ -129,14 +124,6 @@ const ChatFooter = ({
       {/* Message textbox */}
       <form className="flex items-center w-full" onSubmit={sendMessageHandler}>
         <div className="border-t border-b border-l w-full px-4 rounded-tl-md rounded-bl-md">
-          {/* <input
-            type="text"
-            className="w-full outline-none text-sm py-2.5"
-            placeholder="Type a message..."
-            onChange={(e) => setMessage(e.target.value)}
-            value={message}
-          /> */}
-
           {/* Input for typing a message */}
           <input
             type="text"

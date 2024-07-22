@@ -106,7 +106,6 @@ const RelatedProducts = ({
                 numOfReviews={product?.numOfReviews}
                 skeletonWidth={350}
                 skeletonHeight={208}
-                // wishListProducts={wishlistData?.wishList?.products}
                 wishListProducts={wishlistData?.wishList}
               />
             </SwiperSlide>

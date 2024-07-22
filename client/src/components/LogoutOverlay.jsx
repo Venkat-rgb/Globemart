@@ -66,18 +66,6 @@ const LogoutOverlay = ({ profileImg }) => {
     <>
       {/* User profile image */}
 
-      {/* <Avatar
-        src={profileImg}
-        alt="profile-img"
-        sx={{
-          width: 30,
-          height: 30,
-          cursor: "pointer",
-          border: "1px solid #f1f1f1",
-        }}
-        onClick={handleClick}
-      /> */}
-
       <div className="w-[30px] h-[30px]" onClick={handleClick}>
         <LazyImage
           imageProps={{

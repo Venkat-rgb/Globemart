@@ -20,19 +20,6 @@ const FeaturedProducts = ({ featuredProductsRef }) => {
 
   const currencyData = getSessionData("currencyData");
 
-  // const currencyData =
-  //   sessionStorage.getItem("currencyData") &&
-  //   JSON.parse(sessionStorage.getItem("currencyData"));
-
-  // Fetching featured products only when this component is in view
-  // const {
-  //   data: productsData,
-  //   isLoading: isProductsDataLoading,
-  //   isError: productsDataError,
-  // } = useGetProductsQuery(undefined, {
-  //   skip: !inView,
-  // });
-
   const {
     data: productsData,
     isLoading: isProductsDataLoading,
@@ -70,8 +57,6 @@ const FeaturedProducts = ({ featuredProductsRef }) => {
           No Featured Products Found!
         </p>
       )}
-
-      {/* grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-y-12 gap-x-4 */}
 
       {/* Showing Featured products */}
       <div className="grid grid-cols-4 max-[1100px]:grid-cols-3 max-[850px]:grid-cols-2 max-[550px]:grid-cols-1 gap-y-12 gap-x-4">

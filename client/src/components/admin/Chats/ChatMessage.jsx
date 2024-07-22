@@ -66,24 +66,12 @@ const ChatMessage = ({
       <div className="relative flex items-center gap-4 w-full">
         <div className="relative w-10 h-10 flex-shrink-0">
           {/* Profile Image of customer */}
-          {/* <Avatar
-            src={profileImg}
-            alt={`profile-img-${id}`}
-            sx={{
-              width: 40,
-              height: 40,
-              cursor: "pointer",
-              border: "1px solid #f1f1f1",
-            }}
-          /> */}
-
           <LazyImage
             imageProps={{
               src: profileImg,
               alt: `profile-img-${id}`,
             }}
             skeletonVariant="circular"
-            // styleProp="border-white h-10 rounded-full"
             styleProp="border rounded-full"
             skeletonWidth={40}
             skeletonHeight={40}

@@ -135,22 +135,3 @@ const UpdateUser = () => {
 };
 
 export default UpdateUser;
-
-// {
-/* <motion.button
-                  className="text-white py-2 bg-[#7451f8] rounded w-full flex items-center justify-center"
-                  whileTap={{ scale: 0.97 }}
-                  disabled={isUpdateUserLoading}
-                >
-                  {isUpdateUserLoading ? (
-                    <div className="flex items-center justify-center gap-2">
-                      <p className="text-neutral-300 font-inter font-medium">
-                        Updating User
-                      </p>
-                      <CircularProgress sx={{ color: "#cccccc" }} size={22} />
-                    </div>
-                  ) : (
-                    "Update"
-                  )}
-                </motion.button> */
-// }

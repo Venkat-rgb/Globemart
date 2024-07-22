@@ -108,8 +108,6 @@ const OnlinePayment = ({ isError }) => {
           // 2) Remove orderInfo from sessionStorage
           removeSessionData("orderInfo");
 
-          // sessionStorage.removeItem("orderInfo");
-
           // 3) Empty the cart
           dispatch(deleteTotalCart());
 

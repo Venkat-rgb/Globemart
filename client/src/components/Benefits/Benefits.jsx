@@ -16,8 +16,7 @@ const Benefits = () => {
         Benefits
       </p>
 
-      {/* Displaying all the Benefits of the ecommerce min-[1025px]:grid-cols-3 sm:grid-cols-2 grid-cols-1*/}
-      {/* grid grid-cols-3 max-[1025px]:grid-cols-2 max-[640px]:grid-cols-1 gap-4 items-start w-full */}
+      {/* Displaying all the Benefits of the ecommerce */}
       <div
         ref={ref}
         className="grid grid-cols-3 max-[1024px]:grid-cols-2 max-[640px]:grid-cols-1 gap-4 items-start w-full"

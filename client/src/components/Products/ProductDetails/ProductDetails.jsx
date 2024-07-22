@@ -51,10 +51,6 @@ const ProductDetails = ({
     setQuantity(1);
   }, [id]);
 
-  {
-    /* <div className="grid grid-cols-2 max-[800px]:grid-cols-1 max-[800px]:mx-auto items-start gap-7 font-inter max-[800px]:px-1.5"> */
-  }
-
   return (
     <div className="grid grid-cols-2 max-[800px]:grid-cols-1 max-[800px]:mx-auto items-start gap-7 font-inter max-[800px]:px-1.5">
       {/* Displaying all the product images */}

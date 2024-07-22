@@ -54,29 +54,3 @@ const ReviewModal = () => {
 };
 
 export default ReviewModal;
-
-// const ReviewModal = ({ reviews }) => {
-//   const dispatch = useDispatch();
-
-//   const { isReviewModalOpen } = useSelector((state) => state.reviewModal);
-
-//   return (
-//     <>
-//       {/* Creating portal for black overlay in background when modal opens */}
-//       {createPortal(
-//         isReviewModalOpen && (
-//           <ReviewBackdrop onClick={() => dispatch(setReviewModal(false))} />
-//         ),
-//         document.getElementById("backdrop")
-//       )}
-
-//       {/* Creating portal for Review modal */}
-//       {createPortal(
-//         <AnimatePresence>
-//           {isReviewModalOpen && <ReviewModalContent reviews={reviews} />}
-//         </AnimatePresence>,
-//         document.getElementById("modal")
-//       )}
-//     </>
-//   );
-// };
