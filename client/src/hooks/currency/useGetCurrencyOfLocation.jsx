@@ -48,8 +48,6 @@ const useGetCurrencyOfLocation = (userCurrency) => {
       if (new Date().getTime() > currencyData?.expirationTime) {
         removeSessionData("currencyData");
 
-        // sessionStorage.removeItem("currencyData");
-
         // Here we are refetching the new currency rate if its changed.
         getCurrencyData();
       }
@@ -70,18 +68,3 @@ const useGetCurrencyOfLocation = (userCurrency) => {
 };
 
 export default useGetCurrencyOfLocation;
-
-// sessionStorage.setItem(
-//   "currencyData",
-//   JSON.stringify({
-//     conversion: Number(Object.values(data?.data)[0].toFixed(2)),
-//     expirationTime: new Date().getTime() + 5 * 24 * 60 * 60 * 1000,
-//   })
-// );
-
-// sessionStorage.setItem(
-//   "currencyData",
-//   JSON.stringify({
-//     conversion: 1,
-//   })
-// );

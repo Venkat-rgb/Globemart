@@ -5,11 +5,6 @@ import useSessionStorage from "../basic/useSessionStorage";
 const useGetUserLocation = () => {
   const { getSessionData, setSessionData } = useSessionStorage();
 
-  // const [userCurrency, setUserCurrency] = useState(
-  //   sessionStorage.getItem("userCurrency") &&
-  //     JSON.parse(sessionStorage.getItem("userCurrency"))
-  // );
-
   const [userCurrency, setUserCurrency] = useState(
     getSessionData("userCurrency")
   );
@@ -32,19 +27,6 @@ const useGetUserLocation = () => {
             latitude: data?.lat,
             longitude: data?.lon,
           });
-
-          // sessionStorage.setItem(
-          //   "userCurrency",
-          //   JSON.stringify({
-          //     countryCode: data?.countryCode,
-          //     currency: data?.currency,
-          //   })
-          // );
-
-          // sessionStorage.setItem(
-          //   "userLocation",
-          //   JSON.stringify({ latitude: data?.lat, longitude: data?.lon })
-          // );
 
           setUserCurrency({
             countryCode: data?.countryCode,
