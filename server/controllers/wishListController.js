@@ -42,12 +42,6 @@ export const getWishList = catchAsync(async (req, res, next) => {
     wishList: +page ? paginatedWishlist?.products : wishList?.products,
     totalWishlistCount: wishList?.products?.length,
   });
-
-  // res.status(200).json({
-  //   wishList,
-  //   wishlistProducts: wishList?.products,
-  //   totalWishlistCount: wishList?.products?.length,
-  // });
 });
 
 // CREATING OR UPDATING USER WISHLIST

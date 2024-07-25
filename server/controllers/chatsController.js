@@ -6,54 +6,6 @@ import { Chat } from "../models/Chat.js";
 import { Message } from "../models/Message.js";
 
 // CREATE CHAT
-// export const createChat = catchAsync(async (req, res, next) => {
-//   const { userId } = req.body;
-
-//   const trimmedUserId = userId?.trim();
-
-//   // Check if userId is valid
-//   if (!mongoose.Types.ObjectId.isValid(trimmedUserId)) {
-//     return next(new AppError("Please enter valid userId!", 400));
-//   }
-
-//   // Check if user exists
-//   const isUserExists = await User.findById(trimmedUserId);
-
-//   if (!isUserExists) {
-//     return next(new AppError("User does not exist!", 404));
-//   }
-
-//   // Create chat between admin and user, so all chats are taken by admin only
-//   const admin = await User.findOne({ role: "admin" });
-
-//   if (!admin) {
-//     return next(new AppError(`Admin does not exist!`, 404));
-//   }
-
-//   // Checking if chat exists between this user and admin already
-//   const doesChatExists = await Chat.findOne({
-//     usersInChat: {
-//       $in: [trimmedUserId],
-//     },
-//   });
-
-//   console.log("doesChatExists: ", doesChatExists);
-
-//   if (doesChatExists) {
-//     return next(new AppError("Chat already exists with this user!", 400));
-//   }
-
-//   // Creating chat
-//   await Chat.create({
-//     usersInChat: [trimmedUserId, admin?._id],
-//   });
-
-//   res.status(201).json({
-//     message: "Chat created successfully!",
-//   });
-// });
-
-// CREATE CHAT
 export const createChat = catchAsync(async (req, res, next) => {
   // Create chat between admin and user, so all chats are taken by admin only
   const admin = await User.findOne({ role: "admin" });
@@ -96,30 +48,6 @@ export const createChat = catchAsync(async (req, res, next) => {
     });
   }
 });
-
-// GET SINGLE CHAT OF USER
-// export const getSingleChatOfUser = catchAsync(async (req, res, next) => {
-//   // Use this controller to display both the chat by id and for searching a chat.
-//   const { id } = req.body;
-
-//   // Check if userId is valid
-//   if (!mongoose.Types.ObjectId.isValid(id)) {
-//     return next(new AppError("Please enter valid userId", 400));
-//   }
-
-//   // Here im only including userId and not admin id to find chat bcz in my case admin will remain same, so i just need to check whether this user has chat with admin before
-//   const chat = await Chat.findOne({
-//     usersInChat: { $in: [id] },
-//   }).populate("usersInChat", "username profileImg");
-
-//   if (!chat) {
-//     return next(new AppError("No chat exists with this user!", 404));
-//   }
-
-//   res.status(200).json({
-//     chat,
-//   });
-// });
 
 // GET SINGLE CHAT OF USER WITH ALL MESSAGES
 export const getSingleChat = catchAsync(async (req, res, next) => {
@@ -189,23 +117,3 @@ export const getAllChatsOfUser = catchAsync(async (req, res) => {
   // Returning chats to user
   res.status(200).json({ chats });
 });
-
-// DELETE CHAT (ADMIN)
-// export const deleteChat = catchAsync(async (req, res, next) => {
-//   const { id } = req.params;
-
-//   // Check if chatId is in valid format
-//   if (!mongoose.Types.ObjectId.isValid(id)) {
-//     return next(new AppError("Please enter valid chatId", 400));
-//   }
-
-//   // Deleting all the messages of this chat
-//   await Message.deleteMany({ chat: id });
-
-//   // Deleting the chat using 'id'
-//   await Chat.findByIdAndDelete(id);
-
-//   res.status(200).json({
-//     message: "Chat deleted successfully!",
-//   });
-// });

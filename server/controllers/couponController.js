@@ -57,65 +57,6 @@ export const getCoupon = catchAsync(async (req, res, next) => {
 });
 
 // CREATE COUPON (ADMIN)
-// export const createCoupon = catchAsync(async (req, res, next) => {
-//   // Gives startdate day number in an year eg: (181)
-//   const startDateDay = getNumOfDaysLeft(
-//     new Date(req.body.startDate),
-//     new Date(new Date().getFullYear(), 0, 0)
-//   );
-
-//   // Gives current day number in an year eg: (121)
-//   const currentDay = getNumOfDaysLeft(
-//     new Date(),
-//     new Date(new Date().getFullYear(), 0, 0)
-//   );
-
-//   /*
-//     Edge cases of startDate and endDate which we need to handle
-//     (1) startDate and endDate are less than the current date
-//     (2) startDate > currentDate, endDate > startDate
-//     (3) startDate = currentDate, endDate > startDate
-//     (4) startDate > currentDate, startDate > endDate
-//     (5) startDate = currentDate, startDate = endDate
-//   */
-
-//   // If startdate is less than current date then throw error
-//   if (startDateDay < currentDay) {
-//     return next(new AppError(`Start date cannot be in past!`, 400));
-//   }
-
-//   // If start date is >= end date then throw error
-//   if (req.body.endDate <= req.body.startDate) {
-//     return next(new AppError(`End date should be greater than start date!`));
-//   }
-
-//   const coupon = await Coupon.create(req.body);
-
-//   // If startDate is equal to current date then change status from 'inactive' to 'active'
-//   if (startDateDay === currentDay) {
-//     coupon.couponStatus = "active";
-//   }
-
-//   // Creating couponText by passing below arguments
-//   const couponText = coupon.setCouponText(
-//     coupon.occasionName,
-//     coupon.couponCode,
-//     coupon.discount,
-//     coupon.startDate,
-//     coupon.endDate
-//   );
-
-//   // Storing generated couponText in couponText field
-//   coupon.couponText = couponText;
-
-//   // Saving all fields along with couponText to database
-//   await coupon.save();
-
-//   res.status(201).json({
-//     message: "Coupon code created successfully!",
-//   });
-// });
-
 export const createCoupon = catchAsync(async (req, res, next) => {
   // Gives startdate day number in an year eg: (181)
 
@@ -206,67 +147,6 @@ export const validateCoupon = catchAsync(async (req, res, next) => {
 });
 
 // UPDATE COUPON (ADMIN)
-// export const updateCoupon = catchAsync(async (req, res, next) => {
-//   const { id } = req.params;
-
-//   // Finding coupon by 'id'
-//   const coupon = await Coupon.findById(id);
-
-//   // If coupon is not found, then returning error
-//   if (!coupon) {
-//     return next(new AppError("Coupon does not exist!", 404));
-//   }
-
-//   // Getting start date's day in a year. (eg: 294th day)
-//   const startDateDay = getNumOfDaysLeft(
-//     new Date(req.body.startDate),
-//     new Date(new Date().getFullYear(), 0, 0)
-//   );
-
-//   // Getting current date's day in a year. (eg: 294th day)
-//   const currentDay = getNumOfDaysLeft(
-//     new Date(),
-//     new Date(new Date().getFullYear(), 0, 0)
-//   );
-
-//   // If startdate is less than current date then throw error
-//   if (startDateDay < currentDay) {
-//     return next(new AppError(`Start date cannot be in past!`, 400));
-//   }
-
-//   // If start date is >= end date then throw error
-//   if (req.body.endDate <= req.body.startDate) {
-//     return next(
-//       new AppError(`End date should be greater than start date!`, 400)
-//     );
-//   }
-
-//   // Updating fields
-//   const updatedCoupon = await Coupon.findByIdAndUpdate(id, req.body, {
-//     new: true,
-//     runValidators: true,
-//   });
-
-//   // Updating couponText by passing below arguments
-//   const couponText = coupon.setCouponText(
-//     updatedCoupon.occasionName,
-//     updatedCoupon.couponCode,
-//     updatedCoupon.discount,
-//     updatedCoupon.startDate,
-//     updatedCoupon.endDate
-//   );
-
-//   // Updating couponText field using generated couponText above
-//   coupon.couponText = couponText;
-
-//   // Saving all fields along with updated couponText to database
-//   await coupon.save();
-
-//   res.status(200).json({
-//     message: "Coupon code updated successfully!",
-//   });
-// });
-
 export const updateCoupon = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 

@@ -197,28 +197,3 @@ server.listen(PORT, (err) => {
   }
   console.log("Socket server connected successfully!");
 });
-
-/*
-socket.on("disconnect", () => {
-    const adminSocket = onlineUsers.find((user) => user?.role === "admin");
-
-    onlineUsers = onlineUsers.filter((user) => user?.socketId !== socket.id);
-
-    const trimmedOnlineUsers = onlineUsers.map((user) => {
-      return {
-        userId: user.userId,
-      };
-    });
-
-    // if(adminSocket?.socketId === socket.id) {
-    //   io.to(currentUser?.socketId)
-    //       .emit("isAgentOnline", { userId: adminSocket?.userId });
-    // }
-
-    adminSocket &&
-      io.to(adminSocket?.socketId).emit("getOnlineUsers", trimmedOnlineUsers);
-
-    console.log("user disconnected!", socket.id);
-  });
-
-*/

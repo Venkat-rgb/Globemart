@@ -37,12 +37,3 @@ const messageSchema = new mongoose.Schema(
 );
 
 export const Message = mongoose.model("Message", messageSchema);
-
-// _id: ObjectId('655709183a56193a47e63be0'),
-// sender: ObjectId('645c6bc006a6f95683d9de65'),
-// message: "Hello admin how are you?",
-// messageSeen: false,
-// chat: Object('6556ec791239157b7cf3c278'),
-// createdAt: 2023-11-17T06:32:56.432+00:00,
-// updatedAt: 2023-11-17T06:32:56.432+00:00
-// __v: 0

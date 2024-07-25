@@ -5,9 +5,6 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
-  // getReviews,
-  // createOrUpdateReview,
-  // deleteReview,
   getProductsThroughVoice,
   getFeaturedProducts,
 } from "../controllers/productController.js";
@@ -23,15 +20,6 @@ router
 router.get("/featured", getFeaturedProducts);
 
 router.get("/voice-search", getProductsThroughVoice);
-
-// Be careful while placing router.route('/reviews') and router.route('/:id').
-
-// router.route("/reviews/:id").get(getReviews);
-
-// router
-//   .route("/reviews")
-//   .post(verifyToken, createOrUpdateReview)
-//   .delete(verifyToken, restrictTo("admin"), deleteReview);
 
 router
   .route("/:id")

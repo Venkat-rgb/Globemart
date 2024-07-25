@@ -40,15 +40,6 @@ export class APIFeatures {
         }
       : {};
 
-    // const productTitle = searchQuery
-    //   ? {
-    //       title: {
-    //         $regex: searchQuery,
-    //         $options: "i",
-    //       },
-    //     }
-    //   : {};
-
     // Searching for products only when search query is given by user
     if (searchQuery) {
       this.query = this.query.find({ ...filteredSearch });

@@ -5,45 +5,6 @@ import { Chat } from "../models/Chat.js";
 import { Message } from "../models/Message.js";
 
 // CREATE MESSAGE
-// export const createMessage = catchAsync(async (req, res, next) => {
-//   const { userId, message, chatId } = req.body;
-
-//   const trimmedUserId = userId?.trim();
-//   const trimmedChatId = chatId?.trim();
-
-//   // check if userId is valid
-//   if (!mongoose.Types.ObjectId.isValid(trimmedUserId)) {
-//     return next(new AppError("Please enter valid userId!", 400));
-//   }
-
-//   // check if chatId is valid
-//   if (!mongoose.Types.ObjectId.isValid(trimmedChatId)) {
-//     return next(new AppError("Please enter valid chatId!", 400));
-//   }
-
-//   // Check if chat exists with chatId
-//   const chat = await Chat.findOne({
-//     _id: trimmedChatId,
-//     usersInChat: { $in: [trimmedUserId] },
-//   });
-
-//   if (!chat) {
-//     return next(new AppError(`Chat (or) Sender does not exist!`, 404));
-//   }
-
-//   // Creating message
-//   await Message.create({
-//     sender: trimmedUserId,
-//     message,
-//     chat: trimmedChatId,
-//   });
-
-//   res.status(201).json({
-//     message: "Message created successfully!",
-//   });
-// });
-
-// CREATE MESSAGE
 export const createMessage = catchAsync(async (req, res, next) => {
   const { message, chatId } = req.body;
 

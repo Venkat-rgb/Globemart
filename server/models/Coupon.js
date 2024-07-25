@@ -26,23 +26,11 @@ const couponSchema = new mongoose.Schema(
     startDate: {
       type: Date,
       required: [true, "Please enter start date for the coupon!"],
-      // validate: {
-      //   validator: function (date) {
-      //     return date >= new Date();
-      //   },
-      //   message: (props) => `Start date cannot be in past!`,
-      // },
     },
 
     endDate: {
       type: Date,
       required: [true, "Please enter end date for the coupon!"],
-      // validate: {
-      //   validator: function (date) {
-      //     return date > this.startDate;
-      //   },
-      //   message: `End date should be greater than start date!`,
-      // },
     },
 
     discount: {
