@@ -59,6 +59,7 @@ io.on("connection", (socket) => {
           });
         }
 
+        // Finding if the admin is present in onlineUsers (or) not
         const adminSocket = onlineUsers.find((user) => user?.role === "admin");
 
         // Only including userId field, so that admin can get these online users from their userId
@@ -190,6 +191,7 @@ io.on("connection", (socket) => {
   }
 });
 
+// Listening to the socker server
 server.listen(PORT, (err) => {
   if (err) {
     console.log("Socket server is not connected successfully!");
