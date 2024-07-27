@@ -73,7 +73,7 @@ const ChatFooter = ({
         typingStatus: true,
       });
 
-      // Checking if user is typing for every 3 seconds
+      // Making sure to stop showing typing message for every 3 seconds when user is not typing
       timer = setTimeout(() => {
         socket.emit("isTyping", {
           senderId: userInfo?.id,
@@ -83,6 +83,7 @@ const ChatFooter = ({
       }, 3000);
     } else {
       // If user is not typing then send status as false
+      // below code helps in making typing status to false when user is removing the typed message at once
       socket.emit("isTyping", {
         senderId: userInfo?.id,
         receiverId,

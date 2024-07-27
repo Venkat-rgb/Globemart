@@ -44,7 +44,8 @@ const ChatHeader = ({
           </p>
           <p className="text-green-500 font-medium text-sm transition-all duration-200">
             {/* Only showing typing status of user to admin and not to all other chats on admin dashboard */}
-            {/* We are checking bcz, there are many users who can send message to admin, so inorder to know which user is typing we check the below condition. */}
+            {/* We are checking bcz, there are many users who can send message to admin, so inorder to know which user is typing we check the below condition and show this typing status only to that user's chat and not anyone else */}
+            {/* We are doing this bcz, any user will send message only to admin, so on admin side, there should be some way to know from which user typing status is coming */}
             {receiverId === socketReceiverId && isTyping && "typing..."}
           </p>
         </div>

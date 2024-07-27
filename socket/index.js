@@ -25,6 +25,7 @@ const PORT = process.env.PORT || 4000;
 // Keeps track of online users for chatting
 let onlineUsers = [];
 
+// Adds user into onlineUsers array only if he doesn't already exist
 const addUser = (userId, socketId, role) => {
   !onlineUsers.some((user) => user?.userId === userId) &&
     onlineUsers.push({
@@ -34,7 +35,22 @@ const addUser = (userId, socketId, role) => {
     });
 };
 
-const getUser = (id) => onlineUsers.find((user) => user?.userId === id);
+// Checks if user (or) admin already exists in onlineUsers array
+const getUser = (idOrRole) => {
+  return idOrRole === "admin"
+    ? onlineUsers.find((user) => user?.role === idOrRole)
+    : onlineUsers.find((user) => user?.userId === idOrRole);
+};
+
+// Deletes the user using socketId which is passed as parameter
+const deleteUser = (id) => onlineUsers.filter((user) => user?.socketId !== id);
+
+// Trims the user object into just their id's
+const trimOnlineUserIds = (users) => {
+  return users.map((user) => ({
+    userId: user.userId,
+  }));
+};
 
 // Listening to connection event when user connects to the chat
 io.on("connection", (socket) => {
@@ -44,30 +60,16 @@ io.on("connection", (socket) => {
       try {
         const { userId, role } = userInfo;
 
-        // Checking if user already exists in onlineUsers array
-        const doesOnlineUserExists = onlineUsers.find(
-          (user) => user?.userId === userId
-        );
+        // Here we also add role to know if person is user (or) admin which will help in sending different responses to user and admin
+        addUser(userId, socket.id, role);
 
-        // adding user into onlineUsers array only if he doesn't already exist
-        if (!doesOnlineUserExists) {
-          // Here we also add role to know if person is user (or) admin which will help in sending different responses to user and admin
-          onlineUsers.push({
-            userId,
-            socketId: socket.id,
-            role,
-          });
-        }
+        console.log("onlineUsers: ", onlineUsers);
 
         // Finding if the admin is present in onlineUsers (or) not
-        const adminSocket = onlineUsers.find((user) => user?.role === "admin");
+        const adminSocket = getUser("admin");
 
         // Only including userId field, so that admin can get these online users from their userId
-        const trimmedOnlineUsers = onlineUsers.map((user) => {
-          return {
-            userId: user.userId,
-          };
-        });
+        const trimmedOnlineUsers = trimOnlineUserIds(onlineUsers);
 
         // Sending all users that admin is online as he is present in onlineUsers array
         adminSocket && io.emit("isAgentOnline", true);
@@ -91,9 +93,7 @@ io.on("connection", (socket) => {
         const createdMessage = { ...messageInfo };
 
         // Check if receiver exists in onlineUsers array
-        const isReceiverExists = onlineUsers.find(
-          (user) => user?.userId === receiverId
-        );
+        const isReceiverExists = getUser(receiverId);
 
         // If user is online then only sending message
         if (isReceiverExists) {
@@ -117,9 +117,7 @@ io.on("connection", (socket) => {
         const { senderId, receiverId, typingStatus } = typingInfo;
 
         // Checking if receiver is online (or) not
-        const isReceiverOnline = onlineUsers.find(
-          (user) => user?.userId === receiverId
-        );
+        const isReceiverOnline = getUser(receiverId);
 
         // If receiver is online then only we send typingStatus
         if (isReceiverOnline) {
@@ -139,9 +137,7 @@ io.on("connection", (socket) => {
         const { chatId, userId } = messageSeenInfo;
 
         // Checking if receiver is online (or) not
-        const isUserOnline = onlineUsers.find(
-          (user) => user?.userId === userId
-        );
+        const isUserOnline = getUser(userId);
 
         // If receiver is online then only we will send chatId to receiver, so that receiver can get all messages with updated seen status as messageSeen property was previously set in database
         if (isUserOnline) {
@@ -157,24 +153,20 @@ io.on("connection", (socket) => {
     // When user disconnects
     socket.on("disconnect", () => {
       try {
+        console.log("User is disconnected: ", socket.id);
+
         // Finding admin
-        const adminSocket = onlineUsers.find((user) => user?.role === "admin");
+        const adminSocket = getUser("admin");
 
         // Updating the onlineUsers array if user is disconnected
-        onlineUsers = onlineUsers.filter(
-          (user) => user?.socketId !== socket.id
-        );
+        onlineUsers = deleteUser(socket.id);
 
         // If disconnected user is admin, then informing users that admin is offline
         if (adminSocket?.socketId === socket.id) {
           socket.broadcast.emit("isAgentOnline", false);
         } else {
           // If disconnected user is normal 'user', then informing admin that this 'user' is offline
-          const trimmedOnlineUsers = onlineUsers.map((user) => {
-            return {
-              userId: user.userId,
-            };
-          });
+          const trimmedOnlineUsers = trimOnlineUserIds(onlineUsers);
 
           // Sending only the updated onlineUsers to admin
           adminSocket &&
