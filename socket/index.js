@@ -14,12 +14,14 @@ dotenv.config({
 // Creating HTTP server
 const server = http.createServer(app);
 
+// Creating new server for socket io
 const io = new Server(server, {
   cors: {
     origin: process.env.FRONTEND_URL,
   },
 });
 
+// Giving default port as 4000
 const PORT = process.env.PORT || 4000;
 
 // Keeps track of online users for chatting
