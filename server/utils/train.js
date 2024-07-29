@@ -2,6 +2,7 @@ import { readFileSync } from "fs";
 import { NlpManager } from "node-nlp";
 import path from "path";
 
+// File path for the trained model
 export const modalFilePath = path.join(
   path.resolve(),
   "/training_models/model.nlp"

@@ -16,6 +16,7 @@ export const sendEmail = async (emailData) => {
       },
     });
 
+    // Providing mail options like metadata which required to send a mail
     const mailOptions = {
       from: process.env.MAIL,
       to: userEmail,
