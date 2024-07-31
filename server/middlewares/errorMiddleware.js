@@ -1,3 +1,4 @@
+// Showing detailed error to developers in development mode
 const sendDevelopmentError = (res, err) => {
   res.status(err.statusCode).json({
     success: false,
@@ -6,6 +7,7 @@ const sendDevelopmentError = (res, err) => {
   });
 };
 
+// Showing only error to user and hiding details in production mode
 const sendProductionError = (res, err) => {
   res.status(err.statusCode).json({
     success: false,
