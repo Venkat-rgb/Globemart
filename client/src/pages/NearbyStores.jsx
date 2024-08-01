@@ -64,11 +64,11 @@ const NearbyStores = () => {
 
   // Setting store info when user selects particular store
   const storeInfoHandler = (storeInfo) => {
-    const { storeCoordinates, name, distance, id } = storeInfo;
+    const { storeCoordinates, storeName, distance, id } = storeInfo;
 
     setSelectedStoreInfo({
       coordinates: storeCoordinates,
-      name,
+      storeName,
       distance,
       id,
     });
@@ -111,7 +111,7 @@ const NearbyStores = () => {
                 <NearbyStore
                   key={store?._id}
                   id={store?._id}
-                  name={store?.name}
+                  storeName={store?.name}
                   address={store?.address}
                   categories={store?.categories}
                   ratingInfo={store?.ratingInfo}

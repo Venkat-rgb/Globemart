@@ -1,14 +1,19 @@
-import { memo } from "react";
-import {
-  MapContainer,
-  Marker,
-  TileLayer,
-  Polyline,
-  Tooltip,
-} from "react-leaflet";
+import { memo, useMemo } from "react";
+import { MapContainer, TileLayer, Polyline, Tooltip } from "react-leaflet";
+import StoreMarkers from "./StoreMarkers";
 
 const StoresMap = ({ userCoordinates, storeInfo }) => {
-  const userPositions = [userCoordinates?.latitude, userCoordinates?.longitude];
+  // Memoizing userLocation
+  const userPositions = useMemo(
+    () => [userCoordinates?.latitude, userCoordinates?.longitude],
+    [userCoordinates?.latitude, userCoordinates?.longitude]
+  );
+
+  // Memoizing storeLocation
+  const storeLocation = useMemo(
+    () => [storeInfo?.coordinates[0], storeInfo?.coordinates[1]],
+    [storeInfo?.coordinates[0], storeInfo?.coordinates[1]]
+  );
 
   // Storing userCoordinates and storeCoordinates in array
   const polyLine = storeInfo && [userPositions, storeInfo?.coordinates];
@@ -39,25 +44,12 @@ const StoresMap = ({ userCoordinates, storeInfo }) => {
         </Polyline>
       )}
 
-      {/* Default Marker of user's location */}
-      <Marker
-        position={[userCoordinates?.latitude, userCoordinates?.longitude]}
-      >
-        <Tooltip permanent className="font-inter font-semibold">
-          Your Location!
-        </Tooltip>
-      </Marker>
-
-      {/* Displaying store marker only when user selects particular store */}
-      {polyLine && (
-        <Marker
-          position={[storeInfo?.coordinates[0], storeInfo?.coordinates[1]]}
-        >
-          <Tooltip permanent className="font-inter font-semibold">
-            {storeInfo?.name}
-          </Tooltip>
-        </Marker>
-      )}
+      {/* Displaying the user location and store location markers */}
+      <StoreMarkers
+        userLocationCoordinates={userPositions}
+        storeLocationCoordinates={storeLocation}
+        storeName={storeInfo?.storeName}
+      />
     </MapContainer>
   );
 };

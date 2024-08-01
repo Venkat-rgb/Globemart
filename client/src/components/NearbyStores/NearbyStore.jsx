@@ -3,7 +3,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 const NearbyStore = ({
   id,
-  name,
+  storeName,
   address,
   categories,
   ratingInfo,
@@ -19,7 +19,7 @@ const NearbyStore = ({
       window.scrollTo(0, 0);
     }
 
-    storeInfoHandler({ storeCoordinates, name, distance, id });
+    storeInfoHandler({ storeCoordinates, storeName, distance, id });
   };
 
   return (
@@ -37,7 +37,7 @@ const NearbyStore = ({
             : "text-neutral-700/90"
         } text-lg font-semibold line-clamp-2 drop-shadow`}
       >
-        {name}
+        {storeName}
       </p>
 
       {/* Displaying store categories */}
