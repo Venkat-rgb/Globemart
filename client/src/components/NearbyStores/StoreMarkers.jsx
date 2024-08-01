@@ -28,7 +28,10 @@ const StoreMarkers = ({
       ]);
 
       // Making the map to fit these 2 marker locations
-      map.fitBounds(requiredLocationToGo);
+      map.fitBounds(requiredLocationToGo, {
+        animate: true,
+        duration: 0.5,
+      });
     }
   }, [storeLocationCoordinates[0], storeLocationCoordinates[1]]);
 
