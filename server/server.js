@@ -27,6 +27,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import mongoSanitize from "express-mongo-sanitize";
 import fs from "fs";
+import NodeCache from "node-cache";
 
 const app = express();
 
@@ -86,6 +87,9 @@ cloudinary.config({
 (async () => {
   await connectDB();
 })();
+
+// Initializing Node cache
+export const myCache = new NodeCache();
 
 // All routes of the app
 app.use("/api/v1/auth", authRoutes);
