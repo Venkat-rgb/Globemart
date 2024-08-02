@@ -50,7 +50,7 @@ export const getFeaturedProducts = catchAsync(async (req, res) => {
       .limit(9);
 
     // Storing the featured products in cache for future use
-    myCache.set("featured_products", JSON.stringify(products), 20);
+    myCache.set("featured_products", JSON.stringify(products));
   }
 
   res.status(200).json({ products });
