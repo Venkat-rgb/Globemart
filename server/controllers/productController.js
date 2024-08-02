@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import cloudinary from "cloudinary";
 import { manager } from "../utils/train.js";
 import { Review } from "../models/Review.js";
+import { myCache } from "../server.js";
 
 // GET ALL PRODUCTS
 export const getProducts = catchAsync(async (req, res) => {
@@ -34,9 +35,23 @@ export const getProducts = catchAsync(async (req, res) => {
 
 // GET FEATURED PRODUCTS
 export const getFeaturedProducts = catchAsync(async (req, res) => {
-  const products = await Product.find()
-    .sort({ rating: -1, createdAt: -1 })
-    .limit(9);
+  let products = [];
+
+  const doesProductsExists = myCache.get("featured_products");
+
+  // Checking if the products exists in the cache
+  if (doesProductsExists) {
+    // If exists, then send these products to client without making any request to database
+    products = JSON.parse(doesProductsExists);
+  } else {
+    // Making request to database as products are not available in cache
+    products = await Product.find()
+      .sort({ rating: -1, createdAt: -1 })
+      .limit(9);
+
+    // Storing the featured products in cache for future use
+    myCache.set("featured_products", JSON.stringify(products), 20);
+  }
 
   res.status(200).json({ products });
 });
