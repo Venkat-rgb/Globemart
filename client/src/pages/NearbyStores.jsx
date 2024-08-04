@@ -28,10 +28,6 @@ const NearbyStores = () => {
 
   const { getSessionData } = useSessionStorage();
 
-  // const userLocation =
-  //   sessionStorage.getItem("userLocation") &&
-  //   JSON.parse(sessionStorage.getItem("userLocation"));
-
   // Getting userLocation
   const userLocation = getSessionData("userLocation");
 
@@ -82,11 +78,8 @@ const NearbyStores = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  // className="w-full pt-[3.34rem] h-full font-inter"
-
   return (
     <PageTransistion styleProp="w-full h-full font-inter">
-      {/* <section className="w-full pt-[3.34rem] h-full font-inter"> */}
       <MetaData title="Nearby-Stores" />
       <div className="grid grid-cols-10 max-[650px]:grid-cols-1 sm:h-full max-w-[86rem] mx-auto">
         <div className="border-r col-span-3 max-[900px]:col-span-4 max-[650px]:col-span-1 max-[650px]:order-2 px-4 space-y-4 max-[550px]:space-y-2.5 overflow-y-scroll">
@@ -104,7 +97,6 @@ const NearbyStores = () => {
           )}
 
           {/* Displaying all stores to user */}
-
           {!isStoresDataLoading && storesTotalCount > 1 && (
             <div className="space-y-4 pb-5">
               {stores?.map((store) => (
@@ -155,7 +147,6 @@ const NearbyStores = () => {
           />
         </div>
       </div>
-      {/* </section> */}
     </PageTransistion>
   );
 };
