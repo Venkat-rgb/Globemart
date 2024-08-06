@@ -37,12 +37,13 @@ export const getProducts = catchAsync(async (req, res) => {
 export const getFeaturedProducts = catchAsync(async (req, res) => {
   let products = [];
 
-  const doesProductsExists = myCache.get("featured_products");
+  const cacheKey = "featured_products";
 
   // Checking if the products exists in the cache
-  if (doesProductsExists) {
+  if (myCache.has(cacheKey)) {
+    console.log("Cached Featured Products!");
     // If exists, then send these products to client without making any request to database
-    products = JSON.parse(doesProductsExists);
+    products = JSON.parse(myCache.get(cacheKey));
   } else {
     // Making request to database as products are not available in cache
     products = await Product.find()
@@ -50,7 +51,8 @@ export const getFeaturedProducts = catchAsync(async (req, res) => {
       .limit(9);
 
     // Storing the featured products in cache for future use
-    myCache.set("featured_products", JSON.stringify(products));
+    myCache.set(cacheKey, JSON.stringify(products));
+    console.log("Featured Products from DB!");
   }
 
   res.status(200).json({ products });
@@ -90,10 +92,26 @@ export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
 export const getProduct = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
-  const product = await Product.findById(id);
+  const key = `product-${id}`;
 
-  if (!product) {
-    return next(new AppError(`Product does not exist!`, 400));
+  let product;
+
+  // If product is present in cache we don't make an API call to database
+  if (myCache.has(key)) {
+    product = JSON.parse(myCache.get(key));
+    console.log(`Cached product: ${id}`);
+  } else {
+    // Making API call to database as product is not in cache
+    product = await Product.findById(id);
+
+    // Returning error if product doesn't exist in DB
+    if (!product) {
+      return next(new AppError(`Product does not exist!`, 400));
+    }
+
+    // Setting product in cache for further use
+    myCache.set(key, JSON.stringify(product));
+    console.log(`Product from DB: ${id}`);
   }
 
   res.status(200).json({
@@ -164,6 +182,12 @@ export const createProduct = catchAsync(async (req, res, next) => {
 
   // Saving the updated product model to DB
   await product.save();
+
+  // Deleting the featured products cache as we are adding new product
+  const cacheKey = "featured_products";
+  myCache.del(cacheKey);
+
+  console.log(`Deleted ${cacheKey} from cache in createProductController`);
 
   res.status(201).json({
     message: "Product created successfully!",
@@ -258,6 +282,12 @@ export const updateProduct = catchAsync(async (req, res, next) => {
     await modifiedProduct.save();
   }
 
+  // Deleting the products from the cache as they are getting updated
+  const cacheKeys = ["featured_products", `product-${id}`];
+  myCache.del(cacheKeys);
+
+  console.log(`Deleted ${cacheKeys} from cache in updateProductController`);
+
   res.status(200).json({
     message: `Product Updated Successfully!`,
     images,
@@ -284,6 +314,12 @@ export const deleteProduct = catchAsync(async (req, res, next) => {
 
   // Deleting all the reviews of this product
   await Review.deleteMany({ productId: id });
+
+  // Deleting the products from the cache as they are getting updated
+  const cacheKeys = ["featured_products", `product-${id}`];
+  myCache.del(cacheKeys);
+
+  console.log(`Deleted ${cacheKeys} from cache in deleteProductController`);
 
   res.status(200).json({
     message: `Product deleted successfully!`,
