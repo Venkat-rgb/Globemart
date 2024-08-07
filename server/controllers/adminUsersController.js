@@ -3,6 +3,7 @@ import { WishList } from "../models/WishList.js";
 import { AppError } from "../utils/appError.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import cloudinary from "cloudinary";
+import { myCache } from "../server.js";
 
 // GET ALL USERS (Admin)
 export const getUsers = catchAsync(async (req, res) => {
@@ -25,11 +26,24 @@ export const getUsers = catchAsync(async (req, res) => {
 export const getUser = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
-  // Finding user based on userId
-  const user = await User.findById(id);
+  let user;
+  const cacheKey = `user-${id}`;
 
-  // Returning error when user doesn't exist
-  if (!user) return next(new AppError(`User does not exist!`, 404));
+  // Check if user already exists in the cache
+  if (myCache.has(cacheKey)) {
+    console.log(`Cached User: ${id}`);
+    user = JSON.parse(myCache.get(cacheKey));
+  } else {
+    // As user is not present in cache, making an API call to DB
+    // Finding user based on userId
+    user = await User.findById(id);
+
+    // Returning error when user doesn't exist
+    if (!user) return next(new AppError(`User does not exist!`, 404));
+
+    myCache.set(cacheKey, JSON.stringify(user));
+    console.log(`Getting User from DB: ${id}`);
+  }
 
   res.status(200).json({
     user,
@@ -52,6 +66,12 @@ export const updateUser = catchAsync(async (req, res, next) => {
 
   // if user is null then it means id is not present in database
   if (!user) return next(new AppError(`User does not exist!`, 404));
+
+  // Deleting the user from cache
+  const cacheKey = `user-${id}`;
+  myCache.del(cacheKey);
+
+  console.log(`Deleting user from cache in updateUser: ${id}`);
 
   res.status(200).json({
     message: `User updated successfully!`,
@@ -79,6 +99,11 @@ export const deleteUser = catchAsync(async (req, res, next) => {
 
   // Deleting the user account
   await User.findByIdAndDelete(id);
+
+  // Deleting the user from cache
+  const cacheKey = `user-${id}`;
+  myCache.del(cacheKey);
+  console.log(`Deleting user from cache in deleteUser: ${id}`);
 
   res.status(200).json({
     message: `User deleted successfully!`,
