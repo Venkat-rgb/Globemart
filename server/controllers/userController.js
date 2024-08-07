@@ -170,6 +170,7 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
     sameSite: "none",
     expires: new Date(0),
     // should include secure: true for https and also sameSite: 'none' for cross-site cookie access.
+    // Make sure to include expires like above, inorder to delete the cookie successfully, instead of leaving empty cookie without any value
   });
 
   res.status(200).json({

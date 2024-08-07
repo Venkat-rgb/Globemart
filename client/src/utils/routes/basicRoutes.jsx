@@ -3,39 +3,45 @@ import { wait } from "../general/wait";
 import ErrorBoundaryComponent from "../../components/ErrorBoundary/ErrorBoundaryComponent";
 import PageTransistion from "../../components/UI/PageTransistion";
 
-const Home = lazy(() => wait(500).then(() => import("../../pages/Home")));
-const Login = lazy(() => wait(500).then(() => import("../../pages/Login")));
-const SignUp = lazy(() => wait(500).then(() => import("../../pages/SignUp")));
+const delay = 200;
+
+const Home = lazy(() => wait(delay).then(() => import("../../pages/Home")));
+const Login = lazy(() => wait(delay).then(() => import("../../pages/Login")));
+const SignUp = lazy(() => wait(delay).then(() => import("../../pages/SignUp")));
 const ForgotPassword = lazy(() =>
-  wait(500).then(() => import("../../pages/ForgotPassword"))
+  wait(delay).then(() => import("../../pages/ForgotPassword"))
 );
 const SetForgotPassword = lazy(() =>
-  wait(500).then(() => import("../../pages/SetForgotPassword"))
+  wait(delay).then(() => import("../../pages/SetForgotPassword"))
 );
 const Products = lazy(() =>
-  wait(500).then(() => import("../../pages/Products"))
+  wait(delay).then(() => import("../../pages/Products"))
 );
-const Product = lazy(() => wait(500).then(() => import("../../pages/Product")));
+const Product = lazy(() =>
+  wait(delay).then(() => import("../../pages/Product"))
+);
 const SearchProducts = lazy(() =>
-  wait(500).then(() => import("../../pages/SearchProducts"))
+  wait(delay).then(() => import("../../pages/SearchProducts"))
 );
 const Wishlist = lazy(() =>
-  wait(500).then(() => import("../../pages/Wishlist"))
+  wait(delay).then(() => import("../../pages/Wishlist"))
 );
 const NearbyStores = lazy(() =>
-  wait(500).then(() => import("../../pages/NearbyStores"))
+  wait(delay).then(() => import("../../pages/NearbyStores"))
 );
-const Orders = lazy(() => wait(500).then(() => import("../../pages/Orders")));
-const Order = lazy(() => wait(500).then(() => import("../../pages/Order")));
+const Orders = lazy(() => wait(delay).then(() => import("../../pages/Orders")));
+const Order = lazy(() => wait(delay).then(() => import("../../pages/Order")));
 const OrderStatus = lazy(() =>
-  wait(500).then(() => import("../../pages/OrderStatus"))
+  wait(delay).then(() => import("../../pages/OrderStatus"))
 );
-const Cart = lazy(() => wait(500).then(() => import("../../pages/Cart")));
-const Payment = lazy(() => wait(500).then(() => import("../../pages/Payment")));
-const Chat = lazy(() => wait(500).then(() => import("../../pages/Chat")));
-const Admin = lazy(() => wait(500).then(() => import("../../pages/Admin")));
+const Cart = lazy(() => wait(delay).then(() => import("../../pages/Cart")));
+const Payment = lazy(() =>
+  wait(delay).then(() => import("../../pages/Payment"))
+);
+const Chat = lazy(() => wait(delay).then(() => import("../../pages/Chat")));
+const Admin = lazy(() => wait(delay).then(() => import("../../pages/Admin")));
 const NotFound = lazy(() =>
-  wait(500).then(() => import("../../pages/NotFound"))
+  wait(delay).then(() => import("../../pages/NotFound"))
 );
 
 export const basicRoutes = [

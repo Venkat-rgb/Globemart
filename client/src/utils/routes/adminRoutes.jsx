@@ -2,42 +2,44 @@ import { lazy } from "react";
 import { wait } from "../general/wait";
 import ErrorBoundaryComponent from "../../components/ErrorBoundary/ErrorBoundaryComponent";
 
+const delay = 200;
+
 const Dashboard = lazy(() =>
-  wait(500).then(() => import("../../components/admin/Dashboard/Dashboard"))
+  wait(delay).then(() => import("../../components/admin/Dashboard/Dashboard"))
 );
 const Products = lazy(() =>
-  wait(500).then(() => import("../../components/admin/Products/Products"))
+  wait(delay).then(() => import("../../components/admin/Products/Products"))
 );
 const Coupons = lazy(() =>
-  wait(500).then(() => import("../../components/admin/Coupons/Coupons"))
+  wait(delay).then(() => import("../../components/admin/Coupons/Coupons"))
 );
 const Orders = lazy(() =>
-  wait(500).then(() => import("../../components/admin/Orders/Orders"))
+  wait(delay).then(() => import("../../components/admin/Orders/Orders"))
 );
 const Users = lazy(() =>
-  wait(500).then(() => import("../../components/admin/Users/Users"))
+  wait(delay).then(() => import("../../components/admin/Users/Users"))
 );
 const Chats = lazy(() =>
-  wait(500).then(() => import("../../components/admin/Chats/Chats"))
+  wait(delay).then(() => import("../../components/admin/Chats/Chats"))
 );
 const Reviews = lazy(() =>
-  wait(500).then(() => import("../../components/admin/Reviews/Reviews"))
+  wait(delay).then(() => import("../../components/admin/Reviews/Reviews"))
 );
 const CreateAndUpdateProduct = lazy(() =>
-  wait(500).then(() =>
+  wait(delay).then(() =>
     import("../../components/admin/Products/CreateAndUpdateProduct")
   )
 );
 const CreateAndUpdateCoupon = lazy(() =>
-  wait(500).then(() =>
+  wait(delay).then(() =>
     import("../../components/admin/Coupons/CreateAndUpdateCoupon")
   )
 );
 const UpdateUser = lazy(() =>
-  wait(500).then(() => import("../../components/admin/Users/UpdateUser"))
+  wait(delay).then(() => import("../../components/admin/Users/UpdateUser"))
 );
 const UpdateOrder = lazy(() =>
-  wait(500).then(() =>
+  wait(delay).then(() =>
     import("../../components/admin/Orders/UpdateOrder/UpdateOrder")
   )
 );

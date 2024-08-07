@@ -86,7 +86,6 @@ export const deleteUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(id);
 
   // Returning error when user doesn't exist
-
   if (!user) return next(new AppError(`User does not exist!`, 404));
 
   // Deleting User profile image if its present
