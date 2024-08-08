@@ -270,16 +270,16 @@ export const updateOrderPayment = catchAsync(async (req, res, next) => {
 });
 
 // DELETE ORDER (Admin)
-export const deleteOrder = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
+// export const deleteOrder = catchAsync(async (req, res, next) => {
+//   const { id } = req.params;
 
-  // Deleting the order based on orderId
-  const order = await Order.findByIdAndDelete(id);
+//   // Deleting the order based on orderId
+//   const order = await Order.findByIdAndDelete(id);
 
-  // Returning error if order doesn't exist
-  if (!order) return next(new AppError(`Order does not exist!`, 400));
+//   // Returning error if order doesn't exist
+//   if (!order) return next(new AppError(`Order does not exist!`, 400));
 
-  res.status(200).json({
-    message: `Order deleted successfully!`,
-  });
-});
+//   res.status(200).json({
+//     message: `Order deleted successfully!`,
+//   });
+// });

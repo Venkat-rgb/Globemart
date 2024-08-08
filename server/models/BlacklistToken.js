@@ -11,6 +11,7 @@ const blacklistTokenSchema = new mongoose.Schema({
   },
 });
 
+// Creating a TTL index for automatic expiry and deletion
 blacklistTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 export const BlacklistToken = mongoose.model(
