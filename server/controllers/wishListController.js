@@ -7,40 +7,73 @@ import { catchAsync } from "../utils/catchAsync.js";
 export const getWishList = catchAsync(async (req, res, next) => {
   const { page } = req.query;
 
-  // Finding wishlist of user
-  const wishList = await WishList.findOne({ user: req.user._id })?.populate(
-    "products.product",
-    "title price images rating numOfReviews discount discountPrice"
-  );
+  // Getting the total wishlist products count
+  const wishlistProductsCount = await WishList.aggregate([
+    {
+      $match: { user: req.user._id },
+    },
+    {
+      $unwind: "$products",
+    },
+    {
+      $count: "productsCount",
+    },
+  ]);
 
-  // Returning error if wishlist doesn't exist
-  if (!wishList) {
-    return next(
-      new AppError(`Wishlist is empty, please add some products!`, 400)
-    );
+  // Either wishlist is not created (or) products in wishlist are empty
+  if (!wishlistProductsCount?.length) {
+    return res.status(200).json({ productsCount: 0 });
   }
 
-  let paginatedWishlist = {},
-    paginatedWishlistProducts = [];
+  // Using pagination
+  const pageLimit = +page > 0 ? 9 : wishlistProductsCount[0]?.productsCount;
+  const skipQty = +page > 0 ? (+page - 1) * pageLimit : 0;
 
-  // Pagination the wishlist products
-  if (+page) {
-    const pageLimit = 9;
+  // Using aggregation inorder to fetch only 9 products and only first product  image in images array
+  let paginatedWishlistProducts = await WishList.aggregate([
+    {
+      $match: { user: req.user._id },
+    },
+    {
+      $project: { products: 1, _id: 0 },
+    },
+    {
+      $unwind: "$products",
+    },
+    {
+      $skip: skipQty,
+    },
+    {
+      $limit: pageLimit,
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "products.product",
+        foreignField: "_id",
+        as: "productDetails",
+      },
+    },
+    { $unwind: "$productDetails" },
+    {
+      $project: {
+        product: {
+          _id: "$productDetails._id",
+          title: "$productDetails.title",
+          price: "$productDetails.price",
+          rating: "$productDetails.rating",
+          numOfReviews: "$productDetails.numOfReviews",
+          discount: "$productDetails.discount",
+          discountPrice: "$productDetails.discountPrice",
+          images: { $slice: ["$productDetails.images", 1] },
+        },
+      },
+    },
+  ]);
 
-    paginatedWishlist = { ...wishList?._doc };
-
-    paginatedWishlistProducts = [...paginatedWishlist?.products];
-
-    paginatedWishlist.products = paginatedWishlistProducts.slice(
-      (Number(page) - 1) * pageLimit,
-      Number(page) * pageLimit
-    );
-  }
-
-  // Sending wishlist to client
   res.status(200).json({
-    wishList: +page ? paginatedWishlist?.products : wishList?.products,
-    totalWishlistCount: wishList?.products?.length,
+    wishList: paginatedWishlistProducts,
+    totalWishlistCount: wishlistProductsCount[0]?.productsCount,
   });
 });
 

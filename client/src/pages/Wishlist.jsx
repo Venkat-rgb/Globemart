@@ -29,7 +29,7 @@ const Wishlist = () => {
 
   // Keeps track of lastElement of the wishlist
   const { ref: lastElementRef, inView } = useInView({
-    threshold: 0.5,
+    threshold: 0.2,
   });
 
   const [
@@ -65,6 +65,8 @@ const Wishlist = () => {
   const getWishlistProductsHandler = async (page) => {
     try {
       const wishlistRes = await getWishlist(page).unwrap();
+
+      console.log("wishlistRes: ", wishlistRes);
 
       if (wishlistRes?.wishList) {
         setWishListProducts((prev) => [...prev, ...wishlistRes.wishList]);
@@ -144,7 +146,8 @@ const Wishlist = () => {
       </div>
 
       {/* Showing an image when no products are present in wishlist */}
-      {wishlistData?.totalWishlistCount === 0 && (
+      {(wishlistData?.totalWishlistCount === 0 ||
+        wishListProducts.length === 0) && (
         <div className="flex items-center justify-center mx-auto w-[50%] max-[900px]:w-full rounded-xl pt-5">
           <LazyImage
             imageProps={{
