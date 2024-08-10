@@ -43,7 +43,8 @@ const SearchProducts = () => {
   // Fetching products based on product name
   const getSearchedProducts = async () => {
     try {
-      const productsRes = await getProducts(`?search=${searchText}`).unwrap();
+      const filters = `?search=${searchText}&fields=_id,title,description`;
+      const productsRes = await getProducts(filters).unwrap();
       setProducts(productsRes?.products);
     } catch (err) {
       toast.error(err?.message || err?.data?.message);

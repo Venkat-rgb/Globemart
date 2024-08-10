@@ -34,6 +34,8 @@ const FeaturedProducts = ({ featuredProductsRef }) => {
       skip: !inView || !token,
     });
 
+  console.log("Featured Products bro: ", productsData);
+
   return (
     <section className="space-y-10" ref={featuredProductsRef}>
       <p
@@ -68,7 +70,6 @@ const FeaturedProducts = ({ featuredProductsRef }) => {
               id={product?._id}
               image={product?.images[0]?.url}
               title={product?.title}
-              description={product?.description}
               price={product?.price / currencyData?.conversion}
               discountPrice={product?.discountPrice / currencyData?.conversion}
               discount={product?.discount}

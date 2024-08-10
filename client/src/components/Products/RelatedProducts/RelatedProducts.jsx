@@ -27,12 +27,14 @@ const RelatedProducts = ({
     triggerOnce: true,
   });
 
+  const filters = `?category=${productCategory}&fields=_id,title,price,createdAt,numOfReviews,rating,discount,discountPrice`;
+
   // Fetching Related Products data only when productCategory and isIntersecting are present
   const {
     data: productsData,
     isFetching: isProductsDataLoading,
     isError: productsDataError,
-  } = useGetProductsQuery(`?category=${productCategory}`, {
+  } = useGetProductsQuery(filters, {
     skip: !productCategory || !inView,
   });
 
@@ -98,7 +100,7 @@ const RelatedProducts = ({
                 id={product?._id}
                 image={product?.images[0]?.url}
                 title={product?.title}
-                description={product?.description}
+                // description={product?.description}
                 price={product?.price / currencyDataConversion}
                 discountPrice={product?.discountPrice / currencyDataConversion}
                 discount={product?.discount}

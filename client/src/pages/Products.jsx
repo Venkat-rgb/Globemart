@@ -56,10 +56,12 @@ const Products = () => {
           (priceRange[1] * currencyData?.conversion).toFixed(2)
         );
 
-      let query = `?discountPrice[gte]=${firstPriceRange}&discountPrice[lte]=${secondPriceRange}&rating[gte]=${rating}&page=${page}&sort=${sort}`;
+      const reqFields = `&fields=_id,title,price,createdAt,numOfReviews,rating,discount,discountPrice`;
+
+      let query = `?discountPrice[gte]=${firstPriceRange}&discountPrice[lte]=${secondPriceRange}&rating[gte]=${rating}&page=${page}&sort=${sort}${reqFields}`;
 
       if (category) {
-        query = `?category=${category}&discountPrice[gte]=${firstPriceRange}&discountPrice[lte]=${secondPriceRange}&rating[gte]=${rating}&page=${page}&sort=${sort}`;
+        query = `?category=${category}&discountPrice[gte]=${firstPriceRange}&discountPrice[lte]=${secondPriceRange}&rating[gte]=${rating}&page=${page}&sort=${sort}${reqFields}`;
       }
 
       setFilters(query);
@@ -131,7 +133,7 @@ const Products = () => {
                   id={product?._id}
                   image={product?.images[0]?.url}
                   title={product?.title}
-                  description={product?.description}
+                  // description={product?.description}
                   price={product?.price / currencyData?.conversion}
                   discount={product?.discount}
                   discountPrice={
