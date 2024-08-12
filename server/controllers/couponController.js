@@ -12,6 +12,7 @@ export const getAllCoupons = catchAsync(async (req, res) => {
   // Finding all coupons present in database by sorting according to createdAt
   const coupons = await Coupon.find()
     .sort({ createdAt: -1 })
+    .select("-couponText -startDate -endDate -createdAt -updatedAt")
     .skip(+page ? +page * 10 : 0)
     .limit(10);
 
@@ -43,7 +44,9 @@ export const getCoupon = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
   // Finding coupon by 'id'
-  const coupon = await Coupon.findById(id);
+  const coupon = await Coupon.findById(id).select(
+    "-createdAt -updatedAt -couponText"
+  );
 
   // If coupon is not found, then returning error to client
   if (!coupon) {

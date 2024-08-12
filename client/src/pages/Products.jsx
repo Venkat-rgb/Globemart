@@ -56,7 +56,7 @@ const Products = () => {
           (priceRange[1] * currencyData?.conversion).toFixed(2)
         );
 
-      const reqFields = `&fields=_id,title,price,createdAt,numOfReviews,rating,discount,discountPrice`;
+      const reqFields = `&fields=title,price,createdAt,numOfReviews,rating,discount,discountPrice`;
 
       let query = `?discountPrice[gte]=${firstPriceRange}&discountPrice[lte]=${secondPriceRange}&rating[gte]=${rating}&page=${page}&sort=${sort}${reqFields}`;
 
@@ -133,7 +133,6 @@ const Products = () => {
                   id={product?._id}
                   image={product?.images[0]?.url}
                   title={product?.title}
-                  // description={product?.description}
                   price={product?.price / currencyData?.conversion}
                   discount={product?.discount}
                   discountPrice={

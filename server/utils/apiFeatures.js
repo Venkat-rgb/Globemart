@@ -71,7 +71,7 @@ export class APIFeatures {
       this.query.push({ $match: { ...filteredSearch } });
     }
 
-    console.log("Query in search(): ", this.query);
+    // console.log("Query in search(): ", this.query);
 
     // Returning the searched products query
     return this;
@@ -85,7 +85,7 @@ export class APIFeatures {
     const excludedFields = ["page", "sort", "limit", "fields", "search"];
     excludedFields.forEach((field) => delete queryObj[field]);
 
-    console.log("Before QueryObj: ", queryObj);
+    // console.log("Before QueryObj: ", queryObj);
 
     // Updating the query to add correct form for 'gte, gt, lt, lte'
 
@@ -107,23 +107,25 @@ export class APIFeatures {
       }
     }
 
-    console.log("After QueryObj: ", queryObj);
+    // console.log("After QueryObj: ", queryObj);
 
     let addDollarSymbol = JSON.stringify(queryObj);
 
-    console.log("Stringified Filters: ", addDollarSymbol);
+    // console.log("Stringified Filters: ", addDollarSymbol);
 
     addDollarSymbol = addDollarSymbol.replace(
       /\b(gte|gt|lt|lte)\b/g,
       (match) => `$${match}`
     );
 
-    console.log("Parsed Filters: ", JSON.parse(addDollarSymbol));
+    // console.log("Parsed Filters: ", JSON.parse(addDollarSymbol));
 
     // Finding the products after applying all the filters
-    this.query.push({ $match: JSON.parse(addDollarSymbol) });
+    if (!this.queryStr?.search) {
+      this.query.push({ $match: JSON.parse(addDollarSymbol) });
+    }
 
-    console.log("Query in filter(): ", this.query);
+    // console.log("Query in filter(): ", this.query);
 
     // Returning the filtered products query
     return this;
@@ -137,7 +139,7 @@ export class APIFeatures {
     if (sortQuery) {
       const sortFields = sortQuery.split(",");
 
-      console.log("sortFields: ", sortFields);
+      // console.log("sortFields: ", sortFields);
 
       const sortedFieldsObj = sortFields.reduce((acc, item) => {
         const trimmedFilter = item.trim();
@@ -149,7 +151,7 @@ export class APIFeatures {
         return acc;
       }, {});
 
-      console.log("sortedFieldsObj", sortedFieldsObj);
+      // console.log("sortedFieldsObj", sortedFieldsObj);
 
       // Sorting the products based on provided sort query
       this.query.push({ $sort: sortedFieldsObj });
@@ -159,7 +161,7 @@ export class APIFeatures {
       this.query.push({ $sort: { createdAt: -1 } });
     }
 
-    console.log("Query in sortBy(): ", this.query);
+    // console.log("Query in sortBy(): ", this.query);
 
     // Returning the sorted products query
     return this;
@@ -173,22 +175,26 @@ export class APIFeatures {
     if (fieldsQuery) {
       const requiredFields = fieldsQuery.split(",");
 
-      console.log("requiredFields: ", requiredFields);
+      // console.log("requiredFields: ", requiredFields);
 
       const fieldsObj = requiredFields.reduce((acc, item) => {
-        acc[item.trim()] = `$${item.trim()}`;
+        if (item.trim() === "description") {
+          acc[item.trim()] = { $substr: ["$description", 0, 165] };
+        } else {
+          acc[item.trim()] = `$${item.trim()}`;
+        }
         return acc;
       }, {});
 
       fieldsObj._id = "$_id";
       fieldsObj.images = { $slice: ["$images", 1] };
 
-      console.log("fieldsObj: ", fieldsObj);
+      // console.log("fieldsObj: ", fieldsObj);
       // this.query = this.query.select(requiredFields);
       this.query.push({ $project: fieldsObj });
     }
 
-    console.log("Query in limitFields(): ", this.query);
+    // console.log("Query in limitFields(): ", this.query);
 
     // Returning the sorted products with limited fields.
     return this;
@@ -212,7 +218,7 @@ export class APIFeatures {
     this.query.push({ $skip: (perPage - 1) * pageLimit });
     this.query.push({ $limit: pageLimit });
 
-    console.log("Query in paginate(): ", this.query);
+    // console.log("Query in paginate(): ", this.query);
 
     // Returning the paginated products query
     return this;

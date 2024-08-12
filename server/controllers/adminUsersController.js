@@ -13,6 +13,7 @@ export const getUsers = catchAsync(async (req, res) => {
   const totalUsersCount = await User.find().countDocuments();
 
   const users = await User.find()
+    .select("-createdAt -updatedAt -passwordChangedAt")
     .skip(+page ? +page * 10 : 0)
     .limit(10);
 
@@ -36,7 +37,9 @@ export const getUser = catchAsync(async (req, res, next) => {
   } else {
     // As user is not present in cache, making an API call to DB
     // Finding user based on userId
-    user = await User.findById(id);
+    user = await User.findById(id).select(
+      "-username -email -profileImg -createdAt -updatedAt -passwordChangedAt"
+    );
 
     // Returning error when user doesn't exist
     if (!user) return next(new AppError(`User does not exist!`, 404));

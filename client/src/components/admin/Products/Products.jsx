@@ -27,7 +27,7 @@ const Products = () => {
     isLoading: isProductsDataLoading,
     isError: productsDataError,
   } = useGetProductsQuery(
-    `?fields=_id,title,price,stock,images&page=${paginationModel.page + 1}`
+    `?fields=title,price,stock&page=${paginationModel.page + 1}`
   );
 
   const [deleteProduct, { isLoading }] = useDeleteProductMutation();

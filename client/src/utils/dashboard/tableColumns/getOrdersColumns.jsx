@@ -14,9 +14,7 @@ export const getOrdersColumns = (placeOfUse, widthSizes) => {
       headerName: "Customer Name",
       minWidth: widthSizes[1],
       renderCell: (params) => {
-        return (
-          <p className="line-clamp-1">{params?.row?.user?.customerName}</p>
-        );
+        return <p className="line-clamp-1">{params?.row?.customerName}</p>;
       },
     },
 
@@ -35,9 +33,7 @@ export const getOrdersColumns = (placeOfUse, widthSizes) => {
       headerName: "Order Status",
       minWidth: widthSizes[3],
       renderCell: (params) => {
-        return (
-          <StatusStyle statusName={params?.row?.deliveryInfo?.deliveryStatus} />
-        );
+        return <StatusStyle statusName={params?.row?.deliveryStatus} />;
       },
     },
   ];

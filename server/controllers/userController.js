@@ -124,7 +124,9 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
   }
 
   // Finding the user with password field included
-  const user = await User.findById(req.user._id).select("+password");
+  const user = await User.findById(req.user._id).select(
+    "+password -username -email -createdAt -updatedAt -profileImg"
+  );
 
   // checking if old password is matching the password present in database
   const isPasswordsMatching = await user.checkPassword(

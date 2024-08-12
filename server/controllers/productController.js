@@ -33,20 +33,6 @@ export const getProducts = catchAsync(async (req, res) => {
     products: finalTrimmedProducts,
     totalProductsCount: productsTotalCount > 0 ? productsTotalCount : 0,
   });
-
-  // const totalProductsCount = products.length;
-  // console.log("totalProductsCount: ", products.length);
-
-  // // Applying pagination and limiting the fields which are to be send to client
-  // features.limitFields().paginate();
-
-  // // Creating copy of features query, so that we can modify it without affecting the actual query
-  // products = await features.query.clone();
-
-  // res.status(200).json({
-  //   products,
-  //   totalProductsCount,
-  // });
 });
 
 // export const getProducts = catchAsync(async (req, res) => {
@@ -159,8 +145,18 @@ export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
     return next(new AppError("No products found, please try again!", 404));
   }
 
-  // Getting only 10 products based on product category
-  const products = await Product.find({ category }).limit(10);
+  // Getting products based on product category
+  const products = await Product.aggregate([
+    { $match: { category } },
+    {
+      $project: {
+        _id: "$_id",
+        title: "$title",
+        description: { $substr: ["$description", 0, 165] },
+        images: { $slice: ["$images", 1] },
+      },
+    },
+  ]);
 
   // Sending products as response
   res.status(200).json({

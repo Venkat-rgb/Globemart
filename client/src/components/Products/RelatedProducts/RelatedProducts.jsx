@@ -27,7 +27,7 @@ const RelatedProducts = ({
     triggerOnce: true,
   });
 
-  const filters = `?category=${productCategory}&fields=_id,title,price,createdAt,numOfReviews,rating,discount,discountPrice`;
+  const filters = `?category=${productCategory}&fields=title,price,numOfReviews,rating,discount,discountPrice`;
 
   // Fetching Related Products data only when productCategory and isIntersecting are present
   const {
@@ -100,7 +100,6 @@ const RelatedProducts = ({
                 id={product?._id}
                 image={product?.images[0]?.url}
                 title={product?.title}
-                // description={product?.description}
                 price={product?.price / currencyDataConversion}
                 discountPrice={product?.discountPrice / currencyDataConversion}
                 discount={product?.discount}

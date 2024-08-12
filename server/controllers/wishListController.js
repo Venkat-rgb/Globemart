@@ -88,7 +88,9 @@ export const createOrUpdateWishList = catchAsync(async (req, res, next) => {
     return next(new AppError(`Please enter valid Product ID!`, 400));
   }
 
-  const isWishListExists = await WishList.findOne({ user: req.user._id });
+  const isWishListExists = await WishList.findOne({
+    user: req.user._id,
+  }).select("-createdAt -updatedAt");
 
   // If wishlist is already present
   if (isWishListExists) {
@@ -140,7 +142,9 @@ export const deleteProductFromWishList = catchAsync(async (req, res, next) => {
     return next(new AppError(`Please enter a valid product ID!`, 400));
   }
 
-  const wishList = await WishList.findOne({ user: req.user._id });
+  const wishList = await WishList.findOne({ user: req.user._id }).select(
+    "-createdAt -updatedAt"
+  );
 
   if (!wishList) {
     return next(

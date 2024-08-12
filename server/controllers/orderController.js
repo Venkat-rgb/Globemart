@@ -12,14 +12,20 @@ export const getOrders = catchAsync(async (req, res) => {
   // Finding total orders count
   const totalOrdersCount = await Order.find().countDocuments();
 
-  const orders = await Order.find()
-    .sort({ createdAt: -1 })
-    .populate("user", "customerId")
-    .populate("products.product", "title")
-    .populate("products.price", "price")
-    .populate("shippingInfo", "address country state city phoneNo")
-    .skip(+page ? +page * 10 : 0)
-    .limit(10);
+  // Finding all the orders with required fields
+  const orders = await Order.aggregate([
+    { $sort: { createdAt: -1 } },
+    {
+      $project: {
+        _id: "$_id",
+        customerName: "$user.customerName",
+        finalTotalAmountInINR: "$finalTotalAmountInINR",
+        deliveryStatus: "$deliveryInfo.deliveryStatus",
+      },
+    },
+    { $skip: +page ? +page * 10 : 0 },
+    { $limit: 10 },
+  ]);
 
   res.status(200).json({
     orders,
@@ -42,7 +48,7 @@ export const getMyOrders = catchAsync(async (req, res) => {
     .populate("products.product", "title discount discountPrice")
     .populate("products.price", "price")
     .select(
-      "_id finalTotalAmountInINR deliveryInfo.deliveryStatus products paymentInfo shippingInfo productsOrderedDate"
+      "_id finalTotalAmountInINR deliveryInfo.deliveryStatus products paymentInfo productsOrderedDate"
     )
     .skip(+page ? +page * 10 : 0)
     .limit(10);

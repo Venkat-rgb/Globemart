@@ -43,7 +43,7 @@ const SearchProducts = () => {
   // Fetching products based on product name
   const getSearchedProducts = async () => {
     try {
-      const filters = `?search=${searchText}&fields=_id,title,description`;
+      const filters = `?search=${searchText}&fields=title,description`;
       const productsRes = await getProducts(filters).unwrap();
       setProducts(productsRes?.products);
     } catch (err) {
