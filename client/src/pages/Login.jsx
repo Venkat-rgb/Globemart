@@ -104,7 +104,7 @@ const Login = () => {
               id: "password",
               name: "password",
               value: userData.password,
-              placeholder: "Enter your password...",
+              placeholder: "Must contain a number and special character...",
               required: true,
             }}
             onChange={loginChangeHandler}

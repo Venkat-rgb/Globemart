@@ -147,7 +147,7 @@ const SignUp = () => {
               id: "password",
               name: "password",
               value: password,
-              placeholder: "Enter your password...",
+              placeholder: "Must contain a number and special character...",
               required: true,
             }}
             onChange={signUpChangeHandler}

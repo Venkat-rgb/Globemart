@@ -28,6 +28,7 @@ import morgan from "morgan";
 import mongoSanitize from "express-mongo-sanitize";
 import fs from "fs";
 import NodeCache from "node-cache";
+import compression from "compression";
 
 const app = express();
 
@@ -43,6 +44,13 @@ process.on("uncaughtException", (err) => {
 });
 
 const PORT = process.env.PORT || 3000;
+
+// Using compression to optimize response body size and speed of application
+app.use(
+  compression({
+    level: 6,
+  })
+);
 
 // Setting Security HTTP Headers
 app.use(helmet());
