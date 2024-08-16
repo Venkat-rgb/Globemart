@@ -17,7 +17,7 @@ const server = http.createServer(app);
 // Creating new server for socket io
 const io = new Server(server, {
   cors: {
-    origin: [process.env.FRONTEND_URL],
+    origin: [process.env.FRONTEND_URL, "http://localhost"],
   },
 });
 

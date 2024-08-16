@@ -4,6 +4,7 @@ import { Review } from "../models/Review.js";
 import { User } from "../models/User.js";
 import { AppError } from "../utils/appError.js";
 import { catchAsync } from "../utils/catchAsync.js";
+import { myCache } from "../server.js";
 
 // GET ALL PRODUCT REVIEWS
 export const getReviews = catchAsync(async (req, res, next) => {
@@ -20,15 +21,28 @@ export const getReviews = catchAsync(async (req, res, next) => {
     return next(new AppError(`Please enter Product ID!`, 404));
   }
 
+  const cacheKey = `product_reviews_${pageNum}`;
+
+  let reviews = [];
+
+  if (myCache.has(cacheKey)) {
+    reviews = JSON.parse(myCache.get(cacheKey));
+    console.log("Cached Product Reviews!");
+  } else {
+    // Fetching product reviews from DB as they don't exist in cache
+    reviews = await Review.find({ productId: trimmedProductId })
+      .skip(pageNum)
+      .limit(pageLimitNum);
+
+    // Storing the newly fetched reviews into the cache
+    myCache.set(cacheKey, JSON.stringify(reviews));
+    console.log("Product Reviews from DB!");
+  }
+
   // Finding all product reviews based on productId
   const totalReviewsCount = await Review.find({
     productId: trimmedProductId,
   }).countDocuments();
-
-  // Getting Product By populating reviews.user field by username. so reviews.user contain (username, _id) properties and not only _id
-  const reviews = await Review.find({ productId: trimmedProductId })
-    .skip(pageNum)
-    .limit(pageLimitNum);
 
   // Sending reviews to client
   res.status(200).json({
@@ -148,6 +162,17 @@ export const createOrUpdateReview = catchAsync(async (req, res, next) => {
 
     // Saving the modified product to DB
     await product.save();
+
+    // Deleting all the product reviews
+    const allKeys = myCache.keys();
+
+    const productReviewKeys = allKeys.filter((key) =>
+      key.includes(`product_reviews`)
+    );
+
+    myCache.del(productReviewKeys);
+
+    console.log("Deleted product reviews from cache: ");
 
     res.status(201).json({
       message: "Review created successfully!",

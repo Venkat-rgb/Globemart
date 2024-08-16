@@ -25,8 +25,6 @@ export const getProducts = catchAsync(async (req, res) => {
     .limitFields()
     .paginate();
 
-  console.log("Final featuresQuery", features.query);
-
   let finalTrimmedProducts = await Product.aggregate(features.query);
 
   res.status(200).json({
@@ -34,32 +32,6 @@ export const getProducts = catchAsync(async (req, res) => {
     totalProductsCount: productsTotalCount > 0 ? productsTotalCount : 0,
   });
 });
-
-// export const getProducts = catchAsync(async (req, res) => {
-//   // Filtering the products
-//   const features = new APIFeatures(Product.find(), req.query)
-//     .search()
-//     .filter()
-//     .sortBy();
-
-//   console.log("features bro: ", features.query);
-
-//   let products = await features.query;
-
-//   const totalProductsCount = products.length;
-//   console.log("totalProductsCount: ", products.length);
-
-//   // Applying pagination and limiting the fields which are to be send to client
-//   features.limitFields().paginate();
-
-//   // Creating copy of features query, so that we can modify it without affecting the actual query
-//   products = await features.query.clone();
-
-//   res.status(200).json({
-//     products,
-//     totalProductsCount,
-//   });
-// });
 
 // GET FEATURED PRODUCTS
 export const getFeaturedProducts = catchAsync(async (req, res) => {
@@ -99,30 +71,6 @@ export const getFeaturedProducts = catchAsync(async (req, res) => {
 
   res.status(200).json({ products });
 });
-
-// export const getFeaturedProducts = catchAsync(async (req, res) => {
-//   let products = [];
-
-//   const cacheKey = "featured_products";
-
-//   // Checking if the products exists in the cache
-//   if (myCache.has(cacheKey)) {
-//     console.log("Cached Featured Products!");
-//     // If exists, then send these products to client without making any request to database
-//     products = JSON.parse(myCache.get(cacheKey));
-//   } else {
-//     // Making request to database as products are not available in cache
-//     products = await Product.find()
-//       .sort({ rating: -1, createdAt: -1 })
-//       .limit(9);
-
-//     // Storing the featured products in cache for future use
-//     myCache.set(cacheKey, JSON.stringify(products));
-//     console.log("Featured Products from DB!");
-//   }
-
-//   res.status(200).json({ products });
-// });
 
 // GET PRODUCTS THROUGH VOICE
 export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
@@ -260,7 +208,11 @@ export const createProduct = catchAsync(async (req, res, next) => {
   await product.save();
 
   // Deleting the featured products cache as we are adding new product
-  const cacheKey = "featured_products";
+  const cacheKey = [
+    "featured_products",
+    `related-products-${product?.category}`,
+  ];
+
   myCache.del(cacheKey);
 
   console.log(`Deleted ${cacheKey} from cache in createProductController`);
@@ -359,7 +311,12 @@ export const updateProduct = catchAsync(async (req, res, next) => {
   }
 
   // Deleting the products from the cache as they are getting updated
-  const cacheKeys = ["featured_products", `product-${id}`];
+  const cacheKeys = [
+    "featured_products",
+    `product-${id}`,
+    `related-products-${modifiedProduct?.category}`,
+  ];
+
   myCache.del(cacheKeys);
 
   console.log(`Deleted ${cacheKeys} from cache in updateProductController`);
@@ -392,7 +349,12 @@ export const deleteProduct = catchAsync(async (req, res, next) => {
   await Review.deleteMany({ productId: id });
 
   // Deleting the products from the cache as they are getting updated
-  const cacheKeys = ["featured_products", `product-${id}`];
+  const cacheKeys = [
+    "featured_products",
+    `product-${id}`,
+    `related-products-${product?.category}`,
+  ];
+
   myCache.del(cacheKeys);
 
   console.log(`Deleted ${cacheKeys} from cache in deleteProductController`);
