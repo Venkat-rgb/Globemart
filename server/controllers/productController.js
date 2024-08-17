@@ -116,14 +116,14 @@ export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
 export const getProduct = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
-  const key = `product-${id}`;
+  const key = `product_${id}`;
 
   let product;
 
   // If product is present in cache we don't make an API call to database
   if (myCache.has(key)) {
     product = JSON.parse(myCache.get(key));
-    console.log(`Cached product: ${id}`);
+    console.log(`Cached Single product: ${id}`);
   } else {
     // Making API call to database as product is not in cache
     product = await Product.findById(id);
@@ -135,7 +135,7 @@ export const getProduct = catchAsync(async (req, res, next) => {
 
     // Setting product in cache for further use
     myCache.set(key, JSON.stringify(product));
-    console.log(`Product from DB: ${id}`);
+    console.log(`Single Product from DB: ${id}`);
   }
 
   res.status(200).json({
@@ -210,7 +210,7 @@ export const createProduct = catchAsync(async (req, res, next) => {
   // Deleting the featured products cache as we are adding new product
   const cacheKey = [
     "featured_products",
-    `related-products-${product?.category}`,
+    `related_products_${product?.category}`,
   ];
 
   myCache.del(cacheKey);
@@ -313,8 +313,8 @@ export const updateProduct = catchAsync(async (req, res, next) => {
   // Deleting the products from the cache as they are getting updated
   const cacheKeys = [
     "featured_products",
-    `product-${id}`,
-    `related-products-${modifiedProduct?.category}`,
+    `product_${id}`,
+    `related_products_${modifiedProduct?.category}`,
   ];
 
   myCache.del(cacheKeys);
@@ -351,8 +351,8 @@ export const deleteProduct = catchAsync(async (req, res, next) => {
   // Deleting the products from the cache as they are getting updated
   const cacheKeys = [
     "featured_products",
-    `product-${id}`,
-    `related-products-${product?.category}`,
+    `product_${id}`,
+    `related_products_${product?.category}`,
   ];
 
   myCache.del(cacheKeys);

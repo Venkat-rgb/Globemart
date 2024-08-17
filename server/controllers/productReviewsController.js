@@ -132,6 +132,17 @@ export const createOrUpdateReview = catchAsync(async (req, res, next) => {
     // Saving the modified review to DB
     await isReviewAlreadyExist.save();
 
+    // Deleting all the product reviews
+    const productReviewKeys = myCache
+      .keys()
+      .filter((key) => key.includes(`product_reviews`));
+
+    console.log("productReviewKeys in updateReviewPart: ", productReviewKeys);
+
+    myCache.del(productReviewKeys);
+
+    console.log("Deleted product reviews from cache in updateReviewPart: ");
+
     res.status(200).json({
       message: "Review updated successfully!",
     });
@@ -164,15 +175,24 @@ export const createOrUpdateReview = catchAsync(async (req, res, next) => {
     await product.save();
 
     // Deleting all the product reviews
-    const allKeys = myCache.keys();
+    let cacheKeys = [
+      `product_${product?._id}`,
+      `featured_products`,
+      `related_products_${product?.category}`,
+    ];
 
-    const productReviewKeys = allKeys.filter((key) =>
-      key.includes(`product_reviews`)
-    );
+    const productReviewKeys = myCache
+      .keys()
+      .filter((key) => key.includes(`product_reviews`));
 
-    myCache.del(productReviewKeys);
+    cacheKeys = cacheKeys.concat(productReviewKeys);
 
-    console.log("Deleted product reviews from cache: ");
+    console.log("cacheKeys: ", cacheKeys);
+    console.log("productReviewKeys in createReviewPart: ", productReviewKeys);
+
+    myCache.del(cacheKeys);
+
+    console.log("Deleted product reviews from cache in createReviewPart: ");
 
     res.status(201).json({
       message: "Review created successfully!",
@@ -236,6 +256,26 @@ export const deleteReview = catchAsync(async (req, res, next) => {
 
   // Saving the updated product to DB
   await product.save();
+
+  // Deleting all the product reviews
+  let cacheKeys = [
+    `product_${product?._id}`,
+    `featured_products`,
+    `related_products_${product?.category}`,
+  ];
+
+  const productReviewKeys = myCache
+    .keys()
+    .filter((key) => key.includes(`product_reviews`));
+
+  cacheKeys = cacheKeys.concat(productReviewKeys);
+
+  console.log("cacheKeys: ", cacheKeys);
+  console.log("productReviewKeys in createReviewPart: ", productReviewKeys);
+
+  myCache.del(cacheKeys);
+
+  console.log("Deleted product reviews from cache in createReviewPart: ");
 
   res.status(200).json({
     message: "Review deleted successfully!",
