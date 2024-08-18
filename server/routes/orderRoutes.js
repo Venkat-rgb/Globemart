@@ -7,7 +7,7 @@ import {
   validateOrder,
   updateOrder,
   updateOrderPayment,
-  // deleteOrder,
+  deleteOrder,
 } from "../controllers/orderController.js";
 import { restrictTo, verifyToken } from "../middlewares/verifyToken.js";
 
@@ -26,7 +26,7 @@ router
   .route("/:id")
   .get(verifyToken, restrictTo("admin"), getOrder)
   .put(verifyToken, restrictTo("admin"), updateOrder)
-  .patch(verifyToken, restrictTo("admin"), updateOrderPayment);
-// .delete(verifyToken, restrictTo("admin"), deleteOrder);
+  .patch(verifyToken, restrictTo("admin"), updateOrderPayment)
+  .delete(verifyToken, restrictTo("admin"), deleteOrder);
 
 export default router;

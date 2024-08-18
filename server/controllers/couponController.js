@@ -1,6 +1,7 @@
 import { Coupon } from "../models/Coupon.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import { AppError } from "../utils/appError.js";
+import { myCache } from "../server.js";
 
 // GET ALL COUPONS (ADMIN)
 export const getAllCoupons = catchAsync(async (req, res) => {
@@ -24,14 +25,26 @@ export const getAllCoupons = catchAsync(async (req, res) => {
 
 // GET SINGLE VALID COUPON
 export const singleValidCoupon = catchAsync(async (req, res, next) => {
-  // Finding active coupon
-  const coupon = await Coupon.findOne({ couponStatus: "active" })
-    .sort("-createdAt")
-    .select("couponCode couponText discount");
+  const cacheKey = `valid_coupon`;
 
-  // If active coupon doesn't exists then returning error to client
-  if (!coupon) {
-    return next(new AppError(`No valid coupon found!`, 404));
+  let coupon;
+
+  if (myCache.has(cacheKey)) {
+    coupon = JSON.parse(myCache.get(cacheKey));
+    console.log("Cached Valid Coupon!");
+  } else {
+    // Finding active coupon
+    coupon = await Coupon.findOne({ couponStatus: "active" })
+      .sort("-createdAt")
+      .select("couponCode couponText discount");
+
+    // If active coupon doesn't exists then returning error to client
+    if (!coupon) {
+      return next(new AppError(`No valid coupon found!`, 404));
+    }
+
+    myCache.set(cacheKey, JSON.stringify(coupon));
+    console.log("Valid Coupon from DB!");
   }
 
   res.status(200).json({
@@ -115,6 +128,12 @@ export const createCoupon = catchAsync(async (req, res, next) => {
 
   // Saving all fields along with couponText to database
   await coupon.save();
+
+  // Invalidating the valid coupon
+  const cacheKey = `valid_coupon`;
+  myCache.del(cacheKey);
+
+  console.log("Deleted Valid coupon cache from createCoupon");
 
   res.status(201).json({
     message: "Coupon code created successfully!",
@@ -214,6 +233,12 @@ export const updateCoupon = catchAsync(async (req, res, next) => {
   // Saving all fields along with updated couponText to database
   await coupon.save();
 
+  // Invalidating the valid coupon
+  const cacheKey = `valid_coupon`;
+  myCache.del(cacheKey);
+
+  console.log("Deleted Valid coupon cache from updateCoupon");
+
   res.status(200).json({
     message: "Coupon code updated successfully!",
   });
@@ -230,6 +255,12 @@ export const deleteCoupon = catchAsync(async (req, res, next) => {
   if (!deletedCoupon) {
     return next(new AppError("Coupon does not exist!", 404));
   }
+
+  // Invalidating the valid coupon
+  const cacheKey = `valid_coupon`;
+  myCache.del(cacheKey);
+
+  console.log("Deleted Valid coupon cache from deleteCoupon");
 
   res.status(200).json({
     message: "Coupon code deleted successfully!",

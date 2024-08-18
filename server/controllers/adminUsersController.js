@@ -28,7 +28,7 @@ export const getUser = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
   let user;
-  const cacheKey = `user-${id}`;
+  const cacheKey = `user_${id}`;
 
   // Check if user already exists in the cache
   if (myCache.has(cacheKey)) {
@@ -71,7 +71,7 @@ export const updateUser = catchAsync(async (req, res, next) => {
   if (!user) return next(new AppError(`User does not exist!`, 404));
 
   // Deleting the user from cache
-  const cacheKey = `user-${id}`;
+  const cacheKey = `user_${id}`;
   myCache.del(cacheKey);
 
   console.log(`Deleting user from cache in updateUser: ${id}`);
@@ -103,7 +103,7 @@ export const deleteUser = catchAsync(async (req, res, next) => {
   await User.findByIdAndDelete(id);
 
   // Deleting the user from cache
-  const cacheKey = `user-${id}`;
+  const cacheKey = `user_${id}`;
   myCache.del(cacheKey);
   console.log(`Deleting user from cache in deleteUser: ${id}`);
 

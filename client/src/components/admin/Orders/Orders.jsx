@@ -2,11 +2,15 @@ import MetaData from "../../MetaData";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import Layout from "../Layout";
-import { useGetAllOrdersQuery } from "../../../redux/features/order/orderApiSlice";
+import {
+  useDeleteOrderMutation,
+  useGetAllOrdersQuery,
+} from "../../../redux/features/order/orderApiSlice";
 import Loader from "../../UI/Loader";
 import { getOrdersColumns } from "../../../utils/dashboard/tableColumns/getOrdersColumns";
 import ErrorUI from "../../UI/ErrorUI";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const Orders = () => {
   const [paginationModel, setPaginationModel] = useState({
@@ -21,6 +25,18 @@ const Orders = () => {
     isFetching: isOrdersDataFetching,
     isError: ordersDataError,
   } = useGetAllOrdersQuery(paginationModel.page);
+
+  const [deleteOrder, { isLoading: isOrderDeleting }] =
+    useDeleteOrderMutation();
+
+  const deleteOrderHandler = async (orderId) => {
+    try {
+      const deleteOrderRes = await deleteOrder(orderId).unwrap();
+      toast.success(deleteOrderRes?.message);
+    } catch (err) {
+      toast.error(err?.message || err?.data?.message);
+    }
+  };
 
   // Displaying Loader while ordersData is loading
   if (isOrdersDataLoading) {
@@ -59,7 +75,12 @@ const Orders = () => {
             }}
             rows={ordersData?.orders}
             getRowId={(row) => row?._id}
-            columns={getOrdersColumns("Orders", [280, 300, 250, 200])}
+            columns={getOrdersColumns(
+              "Orders",
+              [280, 300, 250, 200],
+              deleteOrderHandler,
+              isOrderDeleting
+            )}
             loading={isOrdersDataFetching}
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}

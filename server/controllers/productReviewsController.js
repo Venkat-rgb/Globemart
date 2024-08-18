@@ -275,7 +275,7 @@ export const deleteReview = catchAsync(async (req, res, next) => {
 
   myCache.del(cacheKeys);
 
-  console.log("Deleted product reviews from cache in createReviewPart: ");
+  console.log("Deleted product reviews from cache in deleteReviewPart: ");
 
   res.status(200).json({
     message: "Review deleted successfully!",

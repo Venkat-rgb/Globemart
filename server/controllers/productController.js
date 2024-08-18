@@ -116,13 +116,13 @@ export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
 export const getProduct = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
-  const key = `product_${id}`;
+  const cacheKey = `product_${id}`;
 
   let product;
 
   // If product is present in cache we don't make an API call to database
-  if (myCache.has(key)) {
-    product = JSON.parse(myCache.get(key));
+  if (myCache.has(cacheKey)) {
+    product = JSON.parse(myCache.get(cacheKey));
     console.log(`Cached Single product: ${id}`);
   } else {
     // Making API call to database as product is not in cache
@@ -134,7 +134,7 @@ export const getProduct = catchAsync(async (req, res, next) => {
     }
 
     // Setting product in cache for further use
-    myCache.set(key, JSON.stringify(product));
+    myCache.set(cacheKey, JSON.stringify(product));
     console.log(`Single Product from DB: ${id}`);
   }
 

@@ -2,7 +2,12 @@ import RowActions from "../../../components/UI/RowActions";
 import StatusStyle from "../../../components/UI/StatusStyle";
 
 // Table columns for Managing Orders
-export const getOrdersColumns = (placeOfUse, widthSizes) => {
+export const getOrdersColumns = (
+  placeOfUse,
+  widthSizes,
+  deleteOrderHandler,
+  isOrderDeleting
+) => {
   const columns = [
     {
       field: "_id",
@@ -47,9 +52,10 @@ export const getOrdersColumns = (placeOfUse, widthSizes) => {
         return (
           <RowActions
             size="small"
+            deleteHandler={deleteOrderHandler}
             route="/admin/order/update"
             id={params?.row?._id}
-            placeOfUse="Orders"
+            isLoading={isOrderDeleting}
           />
         );
       },

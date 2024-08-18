@@ -11,7 +11,6 @@ const RowActions = ({
   route,
   id,
   isLoading = false,
-  placeOfUse,
 }) => {
   return (
     <div className="flex items-center gap-2">
@@ -25,13 +24,11 @@ const RowActions = ({
       </Tooltip>
 
       {/* Delete Button which will delete the specific row based on 'id' */}
-      {placeOfUse !== "Orders" && (
-        <Tooltip title="Delete" arrow TransitionComponent={Zoom}>
-          <IconButton onClick={() => deleteHandler(id)} disabled={isLoading}>
-            <DeleteIcon fontSize={size} />
-          </IconButton>
-        </Tooltip>
-      )}
+      <Tooltip title="Delete" arrow TransitionComponent={Zoom}>
+        <IconButton onClick={() => deleteHandler(id)} disabled={isLoading}>
+          <DeleteIcon fontSize={size} />
+        </IconButton>
+      </Tooltip>
     </div>
   );
 };

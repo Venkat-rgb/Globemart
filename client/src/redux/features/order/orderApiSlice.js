@@ -53,13 +53,13 @@ export const orderApiSlice = ecommerceApi.injectEndpoints({
       invalidatesTags: ["Order", "Stats"],
     }),
 
-    // deleteOrder: builder.mutation({
-    //   query: (orderId) => ({
-    //     url: `/orders/${orderId}`,
-    //     method: "DELETE",
-    //   }),
-    //   invalidatesTags: ["Order", "Stats"],
-    // }),
+    deleteOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `/orders/${orderId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Order", "Stats"],
+    }),
   }),
   overrideExisting: false,
 });

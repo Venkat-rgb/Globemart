@@ -1,6 +1,7 @@
 import schedule from "node-schedule";
 import { Coupon } from "../../models/Coupon.js";
 import { getNumOfDaysLeft } from "../getNumOfDaysLeft.js";
+import { myCache } from "../../server.js";
 
 // Marking all the 'inactive' coupons as 'active'
 const checkInactiveCoupons = async () => {
@@ -37,6 +38,10 @@ const checkInactiveCoupons = async () => {
         await coupon.save();
       }
     });
+
+    // Invalidating the valid coupon
+    const cacheKey = `valid_coupon`;
+    myCache.del(cacheKey);
   } catch (err) {
     console.error(
       "Error in changing status from inactive to active coupons handler: ",
@@ -83,6 +88,10 @@ const checkActiveCoupons = async () => {
       // Saving updated fields in database
       await coupon.save();
     });
+
+    // Invalidating the valid coupon
+    const cacheKey = `valid_coupon`;
+    myCache.del(cacheKey);
   } catch (err) {
     console.error("Error in Expiring of coupons handler: ", err?.message);
   }

@@ -1,15 +1,45 @@
 import { Address } from "../models/Address.js";
 import { catchAsync } from "../utils/catchAsync.js";
+import { myCache } from "../server.js";
+import { AppError } from "../utils/appError.js";
 
-export const getAddress = catchAsync(async (req, res) => {
-  // Getting customer address
-  const address = await Address.findOne({
-    "customer.customerId": req.user._id,
-  });
+// GET USER ADDRESS
+export const getAddress = catchAsync(async (req, res, next) => {
+  const cacheKey = `user_address_${req.user._id}`;
+
+  let address;
+
+  if (myCache.has(cacheKey)) {
+    address = JSON.parse(myCache.get(cacheKey));
+    console.log("Cached User Address!");
+  } else {
+    // Getting customer address
+    address = await Address.findOne({
+      "customer.customerId": req.user._id,
+    });
+
+    if (!address) {
+      return next(new AppError(`User address not found!`, 404));
+    }
+
+    myCache.set(cacheKey, JSON.stringify(address));
+
+    console.log("User Address from DB!");
+  }
 
   res.status(200).json({ address });
 });
 
+// export const getAddress = catchAsync(async (req, res) => {
+//   // Getting customer address
+//   const address = await Address.findOne({
+//     "customer.customerId": req.user._id,
+//   });
+
+//   res.status(200).json({ address });
+// });
+
+// CREATE (OR) UPDATE USER ADDRESS
 export const createOrUpdateAddress = catchAsync(async (req, res) => {
   // Getting customer address
   const doesAddressExists = await Address.findOne({
@@ -32,6 +62,12 @@ export const createOrUpdateAddress = catchAsync(async (req, res) => {
       }
     );
   }
+
+  // Deleting the user address cache
+  const cacheKey = `user_address_${req.user._id}`;
+  myCache.del(cacheKey);
+
+  console.log("Deleted User Address cache from createOrUpdateAddress");
 
   res.status(200).json({ addressId: address?._id });
 });
