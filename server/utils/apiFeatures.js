@@ -82,7 +82,14 @@ export class APIFeatures {
     // here we only handle normal queries and not page, sort, limit and fields as we are handling them separately.
     const queryObj = JSON.parse(JSON.stringify(this.queryStr));
 
-    const excludedFields = ["page", "sort", "limit", "fields", "search"];
+    const excludedFields = [
+      "page",
+      "sort",
+      "limit",
+      "fields",
+      "search",
+      "placeOfUse",
+    ];
     excludedFields.forEach((field) => delete queryObj[field]);
 
     // console.log("Before QueryObj: ", queryObj);
@@ -98,6 +105,7 @@ export class APIFeatures {
       "discount",
     ];
 
+    // Converting the numbers present in string format to actual number format
     for (let item in queryObj) {
       if (fieldsOfTypeNum.includes(item)) {
         const fieldFilters = queryObj[item];

@@ -185,6 +185,10 @@ export const createOrUpdateReview = catchAsync(async (req, res, next) => {
       .keys()
       .filter((key) => key.includes(`product_reviews`));
 
+    // const userWishlistKeys = myCache
+    //   .keys()
+    //   .filter((key) => key.includes(`user_wishlist`));
+
     cacheKeys = cacheKeys.concat(productReviewKeys);
 
     console.log("cacheKeys: ", cacheKeys);

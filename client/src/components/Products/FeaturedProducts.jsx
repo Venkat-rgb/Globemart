@@ -35,6 +35,7 @@ const FeaturedProducts = ({ featuredProductsRef }) => {
     });
 
   console.log("Featured Products bro: ", productsData);
+  console.log("Wishlist Products bro: ", wishlistData);
 
   return (
     <section className="space-y-10" ref={featuredProductsRef}>

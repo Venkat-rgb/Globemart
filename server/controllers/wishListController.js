@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { WishList } from "../models/WishList.js";
 import { AppError } from "../utils/appError.js";
 import { catchAsync } from "../utils/catchAsync.js";
+import { myCache } from "../server.js";
 
 // GETTING USER WISHLIST
 export const getWishList = catchAsync(async (req, res, next) => {
@@ -29,8 +30,44 @@ export const getWishList = catchAsync(async (req, res, next) => {
   const pageLimit = +page > 0 ? 9 : wishlistProductsCount[0]?.productsCount;
   const skipQty = +page > 0 ? (+page - 1) * pageLimit : 0;
 
+  const cacheKey = [
+    `user_wishlist_${req.user._id}_${+page ? page : 0}`,
+    `user_wishlist_${req.user._id}_full`,
+  ];
+
+  let paginatedWishlistProducts = [];
+
+  if (page) {
+    // Checking for paginated wishlist in the cache as page is provided
+    if (myCache.has(cacheKey[0])) {
+      paginatedWishlistProducts = JSON.parse(myCache.get(cacheKey[0]));
+
+      console.log("Cached wishlist data page is provided!");
+
+      // Sending the cached paginated wishlist to the client
+      return res.status(200).json({
+        wishList: paginatedWishlistProducts,
+        totalWishlistCount: wishlistProductsCount[0]?.productsCount,
+      });
+    }
+  } else {
+    // Checking for total wishlist in the cache as page is not provided
+    if (myCache.has(cacheKey[1])) {
+      paginatedWishlistProducts = JSON.parse(myCache.get(cacheKey[1]));
+
+      console.log("Cached wishlist data page is not provided!");
+
+      // Sending the cached total wishlist to the client
+      return res.status(200).json({
+        wishList: paginatedWishlistProducts,
+        totalWishlistCount: wishlistProductsCount[0]?.productsCount,
+      });
+    }
+  }
+
+  // Fetching wishlist as it is not present in the cache
   // Using aggregation inorder to fetch only 9 products and only first product  image in images array
-  let paginatedWishlistProducts = await WishList.aggregate([
+  paginatedWishlistProducts = await WishList.aggregate([
     {
       $match: { user: req.user._id },
     },
@@ -71,6 +108,16 @@ export const getWishList = catchAsync(async (req, res, next) => {
     },
   ]);
 
+  // Caching the wishlist for future use
+  myCache.set(
+    cacheKey[+page ? 0 : 1],
+    JSON.stringify(paginatedWishlistProducts)
+  );
+
+  console.log(
+    `Caching wishlist data for page:${cacheKey[+page ? 0 : 1]} for further use!`
+  );
+
   res.status(200).json({
     wishList: paginatedWishlistProducts,
     totalWishlistCount: wishlistProductsCount[0]?.productsCount,
@@ -91,6 +138,12 @@ export const createOrUpdateWishList = catchAsync(async (req, res, next) => {
   const isWishListExists = await WishList.findOne({
     user: req.user._id,
   }).select("-createdAt -updatedAt");
+
+  const filteredKeys = myCache
+    .keys()
+    .filter((key) => key.includes(`user_wishlist_${req.user._id}`));
+
+  console.log("filteredKeys in createOrUpdateWishlist: ", filteredKeys);
 
   // If wishlist is already present
   if (isWishListExists) {
@@ -114,6 +167,11 @@ export const createOrUpdateWishList = catchAsync(async (req, res, next) => {
       // Saving the updated wishlist to the DB
       await isWishListExists.save();
 
+      // Invalidating the user wishlist cache as wishlist is updated
+      myCache.del(filteredKeys);
+
+      console.log(`Deleted user wishlist from update part!`);
+
       res.status(200).json({
         message: `Product added to wishlist successfully!`,
       });
@@ -124,6 +182,11 @@ export const createOrUpdateWishList = catchAsync(async (req, res, next) => {
       user: req.user._id,
       products: [{ product: trimmedProductId }],
     });
+
+    // Invaliting the user wishlist cache as wishlist is created
+    myCache.del(filteredKeys);
+
+    console.log(`Deleted user wishlist from create part!`);
 
     res.status(201).json({
       message: `Product added to wishlist successfully!`,
@@ -169,6 +232,17 @@ export const deleteProductFromWishList = catchAsync(async (req, res, next) => {
     { new: true }
   );
 
+  // Invalidating wishlist cache as product is deleted from wishlist
+  const filteredKeys = myCache
+    .keys()
+    .filter((key) => key.includes(`user_wishlist_${req.user._id}`));
+
+  console.log("filteredKeys in deleteProductFromWishList: ", filteredKeys);
+
+  myCache.del(filteredKeys);
+
+  console.log(`Deleted single product from user wishlist!`);
+
   res.status(200).json({
     message: `Product deleted successfully from Wishlist!`,
   });
@@ -189,6 +263,17 @@ export const deleteWishList = catchAsync(async (req, res, next) => {
       new AppError(`Wishlist is empty, please add some products!`, 400)
     );
   }
+
+  // Invalidating wishlist cache as wishlist has become empty
+  const filteredKeys = myCache
+    .keys()
+    .filter((key) => key.includes(`user_wishlist_${req.user._id}`));
+
+  myCache.del(filteredKeys);
+
+  console.log("filteredKeys in deleteWishList: ", filteredKeys);
+
+  console.log(`Deleted all products from user wishlist!`);
 
   res.status(200).json({
     message: `Products deleted from wishlist successfully!`,

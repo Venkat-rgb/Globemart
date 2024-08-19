@@ -27,7 +27,7 @@ const RelatedProducts = ({
     triggerOnce: true,
   });
 
-  const filters = `?category=${productCategory}&fields=title,price,numOfReviews,rating,discount,discountPrice`;
+  const filters = `?category=${productCategory}&fields=title,price,numOfReviews,rating,discount,discountPrice&placeOfUse=related_products`;
 
   // Fetching Related Products data only when productCategory and isIntersecting are present
   const {
@@ -58,6 +58,8 @@ const RelatedProducts = ({
   } else if (matches2) {
     numOfSlidesToDisplay = 2;
   }
+
+  console.log("Related Products: ", productsData);
 
   return (
     // Showing related products only if they are present

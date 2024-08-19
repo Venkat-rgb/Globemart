@@ -14,24 +14,75 @@ export const getProducts = catchAsync(async (req, res) => {
   // Filtering the products
   let features = new APIFeatures([], req.query).search().filter().sortBy();
 
-  let products = await Product.aggregate([
+  let countOfProducts = await Product.aggregate([
     ...features.query,
     { $count: "productsCount" },
   ]);
 
-  const productsTotalCount = products[0]?.productsCount;
+  const productsTotalCount = countOfProducts[0]?.productsCount;
 
   features = new APIFeatures(features.query, req.query)
     .limitFields()
     .paginate();
 
-  let finalTrimmedProducts = await Product.aggregate(features.query);
+  let finalTrimmedProducts = [];
+  const cacheKey = `related_products_${req.query?.category}`;
+
+  // Used placeOfUse parameter for caching related products
+  if (req.query?.placeOfUse === "related_products") {
+    if (myCache.has(cacheKey)) {
+      finalTrimmedProducts = JSON.parse(myCache.get(cacheKey));
+      console.log(
+        `Cached Related Products of category: ${req.query?.category}`
+      );
+
+      // Returning cached related products
+      return res.status(200).json({
+        products: finalTrimmedProducts,
+        totalProductsCount: productsTotalCount > 0 ? productsTotalCount : 0,
+      });
+    }
+  }
+
+  finalTrimmedProducts = await Product.aggregate(features.query);
+
+  // Storing related_products in cache for future use
+  if (req.query?.placeOfUse === "related_products") {
+    myCache.set(cacheKey, JSON.stringify(finalTrimmedProducts));
+
+    console.log(
+      `Caching Related Products of category: ${req.query?.category} for future use!`
+    );
+  }
 
   res.status(200).json({
     products: finalTrimmedProducts,
     totalProductsCount: productsTotalCount > 0 ? productsTotalCount : 0,
   });
 });
+
+// export const getProducts = catchAsync(async (req, res) => {
+//   // Filtering the products
+//   let features = new APIFeatures([], req.query).search().filter().sortBy();
+
+//   let products = await Product.aggregate([
+//     ...features.query,
+//     { $count: "productsCount" },
+//   ]);
+
+//   const productsTotalCount = products[0]?.productsCount;
+
+//   features = new APIFeatures(features.query, req.query)
+//     .limitFields()
+//     .paginate();
+
+//   let finalTrimmedProducts = await Product.aggregate(features.query);
+
+//   res.status(200).json({
+//     products: finalTrimmedProducts,
+//     totalProductsCount: productsTotalCount > 0 ? productsTotalCount : 0,
+//   });
+// });
 
 // GET FEATURED PRODUCTS
 export const getFeaturedProducts = catchAsync(async (req, res) => {
@@ -311,11 +362,17 @@ export const updateProduct = catchAsync(async (req, res, next) => {
   }
 
   // Deleting the products from the cache as they are getting updated
-  const cacheKeys = [
+  let cacheKeys = [
     "featured_products",
     `product_${id}`,
     `related_products_${modifiedProduct?.category}`,
   ];
+
+  const filteredKeys = myCache
+    .keys()
+    .filter((key) => key.includes(`user_wishlist`));
+
+  cacheKeys = cacheKeys.concat(filteredKeys);
 
   myCache.del(cacheKeys);
 
@@ -349,11 +406,17 @@ export const deleteProduct = catchAsync(async (req, res, next) => {
   await Review.deleteMany({ productId: id });
 
   // Deleting the products from the cache as they are getting updated
-  const cacheKeys = [
+  let cacheKeys = [
     "featured_products",
     `product_${id}`,
     `related_products_${product?.category}`,
   ];
+
+  const filteredKeys = myCache
+    .keys()
+    .filter((key) => key.includes(`user_wishlist`));
+
+  cacheKeys = cacheKeys.concat(filteredKeys);
 
   myCache.del(cacheKeys);
 
