@@ -282,7 +282,7 @@ export const updateOrder = catchAsync(async (req, res, next) => {
   await order.save();
 
   // Deleting user orders from cache
-  const cacheKey = `user_orders_${order.user.customerId}`;
+  const cacheKey = `user_orders_${order?.user?.customerId}`;
 
   const ordersToBeRemovedFromCache = myCache
     .keys()
@@ -296,7 +296,7 @@ export const updateOrder = catchAsync(async (req, res, next) => {
   myCache.del(ordersToBeRemovedFromCache);
 
   console.log(
-    `Orders of ${order.user.customerId} has been removed from the cache`
+    `Orders of ${order?.user?.customerId} has been removed from the cache`
   );
 
   res.status(200).json({
@@ -325,7 +325,7 @@ export const updateOrderPayment = catchAsync(async (req, res, next) => {
   await order.save();
 
   // Deleting user orders from cache
-  const cacheKey = `user_orders_${order.user.customerId}`;
+  const cacheKey = `user_orders_${order?.user?.customerId}`;
 
   const ordersToBeRemovedFromCache = myCache
     .keys()
@@ -339,7 +339,7 @@ export const updateOrderPayment = catchAsync(async (req, res, next) => {
   myCache.del(ordersToBeRemovedFromCache);
 
   console.log(
-    `Orders of ${order.user.customerId} has been removed from the cache`
+    `Orders of ${order?.user?.customerId} has been removed from the cache`
   );
 
   res.status(200).json({
@@ -360,7 +360,7 @@ export const deleteOrder = catchAsync(async (req, res, next) => {
   if (!order) return next(new AppError(`Order does not exist!`, 400));
 
   // Deleting user orders from cache
-  const cacheKey = `user_orders_${order.user.customerId}`;
+  const cacheKey = `user_orders_${order?.user?.customerId}`;
 
   const ordersToBeRemovedFromCache = myCache
     .keys()
@@ -374,7 +374,7 @@ export const deleteOrder = catchAsync(async (req, res, next) => {
   myCache.del(ordersToBeRemovedFromCache);
 
   console.log(
-    `Orders of ${order.user.customerId} has been removed from the cache`
+    `Orders of ${order?.user?.customerId} has been removed from the cache`
   );
 
   res.status(200).json({

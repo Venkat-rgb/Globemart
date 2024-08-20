@@ -21,7 +21,7 @@ export const getReviews = catchAsync(async (req, res, next) => {
     return next(new AppError(`Please enter Product ID!`, 404));
   }
 
-  const cacheKey = `product_reviews_${pageNum}`;
+  const cacheKey = `product_reviews_${trimmedProductId}_${pageNum}`;
 
   let reviews = [];
 
@@ -135,7 +135,7 @@ export const createOrUpdateReview = catchAsync(async (req, res, next) => {
     // Deleting all the product reviews
     const productReviewKeys = myCache
       .keys()
-      .filter((key) => key.includes(`product_reviews`));
+      .filter((key) => key.includes(`product_reviews_${trimmedProductId}`));
 
     console.log("productReviewKeys in updateReviewPart: ", productReviewKeys);
 
@@ -174,25 +174,28 @@ export const createOrUpdateReview = catchAsync(async (req, res, next) => {
     // Saving the modified product to DB
     await product.save();
 
-    // Deleting all the product reviews
+    // Gathering all the keys which are to be deleted from the cache as product review has been created
     let cacheKeys = [
       `product_${product?._id}`,
       `featured_products`,
       `related_products_${product?.category}`,
     ];
 
-    const productReviewKeys = myCache
+    const reviewAndWishlistKeys = myCache
       .keys()
-      .filter((key) => key.includes(`product_reviews`));
+      .filter(
+        (key) =>
+          key.includes(`product_reviews_${product?._id}`) ||
+          key.includes(`user_wishlist`)
+      );
 
-    // const userWishlistKeys = myCache
-    //   .keys()
-    //   .filter((key) => key.includes(`user_wishlist`));
-
-    cacheKeys = cacheKeys.concat(productReviewKeys);
+    cacheKeys = cacheKeys.concat(reviewAndWishlistKeys);
 
     console.log("cacheKeys: ", cacheKeys);
-    console.log("productReviewKeys in createReviewPart: ", productReviewKeys);
+    console.log(
+      "reviewAndWishlistKeys in createReviewPart: ",
+      reviewAndWishlistKeys
+    );
 
     myCache.del(cacheKeys);
 
@@ -261,21 +264,28 @@ export const deleteReview = catchAsync(async (req, res, next) => {
   // Saving the updated product to DB
   await product.save();
 
-  // Deleting all the product reviews
+  // Gathering all the keys which are to be deleted from the cache as product review has been deleted
   let cacheKeys = [
     `product_${product?._id}`,
     `featured_products`,
     `related_products_${product?.category}`,
   ];
 
-  const productReviewKeys = myCache
+  const reviewAndWishlistKeys = myCache
     .keys()
-    .filter((key) => key.includes(`product_reviews`));
+    .filter(
+      (key) =>
+        key.includes(`product_reviews_${product?._id}`) ||
+        key.includes(`user_wishlist`)
+    );
 
-  cacheKeys = cacheKeys.concat(productReviewKeys);
+  cacheKeys = cacheKeys.concat(reviewAndWishlistKeys);
 
   console.log("cacheKeys: ", cacheKeys);
-  console.log("productReviewKeys in createReviewPart: ", productReviewKeys);
+  console.log(
+    "reviewAndWishlistKeys in deleteReviewPart: ",
+    reviewAndWishlistKeys
+  );
 
   myCache.del(cacheKeys);
 
