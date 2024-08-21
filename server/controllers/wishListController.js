@@ -30,6 +30,7 @@ export const getWishList = catchAsync(async (req, res, next) => {
   const pageLimit = +page > 0 ? 9 : wishlistProductsCount[0]?.productsCount;
   const skipQty = +page > 0 ? (+page - 1) * pageLimit : 0;
 
+  // All the cache keys that are to be removed from the cache
   const cacheKey = [
     `user_wishlist_${req.user._id}_${+page ? page : 0}`,
     `user_wishlist_${req.user._id}_full`,
@@ -37,6 +38,7 @@ export const getWishList = catchAsync(async (req, res, next) => {
 
   let paginatedWishlistProducts = [];
 
+  // Caching the wishlist page wise if page number is provided
   if (page) {
     // Checking for paginated wishlist in the cache as page is provided
     if (myCache.has(cacheKey[0])) {
