@@ -264,6 +264,7 @@ export const createProduct = catchAsync(async (req, res, next) => {
     `related_products_${product?.category}`,
   ];
 
+  // Deleting the products cache.
   myCache.del(cacheKey);
 
   console.log(`Deleted ${cacheKey} from cache in createProductController`);
@@ -368,6 +369,7 @@ export const updateProduct = catchAsync(async (req, res, next) => {
     `related_products_${modifiedProduct?.category}`,
   ];
 
+  // Deleting user wishlist from the cache
   const filteredKeys = myCache
     .keys()
     .filter((key) => key.includes(`user_wishlist`));
@@ -412,6 +414,7 @@ export const deleteProduct = catchAsync(async (req, res, next) => {
     `related_products_${product?.category}`,
   ];
 
+  // Deleting the user wishlist from the cache
   const filteredKeys = myCache
     .keys()
     .filter((key) => key.includes(`user_wishlist`));
