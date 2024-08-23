@@ -1,7 +1,7 @@
 # Globemart Images
 
 ## Login Page
-![Login](https://github.com/user-attachments/assets/e602f8ee-68f9-43c5-98f6-c173e5c14fa1)
+![Login](https://github.com/user-attachments/assets/942c55c3-ab60-4120-9faf-7710a266419b)
 
 ## SignUp Page
 ![Signup](https://github.com/user-attachments/assets/d45c50ab-7c98-40f2-aa97-b331baeeabdf)
