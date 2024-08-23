@@ -48,6 +48,9 @@
 ## Nearby Stores Page
 ![Nearby Stores](https://github.com/user-attachments/assets/64f01cb4-89a3-4514-ac73-725e75fc0401)
 
+## Customer's Wishlist Page
+![Wishlist main](https://github.com/user-attachments/assets/3000266c-654a-48f3-a826-5746f9b708e6)
+
 ## Cart Page
 ![Cart](https://github.com/user-attachments/assets/e56565cd-daa4-497b-aa81-2d706ae43a8f)
 
@@ -113,3 +116,6 @@
 
 ## Product Reviews Management Page (Dashboard)
 ![Dashboard Reviews](https://github.com/user-attachments/assets/8496be5b-5f92-484b-87e0-e9b358e9f836)
+
+## 404 (Not Found) Page
+![404](https://github.com/user-attachments/assets/fa91b1ab-046b-4b3e-863e-47d2ae716186)
