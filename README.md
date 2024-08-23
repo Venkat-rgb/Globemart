@@ -19,15 +19,37 @@
 ![All Products](https://github.com/user-attachments/assets/804453af-3154-4af6-9697-8df9965c5745)
 
 ## Single Product Page
-![Single Product](https://github.com/user-attachments/assets/a4ed2f55-513b-40bd-8bea-4f7415a69e89)
+![Single Product](https://github.com/user-attachments/assets/5fda93c8-672f-436e-b617-fc4279725e40)
 
 ## Single Product Description Section
-![Description](https://github.com/user-attachments/assets/9a1c3f31-9186-497d-95f7-f9df7a11514e)
+![Product Description main](https://github.com/user-attachments/assets/ac40d768-3a22-4688-82dd-1636522b7fb4)
 
 ## Product Reviews Section
 ![Reviews](https://github.com/user-attachments/assets/a2da4a9e-2787-4450-8f9b-2b2aada71e54)
 
 ## Related Products Section
+![Related Products](https://github.com/user-attachments/assets/e7323b23-4013-423e-b61d-3e66b3337f92)
+
+## Nearby Stores Page
+![Nearby Stores](https://github.com/user-attachments/assets/64f01cb4-89a3-4514-ac73-725e75fc0401)
+
+## Cart Page
+![Cart](https://github.com/user-attachments/assets/e56565cd-daa4-497b-aa81-2d706ae43a8f)
+
+## Order Page
+![Single Customer Order](https://github.com/user-attachments/assets/0ee110be-b32f-4333-8e8f-bed8da0e5c54)
+
+## Payment Page
+![Payment](https://github.com/user-attachments/assets/64a1fe43-3fc1-4643-b6ae-dcda1874d398)
+
+## Payment Successful Page
+![Payment Successful](https://github.com/user-attachments/assets/f279a9df-7e80-45a9-bd64-f0e72eab2482)
+
+## Payment Failed Page
+
+
+## Order Invoice sent to user's Gmail 
+![Invoice Email](https://github.com/user-attachments/assets/ae5533fe-979d-4038-9f5d-2449df3f8bb0)
 
 
 ## Forgot Password Page
