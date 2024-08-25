@@ -137,6 +137,7 @@ export const createOrUpdateWishList = catchAsync(async (req, res, next) => {
     return next(new AppError(`Please enter valid Product ID!`, 400));
   }
 
+  // Checking if the wishlist is found (or) not
   const isWishListExists = await WishList.findOne({
     user: req.user._id,
   }).select("-createdAt -updatedAt");
@@ -207,10 +208,12 @@ export const deleteProductFromWishList = catchAsync(async (req, res, next) => {
     return next(new AppError(`Please enter a valid product ID!`, 400));
   }
 
+  // Findingf if wishlist is present (or) not
   const wishList = await WishList.findOne({ user: req.user._id }).select(
     "-createdAt -updatedAt"
   );
 
+  // If wishlist is not present then returning the wishlist empty error.
   if (!wishList) {
     return next(
       new AppError(`Wishlist is empty, please add some products!`, 400)

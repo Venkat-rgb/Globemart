@@ -84,7 +84,7 @@ const Profile = () => {
       <div className="max-w-2xl mx-auto space-y-5 flex items-center flex-col font-inter pb-10 px-4">
         <div className="grid grid-cols-2 max-[640px]:grid-cols-1 w-full gap-4">
           {/* Showing errorMsg, if an error occured during fetching profile data */}
-          {(profileDataError || customerAddressError) && (
+          {profileDataError && (
             <ErrorUI message="Unable to fetch profile data!" />
           )}
 

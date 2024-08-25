@@ -111,7 +111,7 @@ export const orderInvoiceTemplate = (invoiceInfo) => {
         </p>
       </div>
       <p style="text-align: center; margin-top: 3rem; font-size: 1.4rem">
-          Thanks for shopping on Ecommercy, visit again!
+          Thanks for shopping on Globemart, visit again!
       </p>
     </div>
   </body>
