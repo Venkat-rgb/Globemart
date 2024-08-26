@@ -27,7 +27,7 @@
 ## Search Products Page
 ![Search Products Normal](https://github.com/user-attachments/assets/e5cd1263-dc6f-490f-8f7f-bc6e5a0f7d91)
 
-## Search Products using voice (output products of customer's voice are below)
+## Search Products using voice (products for customer's voice query are below)
 ![Voice search](https://github.com/user-attachments/assets/cc3b669b-862e-4841-abf2-dbf477aa2b55)
 
 ## Products requested by the customer through their voice
@@ -63,8 +63,11 @@
 ## Payment Successful Page
 ![Payment Successful](https://github.com/user-attachments/assets/f279a9df-7e80-45a9-bd64-f0e72eab2482)
 
-## Order Invoice sent to user's Gmail 
+## Order Invoice sent to user's Gmail (For online payment) 
 ![Invoice Email](https://github.com/user-attachments/assets/ae5533fe-979d-4038-9f5d-2449df3f8bb0)
+
+## Order Invoice sent to user's Gmail (For offline payment)
+![Cash on delivery order invoice (main)](https://github.com/user-attachments/assets/a5f51fe8-ffc7-4854-800b-18c5741815f8)
 
 ## Payment Failed Page
 ![Payment Failed](https://github.com/user-attachments/assets/77f3a818-cb98-4a75-90ff-eb68a7911145)
@@ -102,8 +105,11 @@
 ## Customer Orders Management Page (Dashboard) 
 ![Dashboard Orders](https://github.com/user-attachments/assets/35307848-18b6-470d-ba97-514df13c04f7)
 
-## Edit Customer Order Page (Dashboard)
+## Edit Customer's Order Page (Online Payment - Stripe) (Dashboard)
 ![Dashboard Order Delivered ](https://github.com/user-attachments/assets/c8dd5916-8543-446c-b4ad-c9a65bcf1682)
+
+## Edit Customer's Order Page (Offline Payment - Cash on delivery) (Dashboard) 
+![Mark order as paid](https://github.com/user-attachments/assets/a310c5bf-7340-42dc-b112-da2802ef2ce1)
 
 ## User Management Page (Dashboard)
 ![Dashboard Users](https://github.com/user-attachments/assets/9c83faf4-c0ed-4bd5-9bed-31ebeca0ca11)
