@@ -6,6 +6,9 @@
 ## SignUp Page
 ![Signup](https://github.com/user-attachments/assets/d45c50ab-7c98-40f2-aa97-b331baeeabdf)
 
+## Rate Limiting the Login Attempts
+![Rate limit](https://github.com/user-attachments/assets/4bd5cca1-f087-4c8f-84ad-73370923794c)
+
 ## Forgot Password Page
 ![Forgot Password](https://github.com/user-attachments/assets/92dbf233-2c49-4490-85dc-46defc13ba49)
 
