@@ -12,6 +12,9 @@
 ## Forgot Password Page
 ![Forgot Password](https://github.com/user-attachments/assets/92dbf233-2c49-4490-85dc-46defc13ba49)
 
+## Reset token sent to customer's Gmail
+![reset token](https://github.com/user-attachments/assets/53d36a2b-e7a9-4275-ba01-5b9f155eeea5)
+
 ## Reset Password Page
 ![Set New password](https://github.com/user-attachments/assets/4b90c471-da27-4135-9e4a-a39ec97f9e7f)
 
