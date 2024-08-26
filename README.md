@@ -63,10 +63,10 @@
 ## Payment Successful Page
 ![Payment Successful](https://github.com/user-attachments/assets/f279a9df-7e80-45a9-bd64-f0e72eab2482)
 
-## Order Invoice sent to user's Gmail (For online payment) 
+## Order Invoice sent to customer's Gmail (For online payment) 
 ![Invoice Email](https://github.com/user-attachments/assets/ae5533fe-979d-4038-9f5d-2449df3f8bb0)
 
-## Order Invoice sent to user's Gmail (For offline payment)
+## Order Invoice sent to customer's Gmail (For offline payment)
 ![Cash on delivery order invoice (main)](https://github.com/user-attachments/assets/a5f51fe8-ffc7-4854-800b-18c5741815f8)
 
 ## Payment Failed Page
@@ -111,7 +111,7 @@
 ## Edit Customer's Order Page (Offline Payment - Cash on delivery) (Dashboard) 
 ![Mark order as paid](https://github.com/user-attachments/assets/a310c5bf-7340-42dc-b112-da2802ef2ce1)
 
-## User Management Page (Dashboard)
+## All Customers Management Page (Dashboard)
 ![Dashboard Users](https://github.com/user-attachments/assets/9c83faf4-c0ed-4bd5-9bed-31ebeca0ca11)
 
 ## Managing customer support assistance using chat (Dashboard)
