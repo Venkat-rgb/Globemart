@@ -51,7 +51,8 @@ const Login = () => {
         icon: "👏",
       });
     } catch (err) {
-      toast.error(err?.data?.message || err?.message);
+      console.log("Login error bro: ", err);
+      toast.error(err?.data?.message || err?.data || err?.message);
     }
   };
 
