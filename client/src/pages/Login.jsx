@@ -55,21 +55,12 @@ const Login = () => {
     }
   };
 
-  // if (isUserLoggedIn) {
-  //   return <Navigate to={state ? state : "/"} replace={true} />;
-  // }
-
   // Redirecting user to previous page he was before logging in (or) home page if he is already logged in
   if (token) {
     return <Navigate to={state ? state : "/"} replace={true} />;
   }
 
   return (
-    // <Suspense
-    //   fallback={
-    //     <Loader styleProp="flex items-center justify-center h-[90vh]" />
-    //   }
-    // >
     <LoginLayout image={LoginImage}>
       <motion.div
         className="max-w-md w-full shadow-lg rounded-xl p-5 space-y-2"
@@ -137,7 +128,6 @@ const Login = () => {
         </form>
       </motion.div>
     </LoginLayout>
-    // </Suspense>
   );
 };
 
