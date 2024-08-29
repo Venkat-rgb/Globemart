@@ -137,6 +137,7 @@ export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
   // Processing the user's voice and getting the matched product category
   const productCategoryRes = await manager.process(trimmedText);
 
+  // Category which matched the user's query
   const category = productCategoryRes?.answer;
 
   // If category doesn't exists, then the error
@@ -249,8 +250,6 @@ export const createProduct = catchAsync(async (req, res, next) => {
       imgRes.push({ public_id: imgData?.public_id, url: imgData?.secure_url });
     }
   }
-
-  // w_800,h_800,c_fill,f_auto,q_80/
 
   // Storing images with their respective cloudinary image url's in images field of product model
   product.images = imgRes;
