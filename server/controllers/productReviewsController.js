@@ -181,6 +181,7 @@ export const createOrUpdateReview = catchAsync(async (req, res, next) => {
       `related_products_${product?.category}`,
     ];
 
+    // Removing the product reviews and user's wishlist
     const reviewAndWishlistKeys = myCache
       .keys()
       .filter(
@@ -271,6 +272,7 @@ export const deleteReview = catchAsync(async (req, res, next) => {
     `related_products_${product?.category}`,
   ];
 
+  // Removing the product reviews and user's wishlist
   const reviewAndWishlistKeys = myCache
     .keys()
     .filter(
