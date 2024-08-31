@@ -14,6 +14,7 @@ export const getProducts = catchAsync(async (req, res) => {
   // Filtering the products
   let features = new APIFeatures([], req.query).search().filter().sortBy();
 
+  // Total products count before applying pagination
   let countOfProducts = await Product.aggregate([
     ...features.query,
     { $count: "productsCount" },
@@ -21,6 +22,7 @@ export const getProducts = catchAsync(async (req, res) => {
 
   const productsTotalCount = countOfProducts[0]?.productsCount;
 
+  // Applying pagination and limiting the fields which will be returned
   features = new APIFeatures(features.query, req.query)
     .limitFields()
     .paginate();
@@ -44,6 +46,7 @@ export const getProducts = catchAsync(async (req, res) => {
     }
   }
 
+  // Fetching the products
   finalTrimmedProducts = await Product.aggregate(features.query);
 
   // Storing related_products in cache for future use
@@ -60,29 +63,6 @@ export const getProducts = catchAsync(async (req, res) => {
     totalProductsCount: productsTotalCount > 0 ? productsTotalCount : 0,
   });
 });
-
-// export const getProducts = catchAsync(async (req, res) => {
-//   // Filtering the products
-//   let features = new APIFeatures([], req.query).search().filter().sortBy();
-
-//   let products = await Product.aggregate([
-//     ...features.query,
-//     { $count: "productsCount" },
-//   ]);
-
-//   const productsTotalCount = products[0]?.productsCount;
-
-//   features = new APIFeatures(features.query, req.query)
-//     .limitFields()
-//     .paginate();
-
-//   let finalTrimmedProducts = await Product.aggregate(features.query);
-
-//   res.status(200).json({
-//     products: finalTrimmedProducts,
-//     totalProductsCount: productsTotalCount > 0 ? productsTotalCount : 0,
-//   });
-// });
 
 // GET FEATURED PRODUCTS
 export const getFeaturedProducts = catchAsync(async (req, res) => {
