@@ -164,6 +164,7 @@ const decreaseStockAndSendInvoiceHelper = async (
 
       await product.save();
 
+      // Deleting the cache of this product whose stock is reduced
       const cacheKey = `product_${product?._id}`;
       myCache.del(cacheKey);
 
