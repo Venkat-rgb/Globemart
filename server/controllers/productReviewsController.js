@@ -25,6 +25,7 @@ export const getReviews = catchAsync(async (req, res, next) => {
 
   let reviews = [];
 
+  // Checking if the reviews are present in cache
   if (myCache.has(cacheKey)) {
     reviews = JSON.parse(myCache.get(cacheKey));
     console.log("Cached Product Reviews!");
@@ -116,6 +117,7 @@ export const createOrUpdateReview = catchAsync(async (req, res, next) => {
     review: trimmedReview,
   };
 
+  // Checking if review already exists
   const isReviewAlreadyExist = await Review.findOne({
     productId: trimmedProductId,
     "user.customerId": req.user._id,

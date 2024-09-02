@@ -158,6 +158,7 @@ const decreaseStockAndSendInvoiceHelper = async (
         orderedDate: new Date(productsOrderedDate).toLocaleString(),
       });
 
+      // Decreasing the stock
       product.stock -= findingOrderedProduct?.quantity;
 
       await product.validate();
