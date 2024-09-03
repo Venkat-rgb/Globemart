@@ -5,6 +5,7 @@ import { calculateDistanceInKM } from "../utils/calculateDistanceInKM.js";
 export const getNearbyStores = catchAsync(async (req, res) => {
   const { latitude, longitude, category, page } = req.body;
 
+  // Finding nearby stores with a maximum distance of 100KM
   const locationQuery = {
     location: {
       $nearSphere: {

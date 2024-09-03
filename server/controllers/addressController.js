@@ -9,6 +9,7 @@ export const getAddress = catchAsync(async (req, res, next) => {
 
   let address;
 
+  // Checking if the customer's address is present in the cache
   if (myCache.has(cacheKey)) {
     address = JSON.parse(myCache.get(cacheKey));
     console.log("Cached User Address!");
@@ -18,6 +19,7 @@ export const getAddress = catchAsync(async (req, res, next) => {
       "customer.customerId": req.user._id,
     });
 
+    // Sending error if address is not present
     if (!address) {
       return next(new AppError(`User address not found!`, 404));
     }
