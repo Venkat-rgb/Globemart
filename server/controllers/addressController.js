@@ -24,6 +24,7 @@ export const getAddress = catchAsync(async (req, res, next) => {
       return next(new AppError(`User address not found!`, 404));
     }
 
+    // Storing the customer address in cache for the future use
     myCache.set(cacheKey, JSON.stringify(address));
 
     console.log("User Address from DB!");
@@ -31,15 +32,6 @@ export const getAddress = catchAsync(async (req, res, next) => {
 
   res.status(200).json({ address });
 });
-
-// export const getAddress = catchAsync(async (req, res) => {
-//   // Getting customer address
-//   const address = await Address.findOne({
-//     "customer.customerId": req.user._id,
-//   });
-
-//   res.status(200).json({ address });
-// });
 
 // CREATE (OR) UPDATE USER ADDRESS
 export const createOrUpdateAddress = catchAsync(async (req, res) => {
