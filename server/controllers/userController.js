@@ -107,6 +107,7 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
   const trimmedNewPassword = newPassword?.trim();
   const trimmedConfirmNewPassword = confirmNewPassword?.trim();
 
+  // Checking if old and new password is satisfying the conditions
   if (!oldPassword || !trimmedOldPassword) {
     return next(new AppError(`Please enter the old password!`, 400));
   }
@@ -119,6 +120,7 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
     return next(new AppError(`Please confirm the new password!`, 400));
   }
 
+  // Returning No content if refreshToken (or) accessToken is not present
   if (!refreshToken || !token) {
     return res.status(204);
   }
