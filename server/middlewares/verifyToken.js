@@ -29,6 +29,7 @@ export const verifyToken = catchAsync(async (req, res, next) => {
   // now there may be case where user is deleted from database but the token is still valid. so we should not give access.
   const user = await User.findById(isTokenValid.id);
 
+  // Sending error if the user doesn't exists
   if (!user) {
     return next(
       new AppError(

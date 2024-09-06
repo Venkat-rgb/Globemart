@@ -15,6 +15,7 @@ const sendProductionError = (res, err) => {
   });
 };
 
+// Handles all the errors sent to the client
 export const errorMiddleware = (err, req, res, next) => {
   try {
     err.message = err.message || "Internal Server Error";
