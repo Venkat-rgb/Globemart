@@ -10,6 +10,7 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" state={location.pathname} replace={true} />;
   }
 
+  // Allowing customer to access the page he requested as he is logged in
   return children;
 };
 
