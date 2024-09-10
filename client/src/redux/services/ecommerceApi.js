@@ -74,6 +74,7 @@ export const ecommerceApi = createApi({
 
   baseQuery: baseQueryWithReauth,
 
+  // Providing the tag types for caching
   tagTypes: [
     "Profile",
     "Products",
