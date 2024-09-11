@@ -14,6 +14,7 @@ const NearbyStore = ({
 }) => {
   const matches = useMediaQuery("(max-width:650px)");
 
+  // Helps in scrolling to the top, whenever customer selects a store
   const selectNearbyStoreHandler = () => {
     if (matches) {
       window.scrollTo(0, 0);
