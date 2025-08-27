@@ -15,9 +15,11 @@ dotenv.config({
 const server = http.createServer(app);
 
 // Creating new server for socket io
+// origin: [process.env.FRONTEND_URL_1, "http://localhost"],
+
 const io = new Server(server, {
   cors: {
-    origin: [process.env.FRONTEND_URL, "http://localhost"],
+    origin: [process.env.FRONTEND_URL_1],
   },
 });
 

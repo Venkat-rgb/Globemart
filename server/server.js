@@ -73,9 +73,10 @@ app.use(mongoSanitize());
 app.use(cookieParser());
 
 // Using CORS to allow cross origin requests
+// origin: [process.env.FRONTEND_URL, "http://localhost"],
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL, "http://localhost"],
+    origin: [process.env.FRONTEND_URL_1],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })
