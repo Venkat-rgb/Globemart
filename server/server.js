@@ -15,6 +15,7 @@ import nearbyStoreRoutes from "./routes/nearbyStoreRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import productReviewsRoutes from "./routes/productReviewsRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import { AppError } from "./utils/appError.js";
 import cookieParser from "cookie-parser";
@@ -29,6 +30,7 @@ import mongoSanitize from "express-mongo-sanitize";
 import fs from "fs";
 import NodeCache from "node-cache";
 import compression from "compression";
+import { GoogleGenAI } from "@google/genai";
 
 const app = express();
 
@@ -97,6 +99,11 @@ cloudinary.config({
   await connectDB();
 })();
 
+// Initializing LLM
+export const genAI = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+
 // Initializing Node cache
 export const myCache = new NodeCache();
 
@@ -115,6 +122,7 @@ app.use("/api/v1/coupons", couponRoutes);
 app.use("/api/v1/stores", nearbyStoreRoutes);
 app.use("/api/v1/chats", chatRoutes);
 app.use("/api/v1/messages", messageRoutes);
+app.use("/api/v1/ai", aiRoutes);
 
 // Default route for the server
 app.get("/", (req, res) => {
