@@ -76,6 +76,11 @@ const productSchema = new mongoose.Schema(
       max: [100, `Product stock can't exceed 100`],
       default: 1,
     },
+
+    embedding: {
+      type: [Number],
+      required: [true, "Please generate embeddings!"],
+    },
   },
   {
     timestamps: true,
