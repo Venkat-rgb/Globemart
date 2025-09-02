@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import LazyImage from "../LazyImage";
 
-const SearchCard = ({ title, description, image, id }) => {
+const SearchCard = ({ title, description, image, id, discountPrice }) => {
   const navigate = useNavigate();
 
   return (
@@ -25,9 +25,14 @@ const SearchCard = ({ title, description, image, id }) => {
 
         {/* Product title and description */}
         <div className="space-y-1">
-          <p className="line-clamp-1 text-sm font-semibold text-neutral-600">
-            {title}
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="line-clamp-1 text-sm font-semibold text-neutral-600">
+              {title}
+            </p>
+            <p className="text-sm font-semibold text-neutral-600">
+              ₹{discountPrice}
+            </p>
+          </div>
           <p className="line-clamp-2 text-[0.75rem] text-neutral-500">
             {description}
           </p>

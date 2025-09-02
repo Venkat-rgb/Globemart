@@ -43,7 +43,7 @@ const SearchProducts = () => {
   // Fetching products based on product name
   const getSearchedProducts = async () => {
     try {
-      const filters = `?search=${searchText}&fields=title,description`;
+      const filters = `?search=${searchText}&fields=title,description,discountPrice`;
       const productsRes = await getProducts(filters).unwrap();
       setProducts(productsRes?.products);
     } catch (err) {
@@ -131,6 +131,7 @@ const SearchProducts = () => {
                         title={product?.title}
                         description={product?.description}
                         image={product?.images[0]?.url}
+                        discountPrice={product?.discountPrice}
                       />
                     ))}
                   </motion.div>
