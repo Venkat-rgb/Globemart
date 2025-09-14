@@ -1,13 +1,13 @@
 import { catchAsync } from "../utils/catchAsync.js";
 import { Product } from "../models/Product.js";
-import { User } from "../models/User.js";
 import { AppError } from "../utils/appError.js";
 import { APIFeatures } from "../utils/apiFeatures.js";
-import mongoose from "mongoose";
 import cloudinary from "cloudinary";
-import { manager } from "../utils/train.js";
 import { Review } from "../models/Review.js";
 import { myCache } from "../server.js";
+import { generateEmbedding } from "../utils/ai-search-helpers/generateEmbedding.js";
+import { extractKeywords } from "../utils/ai-search-helpers/extractKeywords.js";
+import { markdownToJSON } from "../utils/ai-search-helpers/markdownToJSON.js";
 
 // GET ALL PRODUCTS
 export const getProducts = catchAsync(async (req, res) => {
@@ -109,38 +109,57 @@ export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
 
   const trimmedText = text?.trim();
 
-  // If user doesn't speaked anything
+  // If user doesn't speak anything
   if (!trimmedText) {
     return next(new AppError("Please speak!", 400));
   }
 
-  // Processing the user's voice and getting the matched product category
-  const productCategoryRes = await manager.process(trimmedText);
-
-  // Category which matched the user's query
-  const category = productCategoryRes?.answer;
-
-  // If category doesn't exists, then the error
-  if (!category) {
-    return next(new AppError("No products found, please try again!", 404));
+  // Limit the no of characters user speaks
+  if (trimmedText.length > 400) {
+    return next(
+      new AppError("Make sure your query is less than 400 characters", 400)
+    );
   }
 
-  // Getting products based on product category
-  const products = await Product.aggregate([
-    { $match: { category } },
+  // Generate embedding for user query
+  const userEmbedding = await generateEmbedding(trimmedText, "RETRIEVAL_QUERY");
+
+  // Extract the price and category from user query
+  const extractedKeywords = await extractKeywords(trimmedText);
+  const keywordsJSON = markdownToJSON(extractedKeywords);
+
+  console.log("KeywordsJSON: ", keywordsJSON);
+
+  // Search the products using user query embedding and mongodb vector search
+  const similarProducts = await Product.aggregate([
+    {
+      $vectorSearch: {
+        index: "vector_index",
+        limit: 5,
+        path: "embedding",
+        queryVector: userEmbedding,
+        numCandidates: 50,
+      },
+    },
+    {
+      $match: keywordsJSON,
+    },
     {
       $project: {
-        _id: "$_id",
-        title: "$title",
+        _id: 1,
+        title: 1,
         description: { $substr: ["$description", 0, 165] },
         images: { $slice: ["$images", 1] },
+        discountPrice: 1,
       },
     },
   ]);
 
-  // Sending products as response
+  console.log("SimilarProducts: ", similarProducts);
+
+  // Sending similar products as response
   res.status(200).json({
-    products,
+    products: similarProducts,
   });
 });
 
@@ -234,8 +253,20 @@ export const createProduct = catchAsync(async (req, res, next) => {
   // Storing images with their respective cloudinary image url's in images field of product model
   product.images = imgRes;
 
+  // Product Embedding text
+  const embeddingText = `Product Title: ${product.title}. Description: ${product.description}. Category: ${product.category}. Price: ₹${product.discountPrice}`;
+  const taskType = "RETRIEVAL_DOCUMENT";
+
+  // Generating product embeddings
+  const embeddings = await generateEmbedding(embeddingText, taskType);
+
+  // Storing the embeddings in product document itself
+  product.embedding = embeddings;
+
   // Saving the updated product model to DB
   await product.save();
+
+  console.log(`Successfully Created Embeddings of ${product.title}`);
 
   // Deleting the featured products cache as we are adding new product
   const cacheKey = [
@@ -269,15 +300,15 @@ export const updateProduct = catchAsync(async (req, res, next) => {
   // Updating discountPrice if price (or) discount are changed
   const beforeUpdatingProduct = await Product.findById(id);
 
-  const productDiscount = Number(
-    (reqFields?.price * (reqFields?.discount / 100)).toFixed(2)
-  );
-
   // If price and discount are changed then only update discountPrice
   if (
     beforeUpdatingProduct?.price !== +reqFields?.price ||
     beforeUpdatingProduct?.discount !== +reqFields?.discount
   ) {
+    const productDiscount = Number(
+      (reqFields?.price * (reqFields?.discount / 100)).toFixed(2)
+    );
+
     reqFields["discountPrice"] = Number(
       (reqFields?.price - productDiscount).toFixed(2)
     );
@@ -339,6 +370,29 @@ export const updateProduct = catchAsync(async (req, res, next) => {
 
     // Saving the updated product model in DB
     await modifiedProduct.save();
+  }
+
+  // Generating new embeddings only when title, description, category, price are changed
+  if (
+    reqFields.title ||
+    reqFields.description ||
+    reqFields.category ||
+    reqFields.price
+  ) {
+    // Product Embedding text
+    const embeddingText = `Product Title: ${modifiedProduct.title}. Description: ${modifiedProduct.description}. Category: ${modifiedProduct.category}. Price: ₹${modifiedProduct.discountPrice}`;
+    const taskType = "RETRIEVAL_DOCUMENT";
+
+    // Generating product embeddings
+    const embeddings = await generateEmbedding(embeddingText, taskType);
+
+    // Storing the embeddings in product document itself
+    modifiedProduct.embedding = embeddings;
+
+    // Saving the embeddings
+    await modifiedProduct.save();
+
+    console.log(`Successfully updated embeddings of ${modifiedProduct.title}`);
   }
 
   // Deleting the products from the cache as they are getting updated
