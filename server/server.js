@@ -15,7 +15,6 @@ import nearbyStoreRoutes from "./routes/nearbyStoreRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import productReviewsRoutes from "./routes/productReviewsRoutes.js";
-import aiRoutes from "./routes/aiRoutes.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import { AppError } from "./utils/appError.js";
 import cookieParser from "cookie-parser";
@@ -23,11 +22,9 @@ import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
 import fileUpload from "express-fileupload";
 import { startCouponJob } from "./utils/jobs/couponJob.js";
-import { manager, modalFilePath, trainAndSaveModel } from "./utils/train.js";
 import helmet from "helmet";
 import morgan from "morgan";
 import mongoSanitize from "express-mongo-sanitize";
-import fs from "fs";
 import NodeCache from "node-cache";
 import compression from "compression";
 import { GoogleGenAI } from "@google/genai";
@@ -122,7 +119,6 @@ app.use("/api/v1/coupons", couponRoutes);
 app.use("/api/v1/stores", nearbyStoreRoutes);
 app.use("/api/v1/chats", chatRoutes);
 app.use("/api/v1/messages", messageRoutes);
-app.use("/api/v1/ai", aiRoutes);
 
 // Default route for the server
 app.get("/", (req, res) => {
@@ -144,32 +140,6 @@ const server = app.listen(PORT, (err) => {
 
   // Starting the Coupon Job Scheduler
   startCouponJob();
-
-  // Loading the NLP model
-  (async () => {
-    try {
-      // Checking if the trained model already exists
-
-      if (fs.existsSync(modalFilePath)) {
-        // Trained Model already exists, so we directly load it
-        await manager.load(modalFilePath);
-      } else {
-        // Model doesn't exists, so training and saving the model for further use
-        await trainAndSaveModel();
-
-        // Loading the model
-        await manager.load(modalFilePath);
-        console.log("Successfully model is trained and saved!");
-      }
-
-      console.log("Successfully model is loaded!");
-    } catch (err) {
-      console.log(
-        "Training and loading model error in server.js file",
-        err?.message
-      );
-    }
-  })();
 });
 
 // Handling unhandled rejection error
