@@ -18,6 +18,7 @@ import CouponModal from "./components/UI/CouponModal";
 import { AnimatePresence } from "framer-motion";
 import PageTransistion from "./components/UI/PageTransistion";
 import Sidebar from "./components/UI/Sidebar";
+import ChatOptions from "./components/UI/ChatOptions";
 
 const Profile = lazy(() => wait(500).then(() => import("./pages/Profile")));
 const EditProfile = lazy(() =>
@@ -47,6 +48,11 @@ const App = () => {
   // Getting Coupon if present
   const { couponData } = useGetCoupon();
 
+  // Showing chatOptions only in these pages
+  const pagesToIgnore = ["product"];
+
+  // console.log("Pathname Yo: ", pathname);
+
   return (
     <div className="h-screen relative">
       <div className="z-50 fixed top-0 left-0 w-full">
@@ -58,6 +64,9 @@ const App = () => {
       </div>
 
       <Sidebar />
+
+      {/* Chat Options */}
+      <ChatOptions />
 
       <ErrorBoundaryComponent errorMessage="Sorry, there was some unexpected error in the app! Please try again later.">
         <Suspense

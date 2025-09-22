@@ -140,11 +140,11 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
   */
   await user.save({ validateBeforeSave: false });
 
-  const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
+  const resetPasswordUrl = `${process.env.FRONTEND_URL_1}/password/reset/${resetToken}`;
 
   const emailMessage = `Your password reset token is: \n\n ${resetPasswordUrl} \n\n Validity of token is ${process.env.RESET_TOKEN_EXPIRES} minutes. \n\n If you have not requested this email then, please ignore it.`;
 
-  const emailSubject = `Ecommercy - Online store`;
+  const emailSubject = `Globemart - Online store`;
 
   // Sending reset password mail to the user's mail address
   await sendEmail({
