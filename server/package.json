@@ -16,6 +16,9 @@
   "license": "ISC",
   "dependencies": {
     "@google/genai": "^1.16.0",
+    "@langchain/community": "^0.3.56",
+    "@langchain/core": "^0.3.77",
+    "@langchain/langgraph": "^0.4.9",
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.40.0",
     "compression": "^1.7.4",
