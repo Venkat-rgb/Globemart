@@ -62,4 +62,4 @@ export const {
   useValidateCouponMutation,
   useUpdateCouponMutation,
   useDeleteCouponMutation,
-} = ecommerceApi;
+} = couponApiSlice;

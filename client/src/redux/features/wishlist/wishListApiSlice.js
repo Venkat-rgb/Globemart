@@ -41,4 +41,4 @@ export const {
   useAddProductToWishlistMutation,
   useDeleteProductFromWishlistMutation,
   useDeleteTotalWishlistMutation,
-} = ecommerceApi;
+} = wishListApiSlice;
