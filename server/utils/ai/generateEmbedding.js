@@ -1,9 +1,9 @@
-import { genAI } from "../../server.js";
+import { llm } from "../../server.js";
 
 // Generate embeddings
 export const generateEmbedding = async (text, type) => {
   try {
-    const embeddingsRes = await genAI.models.embedContent({
+    const embeddingsRes = await llm.models.embedContent({
       model: "gemini-embedding-001",
       contents: text,
       config: {

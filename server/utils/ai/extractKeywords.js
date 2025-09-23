@@ -1,4 +1,4 @@
-import { genAI } from "../../server.js";
+import { llm } from "../../server.js";
 
 // Extracting keywords from user query
 export const extractKeywords = async (query) => {
@@ -47,7 +47,7 @@ export const extractKeywords = async (query) => {
 
     Now extract from the user query:`;
 
-    const extractedKeywords = await genAI.models.generateContent({
+    const extractedKeywords = await llm.models.generateContent({
       model: "gemma-3-27b-it",
       contents: `${systemPrompt}\n\n${query}`,
       config: {

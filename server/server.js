@@ -15,6 +15,7 @@ import nearbyStoreRoutes from "./routes/nearbyStoreRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import productReviewsRoutes from "./routes/productReviewsRoutes.js";
+import aiCustomerSupportRoutes from "./routes/aiCustomerSupportRoutes.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import { AppError } from "./utils/appError.js";
 import cookieParser from "cookie-parser";
@@ -97,7 +98,7 @@ cloudinary.config({
 })();
 
 // Initializing LLM
-export const genAI = new GoogleGenAI({
+export const llm = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
 
@@ -119,6 +120,7 @@ app.use("/api/v1/coupons", couponRoutes);
 app.use("/api/v1/stores", nearbyStoreRoutes);
 app.use("/api/v1/chats", chatRoutes);
 app.use("/api/v1/messages", messageRoutes);
+app.use("/api/v1/ai", aiCustomerSupportRoutes);
 
 // Default route for the server
 app.get("/", (req, res) => {

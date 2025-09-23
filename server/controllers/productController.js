@@ -5,9 +5,9 @@ import { APIFeatures } from "../utils/apiFeatures.js";
 import cloudinary from "cloudinary";
 import { Review } from "../models/Review.js";
 import { myCache } from "../server.js";
-import { generateEmbedding } from "../utils/ai-search-helpers/generateEmbedding.js";
-import { extractKeywords } from "../utils/ai-search-helpers/extractKeywords.js";
-import { markdownToJSON } from "../utils/ai-search-helpers/markdownToJSON.js";
+import { generateEmbedding } from "../utils/ai/generateEmbedding.js";
+import { extractKeywords } from "../utils/ai/extractKeywords.js";
+import { markdownToJSON } from "../utils/ai/markdownToJSON.js";
 
 // GET ALL PRODUCTS
 export const getProducts = catchAsync(async (req, res) => {
