@@ -85,6 +85,7 @@ export const ecommerceApi = createApi({
     "Address",
     "Stats",
     "Coupon",
+    "AIAgent",
   ],
 
   // here we are creating new files according to their purpose and injecting endpoints so that code is organized.

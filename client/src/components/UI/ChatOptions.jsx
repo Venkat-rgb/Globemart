@@ -16,7 +16,12 @@ const ChatOptions = () => {
 
   return (
     <>
-      {isAgentChatOpen && <AgentChat setIsAgentChatOpen={setIsAgentChatOpen} />}
+      {isAgentChatOpen && (
+        <AgentChat
+          userId={userInfo?.id}
+          setIsAgentChatOpen={setIsAgentChatOpen}
+        />
+      )}
 
       {/* Showing Chat Options only when user is logged in and user's role is not admin */}
       {userInfo?.username && userInfo?.role !== "admin" && chatOptions && (

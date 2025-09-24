@@ -1,31 +1,74 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AgentChatHeader from "./AgentChatHeader";
 import AgentChatBody from "./AgentChatBody";
 import AgentChatFooter from "./AgentChatFooter";
+import {
+  useChatWithAIAgentMutation,
+  useDeleteAgentChatMutation,
+  useLazyGetAgentChatQuery,
+} from "../../redux/features/agentChat/agentChatApiSlice";
+import toast from "react-hot-toast";
 
-const AgentChat = ({ setIsAgentChatOpen }) => {
-  // AI Chat open/close State
-  const [isLoading, setIsLoading] = useState(true);
-  const [messages, setMessages] = useState([
-    "Hey, I want to know whether Apple Macbook Pro is waterproof? Hey, I want to know whether Apple Macbook Pro is waterproof?",
-    "Yes, Apple Macbook Pro is water-resistant with IPV6 rating",
-    "What are customers saying about Apple Macbook Pro?",
-    "Customers really like the multitasking ability and battery life",
-    "Hey, I want to know whether Apple Macbook Pro is waterproof? Hey, I want to know whether Apple Macbook Pro is waterproof?",
-    "Yes, Apple Macbook Pro is water-resistant with IPV6 rating",
-    "What are customers saying about Apple Macbook Pro?",
-    "Customers really like the multitasking ability and battery life",
-    "What is my name?",
-    "",
-  ]);
+const AgentChat = ({ userId, setIsAgentChatOpen }) => {
+  // Stores chat messages
+  const [messages, setMessages] = useState([]);
 
-  const getMessages = async () => {};
+  // Fetching agent chat messages
+  const [getAgentChat, { isFetching: isAgentChatLoading }] =
+    useLazyGetAgentChatQuery();
 
+  const [chatWithAIAgent, { isLoading: isAgentResponseLoading }] =
+    useChatWithAIAgentMutation();
+
+  const [deleteAgentChat, { isLoading: deletingAgentChat }] =
+    useDeleteAgentChatMutation();
+
+  // Closing the chat modal
   const closeAgentChat = () => {
     setIsAgentChatOpen(false);
   };
 
+  // Fetching chat messages
+  const getMessages = async () => {
+    try {
+      const agentMessages = await getAgentChat(userId, {
+        preferCacheValue: true,
+      }).unwrap();
+      setMessages(agentMessages?.messages);
+    } catch (err) {
+      toast.error(err?.message || err?.data?.message);
+    }
+  };
+
+  // Sending user message to AI
+  const sendMessageToAI = async (userQuery) => {
+    try {
+      // Push the user message to chat
+      setMessages((prev) => [
+        ...prev,
+        {
+          _id: `userMsg-${new Date().getTime()}`,
+          role: "user",
+          content: userQuery,
+          timestamp: new Date(),
+        },
+      ]);
+
+      // Getting the response from AI
+      const agentRes = await chatWithAIAgent({
+        userMessage: userQuery,
+        userId,
+      }).unwrap();
+
+      // Pushing the AI message to chat
+      setMessages((prev) => [...prev, agentRes?.message]);
+    } catch (err) {
+      toast.error(err?.message || err?.data?.message);
+    }
+  };
+
+  // Deleting the chat messages
   const deleteChatMessages = async () => {
     try {
       console.log("Deleting agent chat messages...");
@@ -33,6 +76,11 @@ const AgentChat = ({ setIsAgentChatOpen }) => {
       console.log("Error while deleting agent chat messages: ", err?.message);
     }
   };
+
+  // Fetching messages only once when component mounts
+  useEffect(() => {
+    getMessages();
+  }, []);
 
   return (
     <AnimatePresence mode="wait">
@@ -51,10 +99,17 @@ const AgentChat = ({ setIsAgentChatOpen }) => {
         />
 
         {/* Chat Body */}
-        <AgentChatBody messages={messages} />
+        <AgentChatBody
+          isAgentChatLoading={isAgentChatLoading}
+          isAgentResponseLoading={isAgentResponseLoading}
+          messages={messages}
+        />
 
         {/* Chat Footer */}
-        <AgentChatFooter />
+        <AgentChatFooter
+          sendMessageToAI={sendMessageToAI}
+          isAgentResponseLoading={isAgentResponseLoading}
+        />
       </motion.div>
     </AnimatePresence>
   );

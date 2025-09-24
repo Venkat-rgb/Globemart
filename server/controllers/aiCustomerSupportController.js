@@ -100,7 +100,8 @@ const handleGeneral = async (state) => {
       },
     });
 
-    const trimmedResult = markdownToText(result.text.trim());
+    // const trimmedResult = markdownToText(result.text.trim());
+    const trimmedResult = result.text.trim();
 
     return {
       ...state,
@@ -164,7 +165,7 @@ const handleCompanyPolicies = async (state) => {
       1) Answer ONLY using the provided context. Never make up or guess information not in the context.
       2) If context provided is partially relevant to answer user query then use it. But if context provided is totally irrelevant then reply exactly: "Sorry, I can't answer your query, please switch to normal chat".
       3) If user asks follow up questions related to previous messages in this chat, then use conversation context I provided below to answer.
-      4) Keep answers clear, concise, and on-point.
+      4) Keep answers short, clear, concise, and on-point.
       5) Respond in a friendly, professional tone like a customer support agent.
   
       Policy Context: ${docsText}`;
@@ -186,7 +187,8 @@ const handleCompanyPolicies = async (state) => {
       },
     });
 
-    const cleanInfoRes = markdownToText(infoRes.text.trim());
+    // const cleanInfoRes = markdownToText(infoRes.text.trim());
+    const cleanInfoRes = infoRes.text.trim();
 
     return {
       ...state,
@@ -258,7 +260,7 @@ const handleProductInfo = async (state) => {
       1) Use only the given context for product specific info, never invent details.
       2) For general/common knowledge not in context, answer briefly from your own knowledge.
       3) If user asks follow questions related to previous messages in this chat, then use conversation context I provided to answer
-      4) Be clear, concise, and use bullet points. Don't repeat the user's question. Answer only what is asked — no extra or fluff information.
+      4) Keep the answer short, clear, concise, and use bullet points. Don't repeat the user's question. Answer only what is asked — no extra or fluff information.
       5) Tone: friendly and professional.  
       6) When answering each question, please provide a small label and then your answer. If an answer is missing, say 'Sorry I don't have information about it'.
   
@@ -289,7 +291,8 @@ const handleProductInfo = async (state) => {
       },
     });
 
-    const cleaningProductInfo = markdownToText(productInfo.text.trim());
+    // const cleaningProductInfo = markdownToText(productInfo.text.trim());
+    const cleaningProductInfo = productInfo.text.trim();
 
     return {
       ...state,
@@ -419,9 +422,10 @@ const handleProductReviewSummary = async (state) => {
     });
 
     // Converting the response from markdown to text
-    const cleanSummarizedReviews = markdownToText(
-      summarizedReviews.text.trim()
-    );
+    // const cleanSummarizedReviews = markdownToText(
+    //   summarizedReviews.text.trim()
+    // );
+    const cleanSummarizedReviews = summarizedReviews.text.trim();
 
     return {
       ...state,
@@ -486,10 +490,6 @@ const createConversationGraph = () => {
     }),
     productNameIntent: Annotation(),
     conversationContext: Annotation(),
-    messages: Annotation({
-      reducer: (left, right) => left.concat(right),
-      default: () => [],
-    }),
     response: Annotation(),
   });
 
@@ -573,18 +573,19 @@ export const customerSupportChat = catchAsync(async (req, res, next) => {
     productNameIntent: chat.productNameIntent || null,
   };
 
-  // 5) Now call the graph with initial state, to get the response
-  const graph = createConversationGraph();
-  const result = await graph.invoke(initialState);
-
-  // 6) Finally store the user message and AI response message in mongodb
-  // Adding user and assistant message to chat
+  // Pushing the user message
   chat.messages.push({
     role: "user",
     content: trimmedUserMessage,
     timestamp: new Date(),
   });
 
+  // 5) Now call the graph with initial state, to get the response
+  const graph = createConversationGraph();
+  const result = await graph.invoke(initialState);
+
+  // 6) Finally store the AI response in mongodb
+  // Adding AI message to chat
   chat.messages.push({
     role: "model",
     content: result.response,
@@ -605,7 +606,7 @@ export const customerSupportChat = catchAsync(async (req, res, next) => {
 
   // 7) Send the user response
   res.status(200).json({
-    message: result.response,
+    message: chat.messages[chat.messages.length - 1],
   });
 });
 
