@@ -8,10 +8,12 @@ export const agentChatApiSlice = ecommerceApi.injectEndpoints({
         method: "POST",
         body: info,
       }),
+      invalidatesTags: ["AIAgent"],
     }),
 
     getAgentChat: builder.query({
       query: (userId) => `/ai/customer-support-agent/${userId}`,
+      providesTags: ["AIAgent"],
     }),
 
     deleteAgentChat: builder.mutation({
@@ -19,6 +21,7 @@ export const agentChatApiSlice = ecommerceApi.injectEndpoints({
         url: `/ai/customer-support-agent/${userId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["AIAgent"],
     }),
   }),
   overrideExisting: false,
@@ -26,6 +29,6 @@ export const agentChatApiSlice = ecommerceApi.injectEndpoints({
 
 export const {
   useChatWithAIAgentMutation,
-  useGetAgentChatQuery,
+  useLazyGetAgentChatQuery,
   useDeleteAgentChatMutation,
 } = agentChatApiSlice;
