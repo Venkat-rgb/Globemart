@@ -2,7 +2,11 @@ import { Tooltip } from "@mui/material";
 import { IoChatbubbleSharp, IoCloseOutline } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
 
-const AgentChatHeader = ({ deleteChatMessages, closeAgentChat }) => {
+const AgentChatHeader = ({
+  deleteChatMessages,
+  closeAgentChat,
+  deletingAgentChat,
+}) => {
   return (
     <div className="flex items-center justify-between py-3 px-4 border-b">
       <div className="flex items-center gap-3">
@@ -11,7 +15,11 @@ const AgentChatHeader = ({ deleteChatMessages, closeAgentChat }) => {
       </div>
       <div className="flex items-center gap-4">
         <Tooltip title="Reset Chat" placement="top" arrow>
-          <button type="button" onClick={deleteChatMessages}>
+          <button
+            type="button"
+            onClick={deleteChatMessages}
+            disabled={deletingAgentChat}
+          >
             <MdDeleteOutline fontSize={20} />
           </button>
         </Tooltip>

@@ -4,15 +4,19 @@ import AgentChatHeader from "./AgentChatHeader";
 import AgentChatBody from "./AgentChatBody";
 import AgentChatFooter from "./AgentChatFooter";
 import {
+  agentChatApiSlice,
   useChatWithAIAgentMutation,
   useDeleteAgentChatMutation,
   useLazyGetAgentChatQuery,
 } from "../../redux/features/agentChat/agentChatApiSlice";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 
 const AgentChat = ({ userId, setIsAgentChatOpen }) => {
   // Stores chat messages
   const [messages, setMessages] = useState([]);
+
+  const dispatch = useDispatch();
 
   // Fetching agent chat messages
   const [getAgentChat, { isFetching: isAgentChatLoading }] =
@@ -45,15 +49,14 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
   const sendMessageToAI = async (userQuery) => {
     try {
       // Push the user message to chat
-      setMessages((prev) => [
-        ...prev,
-        {
-          _id: `userMsg-${new Date().getTime()}`,
-          role: "user",
-          content: userQuery,
-          timestamp: new Date(),
-        },
-      ]);
+      const userMessageObj = {
+        _id: `userMsg-${new Date().getTime()}`,
+        role: "user",
+        content: userQuery,
+        timestamp: new Date().toISOString(),
+      };
+
+      setMessages((prev) => [...prev, userMessageObj]);
 
       // Getting the response from AI
       const agentRes = await chatWithAIAgent({
@@ -63,6 +66,21 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
 
       // Pushing the AI message to chat
       setMessages((prev) => [...prev, agentRes?.message]);
+
+      // Updating the outdated messages cache manually
+      dispatch(
+        agentChatApiSlice.util.updateQueryData(
+          "getAgentChat",
+          userId,
+          (draft) => {
+            if (draft?.messages) {
+              // Add both user message and AI response to cache
+              draft.messages.push(userMessageObj);
+              draft.messages.push(agentRes?.message);
+            }
+          }
+        )
+      );
     } catch (err) {
       toast.error(err?.message || err?.data?.message);
     }
@@ -71,9 +89,27 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
   // Deleting the chat messages
   const deleteChatMessages = async () => {
     try {
-      console.log("Deleting agent chat messages...");
+      const deleteChatRes = await deleteAgentChat(userId).unwrap();
+      toast.success(deleteChatRes?.message);
+
+      // Resetting the messages to empty
+      setMessages([]);
+
+      // Deleting all the messages from the cache manually
+      dispatch(
+        agentChatApiSlice.util.updateQueryData(
+          "getAgentChat",
+          userId,
+          (draft) => {
+            if (draft?.messages) {
+              // delete all the chat messages in draft
+              draft.messages = [];
+            }
+          }
+        )
+      );
     } catch (err) {
-      console.log("Error while deleting agent chat messages: ", err?.message);
+      toast.error(err?.message || err?.data?.message);
     }
   };
 
@@ -96,6 +132,7 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
         <AgentChatHeader
           deleteChatMessages={deleteChatMessages}
           closeAgentChat={closeAgentChat}
+          deletingAgentChat={deletingAgentChat}
         />
 
         {/* Chat Body */}

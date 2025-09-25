@@ -18,6 +18,7 @@ const classifyIntent = async (state) => {
     const prompt = `You are an intent classification system for an e-commerce customer support chatbot.
       Classify the following user message into one of these intents: 
       1) general: Greetings, introductions, casual chat, asking about past messages, or general knowledge/basic tech questions not tied to policy, product_info, or product_review_summary intents (no product name mentioned)
+      - If the user greets you explicitly, respond with a greeting. If the user starts with a question and does not greet, answer directly without greeting.
       Examples: 
           - What happens if a mobile has more battery mAh?
           - What does RAM do in a smartphone?
@@ -163,10 +164,10 @@ const handleCompanyPolicies = async (state) => {
     let prompt = `You are ecommerce AI customer support agent for Globemart.
       RULES:
       1) Answer ONLY using the provided context. Never make up or guess information not in the context.
-      2) If context provided is partially relevant to answer user query then use it. But if context provided is totally irrelevant then reply exactly: "Sorry, I can't answer your query, please switch to normal chat".
+      2) If context provided is partially relevant to answer user query then use it. But if context provided is totally irrelevant then reply exactly: "Sorry, I can't answer your query, please switch to 'Chat with our Agent'".
       3) If user asks follow up questions related to previous messages in this chat, then use conversation context I provided below to answer.
-      4) Keep answers short, clear, concise, and on-point.
-      5) Respond in a friendly, professional tone like a customer support agent.
+      4) Keep answers short, clear, concise, and on-point. Return the answer in nicely formatted markdown format
+      5) Respond in a friendly, professional tone like a customer support agent. 
   
       Policy Context: ${docsText}`;
 
@@ -198,7 +199,7 @@ const handleCompanyPolicies = async (state) => {
     console.log("Error while handling company policies: ", err?.message);
     return {
       ...state,
-      response: `I apologize, but I'm having trouble accessing our policy information right now. Please switch to normal chat to get your question answered`,
+      response: `I apologize, but I'm having trouble accessing our policy information right now. Please switch to 'Chat with our Agent' to get your question answered`,
     };
   }
 };
@@ -261,7 +262,7 @@ const handleProductInfo = async (state) => {
       2) For general/common knowledge not in context, answer briefly from your own knowledge.
       3) If user asks follow questions related to previous messages in this chat, then use conversation context I provided to answer
       4) Keep the answer short, clear, concise, and use bullet points. Don't repeat the user's question. Answer only what is asked — no extra or fluff information.
-      5) Tone: friendly and professional.  
+      5) Tone: friendly and professional. Return the answer in nicely formatted markdown format 
       6) When answering each question, please provide a small label and then your answer. If an answer is missing, say 'Sorry I don't have information about it'.
   
       Example:
@@ -401,7 +402,7 @@ const handleProductReviewSummary = async (state) => {
   
         User: So overall, are reviews more positive or negative?  
         Assistant: Overall, reviews are mostly positive, with customers valuing comfort and audio quality despite minor issues with bass and controls. 
-      4) Keep responses short, clear, user-friendly, professional, and easy to read.   
+      4) Keep responses short, clear, user-friendly, professional, and easy to read. Return the answer in nicely formatted markdown format  
   
       Reviews Context: ${reviewsText}`;
 
@@ -448,7 +449,7 @@ const handleProductReviewSummary = async (state) => {
 const handleUnknown = (state) => {
   return {
     ...state,
-    response: `Sorry, I can't answer your query, please switch to normal chat`,
+    response: `Sorry, I can't answer your query, please switch to 'Chat with our Agent'`,
   };
 };
 
@@ -562,7 +563,8 @@ export const customerSupportChat = catchAsync(async (req, res, next) => {
   const recentMessages = chat.messages.slice(-6);
   const conversationContext = recentMessages
     .map((message) => `${message.role}: ${message.content}`)
-    .join("\n");
+    .join("\n")
+    .trim();
 
   // 4) Create the initial state either from old chat (or) new chat
   const initialState = {
@@ -633,13 +635,14 @@ export const deleteChat = catchAsync(async (req, res, next) => {
   const { userId } = req.params;
 
   // Delete user's AI chat
+  // User can delete the chat while AI is waiting for product name, so its better to make them false, so that it doesn't cause issues when starting fresh
   await Conversation.findOneAndUpdate(
     { userId },
-    { messages: [] },
+    { messages: [], waitingForProductName: false, productNameIntent: null },
     { new: true }
   );
 
   res.status(200).json({
-    message: "Successfully Deleted the AI chat",
+    message: "AI Support chat has been reset successfully!",
   });
 });
