@@ -9,6 +9,7 @@ import {
   useGetUserLocation,
   useSaveLoginCredentials,
   useScrollToTop,
+  useShowChatOptions,
 } from "./hooks";
 import { basicRoutes } from "./utils/routes/basicRoutes";
 import { wait } from "./utils/general/wait";
@@ -33,6 +34,9 @@ const App = () => {
 
   const { isCouponModalOpen } = useSelector((state) => state?.coupon);
 
+  // Shows the chat options only in limited pages
+  const shouldShowChatOptions = useShowChatOptions();
+
   // Scrolling to the top of the screen when routes are changing
   const { pathname } = useScrollToTop();
 
@@ -47,9 +51,6 @@ const App = () => {
 
   // Getting Coupon if present
   const { couponData } = useGetCoupon();
-
-  // Showing chatOptions only in these pages
-  const pagesToIgnore = ["product"];
 
   // console.log("Pathname Yo: ", pathname);
 
@@ -66,7 +67,7 @@ const App = () => {
       <Sidebar />
 
       {/* Chat Options */}
-      <ChatOptions />
+      {shouldShowChatOptions && <ChatOptions />}
 
       <ErrorBoundaryComponent errorMessage="Sorry, there was some unexpected error in the app! Please try again later.">
         <Suspense
