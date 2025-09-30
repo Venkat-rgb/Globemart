@@ -39,7 +39,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       );
       // console.log("newToken result: ", newToken);
 
-      if (newToken?.data) {
+      if (newToken?.data?.accessToken) {
         // store the new access token in redux store.
         const userInfo = api.getState().auth.userInfo;
         const token = newToken?.data?.accessToken;
