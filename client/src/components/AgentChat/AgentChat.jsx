@@ -89,6 +89,8 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
   // Deleting the chat messages
   const deleteChatMessages = async () => {
     try {
+      if (messages.length === 0) return;
+
       const deleteChatRes = await deleteAgentChat(userId).unwrap();
       toast.success(deleteChatRes?.message);
 
