@@ -17,6 +17,9 @@ const useSaveLoginCredentials = () => {
     try {
       const res = await refreshToken().unwrap();
 
+      // If refreshToken is not passed as cookie then it means user is not logged in. so we just return
+      if (!res) return;
+
       const token = res?.accessToken;
 
       // Decoding the new access token

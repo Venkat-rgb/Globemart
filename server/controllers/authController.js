@@ -88,7 +88,7 @@ export const logoutUser = catchAsync(async (req, res) => {
   const { refreshToken } = req.cookies;
   const { token } = req.body;
 
-  if (!refreshToken || !token) return res.status(204);
+  if (!refreshToken || !token) return res.status(204).end();
 
   // Getting the remaining expiration time of accessToken while user logging out
   const remainingExpirationTime =
@@ -219,10 +219,13 @@ export const newAccessToken = catchAsync(async (req, res, next) => {
   const { refreshToken } = req.cookies;
 
   // checking if refresh token exists in cookie, if not then user need to login again
-  if (!refreshToken)
-    return next(
-      new AppError(`Your session has expired, Please login again!`, 401)
-    );
+  // if (!refreshToken)
+  //   return next(
+  //     new AppError(`Your session has expired, Please login again!`, 401)
+  //   );
+  if (!refreshToken) {
+    return res.status(204).end();
+  }
 
   // checking whether refresh token is valid (or) expired.
   const isRefreshTokenValid = jwt.verify(
