@@ -11,6 +11,12 @@ dotenv.config({
   path: "./config/config.env",
 });
 
+// Handling Uncaught errors
+process.on("uncaughtException", (err) => {
+  console.log(`Socket Uncaught Error: ${err.name}`, err.message);
+  process.exit(1);
+});
+
 // Creating HTTP server
 const server = http.createServer(app);
 
@@ -188,10 +194,18 @@ io.on("connection", (socket) => {
 });
 
 // Listening to the socker server
-server.listen(PORT, (err) => {
+const httpServer = server.listen(PORT, (err) => {
   if (err) {
     console.log("Socket server is not connected successfully!");
     return;
   }
   console.log("Socket server connected successfully!");
+});
+
+// Handling unhandled rejection error
+process.on("unhandledRejection", (err) => {
+  console.log(`Socket rejection error: ${err.name}`, err.message);
+  httpServer.close(() => {
+    process.exit(1);
+  });
 });
