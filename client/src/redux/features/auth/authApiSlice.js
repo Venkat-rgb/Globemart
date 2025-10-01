@@ -27,11 +27,8 @@ export const authApiSlice = ecommerceApi.injectEndpoints({
       }),
     }),
 
-    refreshToken: builder.mutation({
-      query: () => ({
-        url: "/auth/refresh-token",
-        method: "GET",
-      }),
+    refreshToken: builder.query({
+      query: () => `/auth/refresh-token`,
     }),
 
     forgotPassword: builder.mutation({
@@ -60,7 +57,7 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogoutUserMutation,
-  useRefreshTokenMutation,
+  useLazyRefreshTokenQuery,
   useForgotPasswordMutation,
   useResetPasswordMutation,
 } = authApiSlice;

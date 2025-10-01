@@ -219,11 +219,6 @@ export const resetPassword = catchAsync(async (req, res, next) => {
 export const newAccessToken = catchAsync(async (req, res, next) => {
   const { refreshToken } = req.cookies;
 
-  // checking if refresh token exists in cookie, if not then user need to login again
-  // if (!refreshToken)
-  //   return next(
-  //     new AppError(`Your session has expired, Please login again!`, 401)
-  //   );
   if (!refreshToken) {
     return res.status(204).end();
   }

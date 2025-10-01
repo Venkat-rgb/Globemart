@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../redux/features/slices/authSlice";
-import { useRefreshTokenMutation } from "../../redux/features/auth/authApiSlice";
+import { useLazyRefreshTokenQuery } from "../../redux/features/auth/authApiSlice";
 import toast from "react-hot-toast";
 
 const useSaveLoginCredentials = () => {
@@ -10,7 +10,7 @@ const useSaveLoginCredentials = () => {
 
   const { token: accessToken } = useSelector((state) => state?.auth);
 
-  const [refreshToken] = useRefreshTokenMutation();
+  const [refreshToken] = useLazyRefreshTokenQuery();
 
   // Get the new access token when user refreshes the page
   const getUserInfo = async () => {

@@ -52,8 +52,6 @@ const App = () => {
   // Getting Coupon if present
   const { couponData } = useGetCoupon();
 
-  // console.log("Pathname Yo: ", pathname);
-
   return (
     <div className="h-screen relative">
       <div className="z-50 fixed top-0 left-0 w-full">

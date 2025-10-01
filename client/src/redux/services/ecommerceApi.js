@@ -10,7 +10,6 @@ const baseQuery = fetchBaseQuery({
 
     // if are calling protected endpoint then we add the token to headers. eg: /profile, /cart
     if (token) {
-      console.log("prepareHeadersToken: ", token);
       headers.set("authorization", `Bearer ${token}`);
     }
 
@@ -27,39 +26,28 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   */
   let result = await baseQuery(args, api, extraOptions);
 
-  // console.log("baseQuery result: ", result);
-
   try {
     if (result?.error && result.error?.status === 401) {
       // try to get the new access token by calling refresh-token.
-      // console.log("sending refresh token!");
       const newToken = await baseQuery(
         "/auth/refresh-token",
         api,
         extraOptions
       );
-      // console.log("newToken result: ", newToken);
 
       if (newToken?.data?.accessToken) {
         // store the new access token in redux store.
         const userInfo = api.getState().auth.userInfo;
         const token = newToken?.data?.accessToken;
 
-        // localStorage.getItem("token") &&
         api.dispatch(setCredentials({ token, userInfo }));
-
-        console.log("newTokenBro: ", token);
-        console.log("newApi: ", api);
 
         // now retry the request again with new setted access token.
         result = await baseQuery(args, api, extraOptions);
       } else {
         // if we came into this block it means that refresh token is also expired so we need to logout the user.
-        // const logout = await baseQuery("/auth/logout", api, extraOptions);
-        // console.log("refresh token expired, so logout the user!");
         api.dispatch(logOut());
         api.dispatch(deleteTotalCart());
-        // localStorage.removeItem("token");
         localStorage.removeItem("cart");
         sessionStorage.removeItem("orderInfo");
         throw new Error(newToken?.error?.data?.message);
