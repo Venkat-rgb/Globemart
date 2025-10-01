@@ -86,17 +86,18 @@ export const loginUser = catchAsync(async (req, res, next) => {
 // LOGOUT USER
 export const logoutUser = catchAsync(async (req, res) => {
   const { refreshToken } = req.cookies;
-  const { token } = req.body;
+  const authHeader = req.headers.authorization;
+  const accessToken = authHeader.split(" ")[1];
 
-  if (!refreshToken || !token) return res.status(204).end();
+  if (!refreshToken || !accessToken) return res.status(204).end();
 
   // Getting the remaining expiration time of accessToken while user logging out
   const remainingExpirationTime =
-    jwt.verify(token, process.env.JWT_SECRET)?.exp * 1000;
+    jwt.verify(accessToken, process.env.JWT_SECRET)?.exp * 1000;
 
   // Storing this accessToken with remaning expiration time in BlacklistToken collection, inorder to prevent hackers
   await BlacklistToken.create({
-    token,
+    token: accessToken,
     expiresAt: remainingExpirationTime,
   });
 

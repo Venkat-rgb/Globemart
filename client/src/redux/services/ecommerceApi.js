@@ -10,6 +10,7 @@ const baseQuery = fetchBaseQuery({
 
     // if are calling protected endpoint then we add the token to headers. eg: /profile, /cart
     if (token) {
+      console.log("prepareHeadersToken: ", token);
       headers.set("authorization", `Bearer ${token}`);
     }
 
@@ -46,6 +47,9 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
         // localStorage.getItem("token") &&
         api.dispatch(setCredentials({ token, userInfo }));
+
+        console.log("newTokenBro: ", token);
+        console.log("newApi: ", api);
 
         // now retry the request again with new setted access token.
         result = await baseQuery(args, api, extraOptions);

@@ -21,12 +21,10 @@ export const authApiSlice = ecommerceApi.injectEndpoints({
     }),
 
     logoutUser: builder.mutation({
-      query: (token) => ({
+      query: () => ({
         url: "/auth/logout",
         method: "POST",
-        body: token,
       }),
-      // invalidatesTags: ["Profile"],
     }),
 
     refreshToken: builder.mutation({

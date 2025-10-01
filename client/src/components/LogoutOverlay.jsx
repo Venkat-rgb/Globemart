@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLogoutUserMutation } from "../redux/features/auth/authApiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -15,7 +15,6 @@ import useSessionStorage from "../hooks/basic/useSessionStorage";
 const LogoutOverlay = ({ profileImg }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token } = useSelector((state) => state?.auth);
 
   const { removeLocalData } = useLocalStorage();
   const { removeSessionData } = useSessionStorage();
@@ -38,7 +37,7 @@ const LogoutOverlay = ({ profileImg }) => {
   // Logout's the user
   const logoutHandler = async () => {
     try {
-      const res = await logoutUser({ token }).unwrap();
+      const res = await logoutUser().unwrap();
 
       // Making the token and userInfo to null in redux
       dispatch(logOut());
