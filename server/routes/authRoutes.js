@@ -8,7 +8,7 @@ import {
   newAccessToken,
 } from "../controllers/authController.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
-import { loginLimiter } from "../middlewares/loginLimiter.js";
+import { loginLimiter } from "../middlewares/rateLimiters.js";
 
 const router = express.Router();
 

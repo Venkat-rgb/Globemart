@@ -1,5 +1,16 @@
-import express from "express";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Configuring Environment variables
+dotenv.config({
+  path: path.join(__dirname, "config", "config.env"),
+});
+
+import express from "express";
 import { connectDB } from "./config/database.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -31,11 +42,6 @@ import compression from "compression";
 import { GoogleGenAI } from "@google/genai";
 
 const app = express();
-
-// Configuring Environment variables
-dotenv.config({
-  path: "./config/config.env",
-});
 
 // Handling Uncaught errors
 process.on("uncaughtException", (err) => {
