@@ -26,7 +26,7 @@ export const authApiSlice = ecommerceApi.injectEndpoints({
         method: "POST",
         body: token,
       }),
-      invalidatesTags: ["Profile"],
+      // invalidatesTags: ["Profile"],
     }),
 
     refreshToken: builder.mutation({
