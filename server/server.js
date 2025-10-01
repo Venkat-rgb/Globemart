@@ -132,6 +132,9 @@ app.all("*", (req, res, next) => {
   return next(new AppError("Page Not Found!", 404));
 });
 
+// Using Error middleware to catch all the asynchronous errors in the app
+app.use(errorMiddleware);
+
 // Starting the server
 const server = app.listen(PORT, (err) => {
   if (err) {
@@ -151,6 +154,3 @@ process.on("unhandledRejection", (err) => {
     process.exit(1);
   });
 });
-
-// Using Error middleware to catch all the asynchronous errors in the app
-app.use(errorMiddleware);
