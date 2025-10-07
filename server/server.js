@@ -40,6 +40,7 @@ import mongoSanitize from "express-mongo-sanitize";
 import NodeCache from "node-cache";
 import compression from "compression";
 import { GoogleGenAI } from "@google/genai";
+// import { xss } from "express-xss-sanitizer";
 
 const app = express();
 
@@ -74,6 +75,9 @@ app.use(express.json({ limit: "10mb" }));
 
 // Santizing the user input and removing symbols like '$' or '.'
 app.use(mongoSanitize());
+
+// Escaping HTML and Script tags to prevent XSS attack
+// app.use(xss());
 
 // Parsing Cookies received from client
 app.use(cookieParser());
