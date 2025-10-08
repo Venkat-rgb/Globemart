@@ -11,7 +11,7 @@ const router = express.Router();
 router
   .route("/")
   .get(verifyToken, getAllChatsOfUser)
-  .post(verifyToken, createChat);
+  .post(verifyToken, restrictTo("user"), createChat);
 
 router.route("/:id").get(verifyToken, getSingleChat);
 
