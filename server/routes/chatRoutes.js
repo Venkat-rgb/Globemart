@@ -10,7 +10,7 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(verifyToken, getAllChatsOfUser)
+  .get(verifyToken, restrictTo("admin"), getAllChatsOfUser)
   .post(verifyToken, restrictTo("user"), createChat);
 
 router.route("/:id").get(verifyToken, getSingleChat);
