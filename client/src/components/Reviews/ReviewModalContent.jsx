@@ -37,13 +37,27 @@ const ReviewModalContent = () => {
   // Handling adding and updating the product review
   const reviewSubmitHandler = async () => {
     try {
+      const trimmedReview = review?.trim();
+
+      // Checking if review is not empty
+      if (!trimmedReview) return;
+
+      // Limiting the review to 500 characters
+      if (trimmedReview.length > 500) {
+        toast.error(`Review can't be more than 500 characters long!`);
+        return;
+      }
+
       const res = await createOrUpdateReview({
         productId: id,
         rating,
-        review,
+        review: trimmedReview,
       }).unwrap();
 
       toast.success(res?.message);
+
+      // Clear the review
+      setReview("");
 
       // Closing the modal after submitting the review
       dispatch(setReviewModal(false));

@@ -30,13 +30,19 @@ const ChatFooter = ({
   const sendMessageHandler = async (e) => {
     e.preventDefault();
 
-    // Trimming the message
-    const trimmedMessage = message?.trim();
-
-    // Check if trimmed message is not empty
-    if (!trimmedMessage) return;
-
     try {
+      // Trimming the message
+      const trimmedMessage = message?.trim();
+
+      // Check if trimmed message is not empty
+      if (!trimmedMessage) return;
+
+      // Limiting the message to 500 characters
+      if (trimmedMessage.length > 500) {
+        toast.error(`Message can't be more than 500 characters long!`);
+        return;
+      }
+
       // Saving this trimmed message to database by passing message, chatId
       const messageRes = await createMessage({
         message: trimmedMessage,
