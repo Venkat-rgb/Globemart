@@ -77,7 +77,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(mongoSanitize());
 
 // Escaping HTML and Script tags to prevent XSS attack
-// app.use(xss());
+app.use(xss());
 
 // Parsing Cookies received from client
 app.use(cookieParser());
