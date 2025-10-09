@@ -40,7 +40,7 @@ import mongoSanitize from "express-mongo-sanitize";
 import NodeCache from "node-cache";
 import compression from "compression";
 import { GoogleGenAI } from "@google/genai";
-// import { xss } from "express-xss-sanitizer";
+import { xss } from "express-xss-sanitizer";
 
 const app = express();
 
