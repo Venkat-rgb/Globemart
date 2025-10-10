@@ -22,8 +22,13 @@ export const registerUser = catchAsync(async (req, res, next) => {
   /*
     -> Here we may get doubt that why cant we add this if condition above User.create(). the reason is bcz if there are any validation errors then still image will be saved to cloudinary. so this should not happen. so when there are no validation errors then only we upload the image to cloudinary.
   */
-  if (req.body.profileImg) {
-    const imgRes = await cloudinary.v2.uploader.upload(req.body.profileImg, {
+
+  if (req.files && req.files?.profileImg.data) {
+    const base64Image = `data:${
+      req.files.profileImg.mimetype
+    };base64,${req.files.profileImg.data.toString("base64")}`;
+
+    const imgRes = await cloudinary.v2.uploader.upload(base64Image, {
       folder: "avatars",
     });
 

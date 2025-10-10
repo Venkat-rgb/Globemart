@@ -68,7 +68,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Allowing form data
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // Parsing data in form of json
 app.use(express.json({ limit: "10mb" }));
