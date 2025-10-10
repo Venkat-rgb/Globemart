@@ -57,33 +57,29 @@ export const updateUser = catchAsync(async (req, res) => {
     -> so runValidators: true, will run validators for all fields in the userSchema.
   */
 
-  // Here we upload profileImg to cloudinary if its exists in req.body.profileImg
+  // Here we upload profileImg to cloudinary if its exists in req.files.profileImg
   let imgRes = {};
 
-  // Updating image by uploading new image and deleting the existing image in cloudinary
-  if (req.body.profileImg && user?.profileImg?.public_id) {
-    imgRes = await cloudinary.v2.uploader.upload(req.body.profileImg, {
-      public_id: user.profileImg.public_id,
-      overwrite: true,
-      invalidate: true,
-    });
+  if (req.files && req.files?.profileImg.data) {
+    const base64Image = `data:${
+      req.files.profileImg.mimetype
+    };base64,${req.files.profileImg.data.toString("base64")}`;
 
-    // Storing the new updated image details from cloudinary
-    user.profileImg = {
-      public_id: imgRes?.public_id,
-      url: imgRes?.secure_url,
-    };
+    // Updating image by uploading new image and deleting the existing image in cloudinary
+    if (user?.profileImg?.public_id) {
+      imgRes = await cloudinary.v2.uploader.upload(base64Image, {
+        public_id: user.profileImg.public_id,
+        overwrite: true,
+        invalidate: true,
+      });
+    } else {
+      // Uploading new proflie image for user, as the profileImg doesn't exist
+      imgRes = await cloudinary.v2.uploader.upload(base64Image, {
+        folder: "avatars",
+      });
+    }
 
-    // Saving the updated user to DB
-    await user.save();
-  } else if (req.body.profileImg) {
-    // Uploading new proflie image for user, as the profileImg doesn't exist
-
-    imgRes = await cloudinary.v2.uploader.upload(req.body.profileImg, {
-      folder: "avatars",
-    });
-
-    // Storing the new updated image details from cloudinary
+    // Storing the updated image details from cloudinary
     user.profileImg = {
       public_id: imgRes?.public_id,
       url: imgRes?.secure_url,

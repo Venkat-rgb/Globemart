@@ -17,6 +17,8 @@ const EditProfile = () => {
     useUpdateProfileMutation();
 
   const [profileImg, setProfileImg] = useState("");
+  const [profileImgFile, setProfileImgFile] = useState(null);
+
   const [userData, setUserData] = useState({
     username: "",
     email: "",
@@ -28,20 +30,23 @@ const EditProfile = () => {
   // Editing profile
   const editProfileSubmitHandler = async (e) => {
     e.preventDefault();
+
     try {
       const formData = new FormData();
       formData.set("username", username);
       formData.set("email", email);
 
       // Updating the image only if previous image and current image are not same
-      if (!lodash.isEqual(isProfileImgChanged, profileImg)) {
-        formData.set("profileImg", profileImg);
+      if (profileImgFile && !lodash.isEqual(isProfileImgChanged, profileImg)) {
+        formData.set("profileImg", profileImgFile);
       }
 
       // Updating customer profile information
       const res = await updateProfile(formData).unwrap();
 
       toast.success(res?.message);
+
+      setProfileImgFile(null);
 
       // Redirecting to Profile page to see whether changes are reflected
       navigate("/profile");
@@ -53,6 +58,8 @@ const EditProfile = () => {
   const editProfileChangeHandler = (e) => {
     // Reading image and storing base64encoded address of image
     if (e.target.name === "profileImg") {
+      setProfileImgFile(e.target.files[0]);
+
       const reader = new FileReader();
 
       reader.onload = () => {
