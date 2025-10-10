@@ -23,6 +23,7 @@ const SignUp = () => {
 
   // Stores base64encoded format of profile image
   const [profileImg, setProfileImg] = useState("");
+  const [profileImgFile, setProfileImgFile] = useState(null);
 
   const { username, email, password } = userData;
 
@@ -36,6 +37,8 @@ const SignUp = () => {
   const signUpChangeHandler = (e) => {
     // Reading and storing base64encoded of profileImg
     if (e.target.name === "profileImg") {
+      setProfileImgFile(e.target.files[0]);
+
       const reader = new FileReader();
 
       reader.onload = () => {
@@ -65,7 +68,10 @@ const SignUp = () => {
       formData.set("username", username);
       formData.set("email", email);
       formData.set("password", password);
-      formData.set("profileImg", profileImg);
+
+      if (profileImgFile) {
+        formData.set("profileImg", profileImgFile);
+      }
 
       // Making API request to register the user
       const res = await registerUser(formData).unwrap();
@@ -84,6 +90,10 @@ const SignUp = () => {
           },
         })
       );
+
+      // Clearing the image state
+      setProfileImg("");
+      setProfileImgFile(null);
 
       // Displaying successfully registered message
       toast.success(res?.message);
