@@ -206,13 +206,6 @@ export const createProduct = catchAsync(async (req, res, next) => {
     stock: req.body.stock,
   };
 
-  const images = req.body.images,
-    imgRes = [];
-
-  if (!images) {
-    return next(new AppError("Please enter product images!"));
-  }
-
   // Checking if price and discount are there so that we can calculate discountPrice
   if (reqFields?.price > 50 && reqFields?.discount > 1) {
     const productDiscount = Number(
@@ -225,28 +218,40 @@ export const createProduct = catchAsync(async (req, res, next) => {
     );
   }
 
+  let images = req.files?.images,
+    imgRes = [];
+
+  // Asking admin to enter product images
+  if (!images || images?.length === 0) {
+    return next(new AppError("Please enter product images!"));
+  }
+
   // Creating new product in DB
   const product = await Product.create(reqFields);
 
-  // If there is only single product image
-  if (typeof images === "string") {
-    // Uploading single image to cloudinary
-    const imgData = await cloudinary.v2.uploader.upload(images, {
-      folder: "products",
-    });
+  // Handling both single and multiple files correctly
+  if (images && !Array.isArray(images)) {
+    images = [images];
+  }
 
-    // Saving the stored cloudinary's image info in imgRes array
-    imgRes.push({ public_id: imgData?.public_id, url: imgData?.secure_url });
-  } else {
-    // If there are multiple product images
-    for (let i = 0; i < images?.length; i++) {
+  console.log("createProduct Images: ", images);
+
+  if (images && images.length > 0) {
+    // Saving multiple product images to cloudinary
+    for (let i = 0; i < images.length; i++) {
+      const base64Image = `data:${images[i].mimetype};base64,${images[
+        i
+      ].data.toString("base64")}`;
+
       // Uploading image to cloudinary
-      const imgData = await cloudinary.v2.uploader.upload(images[i], {
+      const imgData = await cloudinary.v2.uploader.upload(base64Image, {
         folder: "products",
       });
 
       // Saving the stored cloudinary's image info in imgRes array
       imgRes.push({ public_id: imgData?.public_id, url: imgData?.secure_url });
+
+      console.log(`Saved ${i + 1} images createProduct`);
     }
   }
 
@@ -287,6 +292,7 @@ export const createProduct = catchAsync(async (req, res, next) => {
 // UPDATE PRODUCT (Admin)
 export const updateProduct = catchAsync(async (req, res, next) => {
   const { id } = req.params;
+
   const reqFields = {
     title: req.body.title,
     description: req.body.description,
@@ -327,13 +333,18 @@ export const updateProduct = catchAsync(async (req, res, next) => {
 
   const modifiedProduct = await Product.findById(id);
 
-  let images = req.body.images,
+  let images = req.files?.images,
     imgRes = [];
 
-  // If user wants to modify the product images
-  if (images && images?.length > 0) {
-    // 1) Delete existing images from cloudinary
+  // Handling both single and multiple files correctly
+  if (images && !Array.isArray(images)) {
+    images = [images];
+  }
 
+  console.log("updateProduct Images: ", images);
+
+  if (images && images.length > 0) {
+    // 1) Delete existing images from cloudinary
     for (let i = 0; i < modifiedProduct?.images?.length; ++i) {
       // Deleting the image from cloudinary
       await cloudinary.v2.uploader.destroy(
@@ -341,28 +352,21 @@ export const updateProduct = catchAsync(async (req, res, next) => {
       );
     }
 
-    // 2) Now save new images to cloudinary
-    if (typeof images === "string") {
-      // If there is single new image
-      const imgData = await cloudinary.v2.uploader.upload(images, {
+    // 2) Saving multiple product images to cloudinary
+    for (let i = 0; i < images.length; i++) {
+      const base64Image = `data:${images[i].mimetype};base64,${images[
+        i
+      ].data.toString("base64")}`;
+
+      // Uploading image to cloudinary
+      const imgData = await cloudinary.v2.uploader.upload(base64Image, {
         folder: "products",
       });
 
       // Saving the stored cloudinary's image info in imgRes array
       imgRes.push({ public_id: imgData?.public_id, url: imgData?.secure_url });
-    } else {
-      // If there are multiple new images
-      for (let i = 0; i < images?.length; ++i) {
-        const imgData = await cloudinary.v2.uploader.upload(images[i], {
-          folder: "products",
-        });
 
-        // Saving the stored cloudinary's image info in imgRes array
-        imgRes.push({
-          public_id: imgData?.public_id,
-          url: imgData?.secure_url,
-        });
-      }
+      console.log(`Saved ${i + 1} images updateProduct`);
     }
 
     // Storing new images with their respective cloudinary image url's in images field of product model

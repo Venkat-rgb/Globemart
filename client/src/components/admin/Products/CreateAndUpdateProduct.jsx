@@ -40,6 +40,7 @@ const CreateAndUpdateProduct = ({ role }) => {
   });
 
   const [imgData, setImgData] = useState([]);
+  const [imgFileData, setImgFileData] = useState([]);
 
   const [createProduct, { isLoading: isCreateProductLoading }] =
     useCreateProductMutation();
@@ -82,10 +83,10 @@ const CreateAndUpdateProduct = ({ role }) => {
       formData.set("price", price);
       formData.set("discount", discount);
       formData.set("stock", stock);
-      role === "Update" && formData.set("productId", productId);
 
       if (role === "Update") {
         // Updating the details of exisiting product
+        formData.set("productId", productId);
         /*
         
         -> Here we are checking the below condition bcz if we are not providing new images while updating then we should not send previous images again to get stored in cloudinary. 
@@ -93,25 +94,32 @@ const CreateAndUpdateProduct = ({ role }) => {
         -> Here isEqual checks whether 2 primitive types (or) non-primitive types are equal (or) not by doing deep cloning.
         */
 
-        if (!lodash.isEqual(didImagesChange, imgData)) {
-          imgData.forEach((image) => {
+        if (
+          imgFileData.length > 0 &&
+          !lodash.isEqual(didImagesChange, imgData)
+        ) {
+          imgFileData.forEach((image) => {
             formData.append("images", image);
           });
         }
 
         // Making api request only when user updated productDetails
-        if (!lodash.isEqual(prevProductDetails, productDetails)) {
+        if (
+          !lodash.isEqual(didImagesChange, imgData) ||
+          !lodash.isEqual(prevProductDetails, productDetails)
+        ) {
           const res = await updateProduct(formData).unwrap();
-
           toast.success(res?.message);
         }
       } else {
         // Creating new product
 
         // Appending new images
-        imgData.forEach((image) => {
-          formData.append("images", image);
-        });
+        if (imgFileData.length > 0) {
+          imgFileData.forEach((image) => {
+            formData.append("images", image);
+          });
+        }
 
         // Making API request to create new product
         const res = await createProduct(formData).unwrap();
@@ -130,6 +138,7 @@ const CreateAndUpdateProduct = ({ role }) => {
           stock: "",
         });
         setImgData([]);
+        setImgFileData([]);
       }
     } catch (err) {
       toast.error(err?.message || err?.data?.message);
@@ -156,6 +165,7 @@ const CreateAndUpdateProduct = ({ role }) => {
     // Storing multiple image files in imgData array
     if (e.target.name === "images") {
       setImgData([]);
+      setImgFileData(Array.from(e.target.files));
       const selectedImages = Array.from(e.target.files);
       selectedImages.forEach((image) => readImage(image));
     } else if (

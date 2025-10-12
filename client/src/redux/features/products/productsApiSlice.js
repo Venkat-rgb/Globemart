@@ -37,28 +37,11 @@ export const productsApiSlice = ecommerceApi.injectEndpoints({
     updateProduct: builder.mutation({
       query: (productInfo) => {
         const productId = productInfo.get("productId");
-        const title = productInfo.get("title");
-        const description = productInfo.get("description");
-        const productFeatures = productInfo.get("productFeatures");
-        const price = productInfo.get("price");
-        const category = productInfo.get("category");
-        const stock = productInfo.get("stock");
-        const discount = productInfo.get("discount");
-        const images = productInfo.getAll("images");
 
         return {
           url: `/products/${productId}`,
           method: "PUT",
-          body: {
-            title,
-            description,
-            productFeatures,
-            category,
-            price,
-            discount,
-            stock,
-            images,
-          },
+          body: productInfo,
         };
       },
       invalidatesTags: ["Products"],
