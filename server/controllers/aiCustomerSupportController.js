@@ -613,7 +613,7 @@ export const customerSupportChat = catchAsync(async (req, res, next) => {
 });
 
 // Fetches the user's AI chat
-export const getChat = catchAsync(async (req, res, next) => {
+export const getChat = catchAsync(async (req, res) => {
   const { userId } = req.params;
 
   // Fetching the AI chat of the user
@@ -633,7 +633,7 @@ export const getChat = catchAsync(async (req, res, next) => {
 });
 
 // Deletes the user's AI chat
-export const deleteChat = catchAsync(async (req, res, next) => {
+export const deleteChat = catchAsync(async (req, res) => {
   const { userId } = req.params;
 
   // Delete user's AI chat
