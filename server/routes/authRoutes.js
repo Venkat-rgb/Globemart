@@ -9,10 +9,11 @@ import {
 } from "../controllers/authController.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { loginLimiter } from "../middlewares/rateLimiters.js";
+import { imageLimitMiddleware } from "../middlewares/imageLimitMiddleware.js";
 
 const router = express.Router();
 
-router.post("/register", registerUser);
+router.post("/register", imageLimitMiddleware, registerUser);
 router.post("/login", loginLimiter, loginUser);
 router.post("/logout", verifyToken, logoutUser);
 router.post("/password/forgot", forgotPassword);

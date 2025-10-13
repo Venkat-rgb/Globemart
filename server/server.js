@@ -68,10 +68,10 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Allowing form data
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.urlencoded({ limit: "15mb", extended: true }));
 
 // Parsing data in form of json
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "15mb" }));
 
 // Santizing the user input and removing symbols like '$' or '.'
 app.use(mongoSanitize());

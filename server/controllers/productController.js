@@ -223,7 +223,7 @@ export const createProduct = catchAsync(async (req, res, next) => {
 
   // Asking admin to enter product images
   if (!images || images?.length === 0) {
-    return next(new AppError("Please enter product images!"));
+    return next(new AppError("Please enter product images!", 400));
   }
 
   // Creating new product in DB
