@@ -5,7 +5,7 @@ import { catchAsync } from "../utils/catchAsync.js";
 import { myCache } from "../server.js";
 
 // GETTING USER WISHLIST
-export const getWishList = catchAsync(async (req, res, next) => {
+export const getWishList = catchAsync(async (req, res) => {
   const { page } = req.query;
 
   // Getting the total wishlist products count
