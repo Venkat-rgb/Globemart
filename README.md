@@ -121,10 +121,10 @@
 ![Dashboard Users](https://github.com/user-attachments/assets/9c83faf4-c0ed-4bd5-9bed-31ebeca0ca11)
 
 ## Managing customer support assistance using chat (Dashboard)
-![All customer chats](https://github.com/user-attachments/assets/1e248574-95ab-46c9-9c0e-db9a3535e3f1)
+<img width="1365" height="635" alt="Chats" src="https://github.com/user-attachments/assets/34c479da-2b61-4f34-ad6d-ab72695bb6c6" />
 
 ## Chat between Customer and Customer support agent
-![Chat messages](https://github.com/user-attachments/assets/abe881e6-4e8e-4ccd-aa5a-4b910943dc72)
+<img width="1366" height="632" alt="bothchats" src="https://github.com/user-attachments/assets/f2798efd-1221-4608-80ea-21dcf0c835fc" />
 
 ## Product Reviews Management Page (Dashboard)
 ![Dashboard Reviews](https://github.com/user-attachments/assets/8496be5b-5f92-484b-87e0-e9b358e9f836)
