@@ -23,9 +23,6 @@ const Order = () => {
   // Keeps track of finalAmountToBePaid by customer
   const [finalAmountToBePaid, setFinalAmountToBePaid] = useState(0);
 
-  // Keeps track of whether (empty cart) error is shown or not
-  const [isCartEmptyErrorShown, setIsCartEmptyErrorShown] = useState(false);
-
   // Fetching the addressInfo of the customer
   const {
     data: addressInfo,
@@ -255,18 +252,14 @@ const Order = () => {
 
   // If totalProductsCount is 0 then we don't want user to access Order page
   useEffect(() => {
-    // Showing error when cart is empty and cart empty error has not been shown yet
-    if (totalProductsCount === 0 && !isCartEmptyErrorShown) {
-      // Showing error
+    // Showing error when cart is empty
+    if (totalProductsCount === 0) {
       toast.error("Please add some products to your cart first!");
-
-      // Marking cart empty error as shown so that error will be shown only once
-      setIsCartEmptyErrorShown(true);
     }
-  }, [totalProductsCount, isCartEmptyErrorShown]);
+  }, []);
 
-  // Redirecting to /cart page only when cartEmpty error is shown
-  if (totalProductsCount === 0 && isCartEmptyErrorShown) {
+  // Navigating to /cart page
+  if (totalProductsCount === 0) {
     return <Navigate to="/cart" replace={true} />;
   }
 

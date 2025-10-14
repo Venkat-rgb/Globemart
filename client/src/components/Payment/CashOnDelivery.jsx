@@ -23,6 +23,12 @@ const CashOnDelivery = () => {
   // Handling offline payment (Cash on delivery)
   const offlinePaymentHandler = async () => {
     try {
+      // if (!orderInfo) {
+      //   toast.error(`Please enter your order information first!`);
+      //   navigate("/order", { replace: true });
+      //   return;
+      // }
+
       // 1) Update order with 'offline' payment mode and paymentStatus as false as the user chosen 'Cash on Delivery' (Its false by default).
       const updateOrderRes = await createOrder({
         ...orderInfo,

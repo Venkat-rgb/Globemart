@@ -91,7 +91,7 @@ const OnlinePayment = ({ isError }) => {
 
       // If payment was unsuccessfull (or) some issue occured
       if (paymentRes?.error) {
-        toast.error(paymentRes?.error?.message);
+        throw new Error(paymentRes?.error?.message);
       } else {
         // Payment is successfull
         if (
@@ -114,12 +114,13 @@ const OnlinePayment = ({ isError }) => {
           // 4) Navigate to order success page
           navigate("/order-success", { replace: true });
         } else {
-          toast.error("There was some error while processing payment!");
+          throw new Error(`There was some error while processing payment!`);
         }
       }
 
       setIsProcessing(false);
     } catch (err) {
+      setIsProcessing(false);
       toast.error(err?.message || err?.data?.message);
       navigate("/order-failure", { replace: true });
     }

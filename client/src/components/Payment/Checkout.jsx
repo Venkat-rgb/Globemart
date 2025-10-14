@@ -3,55 +3,15 @@ import CashOnDelivery from "./CashOnDelivery";
 import OnlinePayment from "./OnlinePayment";
 import ErrorBoundaryComponent from "../ErrorBoundary/ErrorBoundaryComponent";
 import { Navigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import useSessionStorage from "../../hooks/basic/useSessionStorage";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 const Checkout = ({ isError }) => {
-  // Keeps track of whether empty cart error is shown (or) not
-  const [isCartEmptyErrorShown, setIsCartEmptyErrorShown] = useState(false);
-
-  // Keeps track of whether empty orderInfo error is shown (or) not
-  const [isOrderEmptyErrorShown, setIsOrderEmptyErrorShown] = useState(false);
-
-  const { totalProductsCount } = useSelector((state) => state?.cart);
-
   const { getSessionData } = useSessionStorage();
 
   const orderInfo = getSessionData("orderInfo");
 
-  // If products in cart are empty then we can't access this Checkout page
-  useEffect(() => {
-    // Showing error only when cart is empty and cartEmpty error is not shown yet
-    if (totalProductsCount === 0 && !isCartEmptyErrorShown) {
-      // Showing cart empty error
-      toast.error("Please add some products to your cart first!");
-
-      // Marking cart empty error as shown so that error will be shown only once
-      setIsCartEmptyErrorShown(true);
-    }
-  }, [totalProductsCount, isCartEmptyErrorShown]);
-
-  // If orderInfo is not present then we can't access this Checkout page
-  useEffect(() => {
-    // Showing error only when orderInfo is empty and orderInfo error is not shown yet
-    if (!orderInfo && !isOrderEmptyErrorShown) {
-      // Showing orderInfo empty error
-      toast.error("Please enter your order information first!");
-
-      // Marking orderInfo empty error as shown so that error will be shown only once
-      setIsOrderEmptyErrorShown(true);
-    }
-  }, [orderInfo, isOrderEmptyErrorShown]);
-
-  // Redirecting to /cart page only when cart is empty and cartEmpty error is shown
-  if (totalProductsCount === 0 && isCartEmptyErrorShown) {
-    return <Navigate to="/cart" replace={true} />;
-  }
-
-  // Redirecting to /order page only when orderInfo is empty and orderInfo error is shown
-  if (!orderInfo && isOrderEmptyErrorShown) {
+  // Redirecting the user to order page if orderInfo is not present
+  if (!orderInfo) {
     return <Navigate to="/order" replace={true} />;
   }
 
