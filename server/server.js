@@ -192,7 +192,6 @@ function setupGracefulShutDown() {
         process.exit(1);
       }, 15000);
     } else {
-      console.log("Server bro!");
       process.exit(0);
     }
   };
