@@ -1,3 +1,10 @@
+// Handling Uncaught errors
+process.on("uncaughtException", (err) => {
+  console.error("💥 UNCAUGHT EXCEPTION! Shutting down...");
+  console.log(`Uncaught Error: ${err.name} - ${err.message}`);
+  process.exit(1);
+});
+
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -41,15 +48,9 @@ import NodeCache from "node-cache";
 import compression from "compression";
 import { GoogleGenAI } from "@google/genai";
 import { xss } from "express-xss-sanitizer";
+import mongoose from "mongoose";
 
 const app = express();
-
-// Handling Uncaught errors
-process.on("uncaughtException", (err) => {
-  console.log(`Uncaught Error: ${err.name}`, err.message);
-  process.exit(1);
-});
-
 const PORT = process.env.PORT || 3000;
 
 // Using compression to optimize response body size and speed of application
@@ -102,11 +103,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Connecting to the MongoDB database
-(async () => {
-  await connectDB();
-})();
-
 // Initializing LLM
 export const llm = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -145,22 +141,89 @@ app.all("*", (req, res, next) => {
 // Using Error middleware to catch all the asynchronous errors in the app
 app.use(errorMiddleware);
 
-// Starting the server
-const server = app.listen(PORT, (err) => {
-  if (err) {
-    console.log(`Server is not up and running on port: ${PORT}`, err);
-    return;
-  }
-  console.log(`Server is up and running on port: ${PORT}`);
+let server;
 
-  // Starting the Coupon Job Scheduler
-  startCouponJob();
-});
+const startServer = async () => {
+  try {
+    // Connecting to Database
+    await connectDB();
+
+    // Starting the server
+    server = app.listen(PORT, () => {
+      console.log(`Server is running on port: ${PORT}`);
+
+      // Starting the Coupon Job Scheduler after starting the server
+      startCouponJob();
+      console.log("⏰ Coupon job scheduler started");
+    });
+
+    // Setting up the graceful shutdown
+    setupGracefulShutDown();
+  } catch (err) {
+    console.error("❌ Failed to start server:", err.message);
+    process.exit(1);
+  }
+};
+
+function setupGracefulShutDown() {
+  const shutdown = async (signal) => {
+    console.log(`${signal} signal received: starting graceful shutdown...`);
+
+    if (server) {
+      server.close(async () => {
+        console.log("✅ HTTP server closed - no longer accepting connections");
+
+        try {
+          // Closing MongoDB connection
+          await mongoose.connection.close();
+          console.log("✅ MongoDB connection closed gracefully");
+          process.exit(0);
+        } catch (err) {
+          console.error("❌ Error during shutdown:", err.message);
+          process.exit(1);
+        }
+      });
+
+      // Force shutdown after 15 seconds if graceful shutdown hangs
+      setTimeout(() => {
+        console.error(
+          "⚠️ Could not close connections in time, forcing shutdown"
+        );
+        process.exit(1);
+      }, 15000);
+    } else {
+      console.log("Server bro!");
+      process.exit(0);
+    }
+  };
+
+  // Listen for termination signals
+  process.on("SIGTERM", () => shutdown("SIGTERM")); // Docker/Kubernetes/Cloud platforms
+  process.on("SIGINT", () => shutdown("SIGINT")); // Ctrl+C in terminal
+  process.on("SIGUSR2", () => shutdown("SIGUSR2")); // Nodemon restart
+}
 
 // Handling unhandled rejection error
 process.on("unhandledRejection", (err) => {
-  console.log(`Error: ${err.name}`, err.message);
-  server.close(() => {
+  console.error("💥 UNHANDLED REJECTION! Shutting down...");
+  console.error(`Rejection Error: ${err.name} - ${err.message}`);
+
+  // Closing server gracefully
+  if (server) {
+    server.close(async () => {
+      try {
+        // Closing MongoDB connection
+        await mongoose.connection.close();
+        console.log("MongoDB connection closed due to unhandled rejection");
+      } catch (closeErr) {
+        console.error("Error closing MongoDB:", closeErr.message);
+      }
+      process.exit(1);
+    });
+  } else {
     process.exit(1);
-  });
+  }
 });
+
+// Starting the server
+startServer();

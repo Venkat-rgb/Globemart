@@ -22,7 +22,7 @@ const LeftSideChats = ({
   // Keeps track of all the chats available
   const [chatsData, setChatsData] = useState([]);
 
-  const [getAllChats, { isLoading: areChatsLoading, isError: chatsError }] =
+  const [getAllChats, { isFetching: areChatsLoading, isError: chatsError }] =
     useLazyGetAllChatsOfUserQuery();
 
   const sortChats = (chats) => {
