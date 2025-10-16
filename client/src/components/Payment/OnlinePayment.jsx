@@ -23,6 +23,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import Loader from "../UI/Loader";
 import useSessionStorage from "../../hooks/basic/useSessionStorage";
 import ErrorUI from "../UI/ErrorUI";
+import OrderSuccessSound from "../../assets/OrderSuccessSound.mp3";
 
 const OnlinePayment = ({ isError }) => {
   // Keeps track of whether payment is processing (or) not
@@ -48,6 +49,20 @@ const OnlinePayment = ({ isError }) => {
   const { getSessionData, removeSessionData } = useSessionStorage();
 
   const orderInfo = getSessionData("orderInfo");
+
+  // Playing payment success sound
+  const playSoundAndNavigate = () => {
+    const paymentSuccessMusic = new Audio(OrderSuccessSound);
+
+    setTimeout(() => {
+      paymentSuccessMusic.play().catch((err) => {
+        console.log(`Error while playing paymentSuccessMusic: ${err?.message}`);
+      });
+    }, 800);
+
+    // Navigate to order success page
+    navigate("/order-success", { replace: true });
+  };
 
   // Handling online payment (Stripe)
   const onlinePaymentHandler = async (e) => {
@@ -111,8 +126,8 @@ const OnlinePayment = ({ isError }) => {
           // 3) Empty the cart
           dispatch(deleteTotalCart());
 
-          // 4) Navigate to order success page
-          navigate("/order-success", { replace: true });
+          // Playing payment success sound
+          playSoundAndNavigate();
         } else {
           throw new Error(`There was some error while processing payment!`);
         }

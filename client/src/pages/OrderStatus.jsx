@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import Lottie from "lottie-react";
 import OrderSuccessAnimation from "../assets/paymentSuccessful2.json";
 import OrderFailureAnimation from "../assets/paymentFailed2.json";
-import OrderSuccessSound from "../assets/OrderSuccessSound.mp3";
 import Confetti from "react-confetti";
 
 const OrderStatus = ({ status }) => {
@@ -18,27 +17,6 @@ const OrderStatus = ({ status }) => {
   const [showConfetti, setShowConfetti] = useState(
     status === "success" ? true : false
   );
-
-  useEffect(() => {
-    const paymentSuccessMusic = new Audio(OrderSuccessSound);
-
-    // If order is successfully placed then only play the OrderSuccessSound
-    if (status === "success") {
-      paymentSuccessMusic
-        .play()
-        .catch((err) =>
-          console.log("Error while playing paymentSuccessMusic", err?.message)
-        );
-    }
-
-    // Making sure to set music time to start, when component unmounts
-    return () => {
-      if (status === "success") {
-        paymentSuccessMusic.pause();
-        paymentSuccessMusic.currentTime = 0;
-      }
-    };
-  }, [status]);
 
   // Displaying confetti animation for 10s
   useEffect(() => {

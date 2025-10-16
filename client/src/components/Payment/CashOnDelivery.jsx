@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
 import { GiMoneyStack } from "react-icons/gi";
 import useSessionStorage from "../../hooks/basic/useSessionStorage";
+import OrderSuccessSound from "../../assets/OrderSuccessSound.mp3";
 
 const CashOnDelivery = () => {
   const dispatch = useDispatch();
@@ -20,15 +21,22 @@ const CashOnDelivery = () => {
   const [createOrder, { isLoading: isOrderGettingCreated }] =
     useCreateOrderMutation();
 
+  const playSoundAndNavigate = () => {
+    const paymentSuccessMusic = new Audio(OrderSuccessSound);
+
+    setTimeout(() => {
+      paymentSuccessMusic.play().catch((err) => {
+        console.log(`Error while playing paymentSuccessMusic: ${err?.message}`);
+      });
+    }, 800);
+
+    // Navigate to order success page
+    navigate("/order-success", { replace: true });
+  };
+
   // Handling offline payment (Cash on delivery)
   const offlinePaymentHandler = async () => {
     try {
-      // if (!orderInfo) {
-      //   toast.error(`Please enter your order information first!`);
-      //   navigate("/order", { replace: true });
-      //   return;
-      // }
-
       // 1) Update order with 'offline' payment mode and paymentStatus as false as the user chosen 'Cash on Delivery' (Its false by default).
       const updateOrderRes = await createOrder({
         ...orderInfo,
@@ -45,8 +53,8 @@ const CashOnDelivery = () => {
       // 3) Empty the cart
       dispatch(deleteTotalCart());
 
-      // 4) Navigate to order success page
-      navigate("/order-success", { replace: true });
+      // Playing payment success sound
+      playSoundAndNavigate();
     } catch (err) {
       toast.error(err?.message || err?.data?.message);
       navigate("/order-failure", { replace: true });
