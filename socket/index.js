@@ -1,15 +1,21 @@
-import express from "express";
-import http from "http";
-import { Server } from "socket.io";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
-// Initialising express app
-const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Configuring Environment variables for socket
 dotenv.config({
-  path: "./config/config.env",
+  path: path.join(__dirname, "config", "config.env"),
 });
+
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+
+// Initialising express app
+const app = express();
 
 // Handling Uncaught errors
 process.on("uncaughtException", (err) => {
