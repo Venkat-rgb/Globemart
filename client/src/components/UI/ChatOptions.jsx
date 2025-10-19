@@ -7,6 +7,7 @@ import { FaRobot } from "react-icons/fa";
 import { MdOutlineSupportAgent } from "react-icons/md";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import AgentChat from "../AgentChat/AgentChat";
+import ErrorBoundaryComponent from "../ErrorBoundary/ErrorBoundaryComponent";
 
 const ChatOptions = () => {
   const navigate = useNavigate();
@@ -17,10 +18,15 @@ const ChatOptions = () => {
   return (
     <>
       {isAgentChatOpen && (
-        <AgentChat
-          userId={userInfo?.id}
-          setIsAgentChatOpen={setIsAgentChatOpen}
-        />
+        <ErrorBoundaryComponent
+          errorMessage="We're sorry, you can't use agent chat at the moment due to some error, Please try again later."
+          styles="w-[200px] text-sm"
+        >
+          <AgentChat
+            userId={userInfo?.id}
+            setIsAgentChatOpen={setIsAgentChatOpen}
+          />
+        </ErrorBoundaryComponent>
       )}
 
       {/* Showing Chat Options only when user is logged in and user's role is not admin */}
