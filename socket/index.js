@@ -1,3 +1,9 @@
+// Handling Uncaught errors
+process.on("uncaughtException", (err) => {
+  console.log(`Socket Uncaught Error: ${err.name} - ${err.message}`);
+  process.exit(1);
+});
+
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -16,12 +22,6 @@ import { Server } from "socket.io";
 
 // Initialising express app
 const app = express();
-
-// Handling Uncaught errors
-process.on("uncaughtException", (err) => {
-  console.log(`Socket Uncaught Error: ${err.name}`, err.message);
-  process.exit(1);
-});
 
 // Creating HTTP server
 const server = http.createServer(app);
@@ -200,11 +200,7 @@ io.on("connection", (socket) => {
 });
 
 // Listening to the socker server
-const httpServer = server.listen(PORT, (err) => {
-  if (err) {
-    console.log("Socket server is not connected successfully!");
-    return;
-  }
+const httpServer = server.listen(PORT, () => {
   console.log("Socket server connected successfully!");
 });
 
