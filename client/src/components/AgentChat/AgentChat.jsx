@@ -123,7 +123,7 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        className="fixed z-50 bottom-9 rounded-2xl h-[27rem] w-[30rem] bg-white right-12 font-inter"
+        className="fixed z-50 bottom-9 rounded-2xl h-[27rem] w-[30rem] bg-white right-12 font-inter max-[550px]:w-[25rem] max-[480px]:right-3 max-[480px]:bottom-20 max-[440px]:w-[21rem] max-[350px]:w-[18rem] max-[360px]:bottom-9"
         style={{ boxShadow: "0px 0px 30px rgba(0,0,0,0.13)" }}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
