@@ -108,8 +108,11 @@ export const llm = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
 
-// Initializing Node cache
-export const myCache = new NodeCache();
+// Initializing Node cache, expiring all the cache keys in 1 hr
+export const myCache = new NodeCache({
+  stdTTL: 3600, // expires the keys after 1hr
+  checkperiod: 300, // runs a cleaning job of specific duration to delete expired keys
+});
 
 // All routes of the app
 app.use("/api/v1/auth", authRoutes);
