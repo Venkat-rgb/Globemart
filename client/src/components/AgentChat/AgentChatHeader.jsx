@@ -1,4 +1,5 @@
 import { Tooltip } from "@mui/material";
+import { memo } from "react";
 import { IoChatbubbleSharp, IoCloseOutline } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
 
@@ -32,4 +33,4 @@ const AgentChatHeader = ({
   );
 };
 
-export default AgentChatHeader;
+export default memo(AgentChatHeader);

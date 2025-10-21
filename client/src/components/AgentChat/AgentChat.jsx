@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AgentChatHeader from "./AgentChatHeader";
 import AgentChatBody from "./AgentChatBody";
 import AgentChatFooter from "./AgentChatFooter";
@@ -29,9 +29,9 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
     useDeleteAgentChatMutation();
 
   // Closing the chat modal
-  const closeAgentChat = () => {
+  const closeAgentChat = useCallback(() => {
     setIsAgentChatOpen(false);
-  };
+  }, []);
 
   // Fetching chat messages
   const getMessages = async () => {
@@ -46,48 +46,51 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
   };
 
   // Sending user message to AI
-  const sendMessageToAI = async (userQuery) => {
-    try {
-      // Push the user message to chat
-      const userMessageObj = {
-        _id: `userMsg-${new Date().getTime()}`,
-        role: "user",
-        content: userQuery,
-        timestamp: new Date().toISOString(),
-      };
+  const sendMessageToAI = useCallback(
+    async (userQuery) => {
+      try {
+        // Push the user message to chat
+        const userMessageObj = {
+          _id: `userMsg-${new Date().getTime()}`,
+          role: "user",
+          content: userQuery,
+          timestamp: new Date().toISOString(),
+        };
 
-      setMessages((prev) => [...prev, userMessageObj]);
+        setMessages((prev) => [...prev, userMessageObj]);
 
-      // Getting the response from AI
-      const agentRes = await chatWithAIAgent({
-        userMessage: userQuery,
-        userId,
-      }).unwrap();
-
-      // Pushing the AI message to chat
-      setMessages((prev) => [...prev, agentRes?.message]);
-
-      // Updating the outdated messages cache manually
-      dispatch(
-        agentChatApiSlice.util.updateQueryData(
-          "getAgentChat",
+        // Getting the response from AI
+        const agentRes = await chatWithAIAgent({
+          userMessage: userQuery,
           userId,
-          (draft) => {
-            if (draft?.messages) {
-              // Add both user message and AI response to cache
-              draft.messages.push(userMessageObj);
-              draft.messages.push(agentRes?.message);
+        }).unwrap();
+
+        // Pushing the AI message to chat
+        setMessages((prev) => [...prev, agentRes?.message]);
+
+        // Updating the outdated messages cache manually
+        dispatch(
+          agentChatApiSlice.util.updateQueryData(
+            "getAgentChat",
+            userId,
+            (draft) => {
+              if (draft?.messages) {
+                // Add both user message and AI response to cache
+                draft.messages.push(userMessageObj);
+                draft.messages.push(agentRes?.message);
+              }
             }
-          }
-        )
-      );
-    } catch (err) {
-      toast.error(err?.message || err?.data?.message);
-    }
-  };
+          )
+        );
+      } catch (err) {
+        toast.error(err?.message || err?.data?.message);
+      }
+    },
+    [messages]
+  );
 
   // Deleting the chat messages
-  const deleteChatMessages = async () => {
+  const deleteChatMessages = useCallback(async () => {
     try {
       if (messages.length === 0) return;
 
@@ -113,7 +116,7 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
     } catch (err) {
       toast.error(err?.message || err?.data?.message);
     }
-  };
+  }, [messages]);
 
   // Fetching messages only once when component mounts
   useEffect(() => {

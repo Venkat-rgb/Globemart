@@ -1,7 +1,6 @@
 import toast from "react-hot-toast";
 import { BsSend } from "react-icons/bs";
-import { useChatWithAIAgentMutation } from "../../redux/features/agentChat/agentChatApiSlice";
-import { useRef, useState } from "react";
+import { memo, useRef } from "react";
 
 const AgentChatFooter = ({ sendMessageToAI, isAgentResponseLoading }) => {
   const inputMsgRef = useRef(null);
@@ -49,4 +48,4 @@ const AgentChatFooter = ({ sendMessageToAI, isAgentResponseLoading }) => {
   );
 };
 
-export default AgentChatFooter;
+export default memo(AgentChatFooter);
