@@ -1,7 +1,11 @@
 // Handling Uncaught errors
 process.on("uncaughtException", (err) => {
   console.log(`Socket Uncaught Error: ${err.name} - ${err.message}`);
-  process.exit(1);
+
+  // Giving some time to finish all ongoing requests before exit
+  setTimeout(() => {
+    process.exit(1);
+  }, 1000);
 });
 
 import dotenv from "dotenv";
@@ -33,6 +37,7 @@ const io = new Server(server, {
   cors: {
     origin: [process.env.FRONTEND_URL_1],
   },
+  maxHttpBufferSize: 1e6,
 });
 
 // Giving default port as 4000
@@ -166,6 +171,16 @@ io.on("connection", (socket) => {
       }
     });
 
+    // Handle socket errors
+    socket.on("error", (error) => {
+      console.error(`Socket error for ${socket.id}`, error.message);
+    });
+
+    // Handle connection errors
+    socket.on("connect_error", (error) => {
+      console.error(`Connection error for ${socket.id}`, error.message);
+    });
+
     // When user disconnects
     socket.on("disconnect", () => {
       try {
@@ -203,6 +218,34 @@ io.on("connection", (socket) => {
 const httpServer = server.listen(PORT, () => {
   console.log("Socket server connected successfully!");
 });
+
+const gracefulShutdown = (signal) => {
+  console.log(`${signal} received from socket, starting graceful shutdown...`);
+
+  // Stop accepting new connections
+  server.close(() => {
+    console.log("HTTP socket server closed");
+
+    // Close all socket connections
+    io.close(() => {
+      console.log("Socket.io server closed");
+
+      // Clear online users
+      onlineUsers = [];
+      process.exit(0);
+    });
+  });
+
+  // Force close after 10 seconds
+  setTimeout(() => {
+    console.error("Forced socket shutdown after timeout");
+    process.exit(1);
+  }, 10000);
+};
+
+// Listen for termination signals like (Docker/PM2) and Ctrl+C
+process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
 // Handling unhandled rejection error
 process.on("unhandledRejection", (err) => {
