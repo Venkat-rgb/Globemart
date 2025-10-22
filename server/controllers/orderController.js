@@ -175,7 +175,7 @@ const decreaseStockAndSendInvoiceHelper = async (
     });
 
     // Sending Order Invoice to the customer email
-    const emailSubject = `Ecommercy - Online store`;
+    const emailSubject = `Globemart - Online store`;
 
     // Creating the template for email message
     const emailMessage = orderInvoiceTemplate(invoiceInfo);
