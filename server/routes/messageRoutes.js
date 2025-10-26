@@ -5,10 +5,11 @@ import {
   markMessagesAsSeen,
 } from "../controllers/messageController.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
+import { messageLimiter } from "../middlewares/rateLimiters.js";
 
 const router = express.Router();
 
-router.post("/", verifyToken, createMessage);
+router.post("/", messageLimiter, verifyToken, createMessage);
 
 router.get("/:chatId", verifyToken, getAllMessagesOfChat);
 

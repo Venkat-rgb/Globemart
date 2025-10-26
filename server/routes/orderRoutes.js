@@ -10,13 +10,14 @@ import {
   deleteOrder,
 } from "../controllers/orderController.js";
 import { restrictTo, verifyToken } from "../middlewares/verifyToken.js";
+import { orderLimiter } from "../middlewares/rateLimiters.js";
 
 const router = express.Router();
 
 router
   .route("/")
   .get(verifyToken, restrictTo("admin"), getOrders)
-  .post(verifyToken, createOrder);
+  .post(orderLimiter, verifyToken, createOrder);
 
 router.get("/my-orders", verifyToken, getMyOrders);
 

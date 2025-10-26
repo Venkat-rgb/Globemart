@@ -49,6 +49,7 @@ import compression from "compression";
 import { GoogleGenAI } from "@google/genai";
 import { xss } from "express-xss-sanitizer";
 import mongoose from "mongoose";
+import { wishlistLimiter, globalLimiter } from "./middlewares/rateLimiters.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -114,6 +115,9 @@ export const myCache = new NodeCache({
   checkperiod: 300, // runs a cleaning job of specific duration to delete expired keys
 });
 
+// Global Rate Limiter
+app.use("/api/v1", globalLimiter);
+
 // All routes of the app
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
@@ -121,7 +125,7 @@ app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/reviews", productReviewsRoutes);
 app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/address", addressRoutes);
-app.use("/api/v1/wishlist", wishListRoutes);
+app.use("/api/v1/wishlist", wishlistLimiter, wishListRoutes);
 app.use("/api/v1/stats", statsRoutes);
 app.use("/api/v1/admin/users", adminUserRoutes);
 app.use("/api/v1/payment", paymentRoutes);

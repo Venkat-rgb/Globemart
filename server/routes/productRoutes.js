@@ -10,21 +10,27 @@ import {
 } from "../controllers/productController.js";
 import { restrictTo, verifyToken } from "../middlewares/verifyToken.js";
 import { imageLimitMiddleware } from "../middlewares/imageLimitMiddleware.js";
+import {
+  featuredProductsLimiter,
+  productLimiter,
+  productsLimiter,
+  voiceSearchLimiter,
+} from "../middlewares/rateLimiters.js";
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(getProducts)
+  .get(productsLimiter, getProducts)
   .post(verifyToken, restrictTo("admin"), imageLimitMiddleware, createProduct);
 
-router.get("/featured", getFeaturedProducts);
+router.get("/featured", featuredProductsLimiter, getFeaturedProducts);
 
-router.get("/voice-search", getProductsThroughVoice);
+router.get("/voice-search", voiceSearchLimiter, getProductsThroughVoice);
 
 router
   .route("/:id")
-  .get(getProduct)
+  .get(productLimiter, getProduct)
   .put(verifyToken, restrictTo("admin"), imageLimitMiddleware, updateProduct)
   .delete(verifyToken, restrictTo("admin"), deleteProduct);
 

@@ -6,6 +6,7 @@ import {
 } from "../controllers/userController.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { imageLimitMiddleware } from "../middlewares/imageLimitMiddleware.js";
+import { profileLimiter } from "../middlewares/rateLimiters.js";
 
 const router = express.Router();
 
@@ -13,7 +14,13 @@ const router = express.Router();
 router.get("/me", verifyToken, getUser);
 
 // Updates the logged in user's profile
-router.put("/me/update", verifyToken, imageLimitMiddleware, updateUser);
+router.put(
+  "/me/update",
+  profileLimiter,
+  verifyToken,
+  imageLimitMiddleware,
+  updateUser
+);
 
 // Updates the logged in user's password
 router.put("/me/password/update", verifyToken, updateMyPassword);

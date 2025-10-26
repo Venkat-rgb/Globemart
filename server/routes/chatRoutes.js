@@ -5,14 +5,15 @@ import {
   getAllChatsOfUser,
   getSingleChat,
 } from "../controllers/chatsController.js";
+import { chatLimiter, chatReadLimiter } from "../middlewares/rateLimiters.js";
 
 const router = express.Router();
 
 router
   .route("/")
   .get(verifyToken, restrictTo("admin"), getAllChatsOfUser)
-  .post(verifyToken, restrictTo("user"), createChat);
+  .post(chatLimiter, verifyToken, restrictTo("user"), createChat);
 
-router.route("/:id").get(verifyToken, getSingleChat);
+router.route("/:id").get(chatReadLimiter, verifyToken, getSingleChat);
 
 export default router;
