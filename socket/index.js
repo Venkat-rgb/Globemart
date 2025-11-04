@@ -64,8 +64,9 @@ const getUser = (idOrRole) => {
 };
 
 // Deletes the user using socketId which is passed as parameter
-const deleteUser = (id) => onlineUsers.filter((user) => user?.socketId !== id);
-
+const deleteUser = (id) => {
+  onlineUsers = onlineUsers.filter((user) => user?.socketId !== id);
+};
 // Trims the user object into just their id's
 const trimOnlineUserIds = (users) => {
   return users.map((user) => ({
@@ -190,7 +191,7 @@ io.on("connection", (socket) => {
         const adminSocket = getUser("admin");
 
         // Updating the onlineUsers array if user is disconnected
-        onlineUsers = deleteUser(socket.id);
+        deleteUser(socket.id);
 
         // If disconnected user is admin, then informing users that admin is offline
         if (adminSocket?.socketId === socket.id) {
