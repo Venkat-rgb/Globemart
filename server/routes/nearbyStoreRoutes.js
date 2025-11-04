@@ -8,7 +8,7 @@ import { storeLimiter } from "../middlewares/rateLimiters.js";
 
 const router = express.Router();
 
-router.post("/get-nearby-stores", storeLimiter, verifyToken, getNearbyStores);
+router.post("/get-nearby-stores", verifyToken, storeLimiter, getNearbyStores);
 
 router.route("/").post(verifyToken, restrictTo("admin"), createNearbyStore);
 

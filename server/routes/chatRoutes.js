@@ -12,8 +12,8 @@ const router = express.Router();
 router
   .route("/")
   .get(verifyToken, restrictTo("admin"), getAllChatsOfUser)
-  .post(chatLimiter, verifyToken, restrictTo("user"), createChat);
+  .post(verifyToken, chatLimiter, restrictTo("user"), createChat);
 
-router.route("/:id").get(chatReadLimiter, verifyToken, getSingleChat);
+router.route("/:id").get(verifyToken, chatReadLimiter, getSingleChat);
 
 export default router;

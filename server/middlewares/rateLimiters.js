@@ -50,6 +50,7 @@ export const resetPasswordLimiter = rateLimit({
 export const paymentLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // wait time 1 hr
   max: 10, // max 10 payment attempts
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message: "Too many payment attempts, please try again after an hour",
   },
@@ -61,6 +62,7 @@ export const paymentLimiter = rateLimit({
 export const orderLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // wait time 15 min
   max: 10, // max 10 order attempts
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message: "Too many orders created, please try again after 15 minutes",
   },
@@ -72,6 +74,7 @@ export const orderLimiter = rateLimit({
 export const aiChatLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // wait time 1 min
   max: 10, // 10 message per minute
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message:
       "You're sending messages too quickly. please try again after a minute",
@@ -83,6 +86,7 @@ export const aiChatLimiter = rateLimit({
 export const aiReadChatLimiter = rateLimit({
   windowMs: 5 * 60 * 1000, // wait time 5 min
   max: 30, // max 30 aiChat read requests
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message: "Too many requests, please try again after 5 minutes",
   },
@@ -94,6 +98,7 @@ export const aiReadChatLimiter = rateLimit({
 export const messageLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // wait time 1 min
   max: 30, // 30 messages per minute
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message:
       "You're sending messages too quickly! please try again after a minute",
@@ -105,6 +110,7 @@ export const messageLimiter = rateLimit({
 export const chatLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // wait time 15 min
   max: 15, // 15 chat requests
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message: "Too many chat requests, please try again after 15 minutes",
   },
@@ -115,6 +121,7 @@ export const chatLimiter = rateLimit({
 export const chatReadLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // wait time 1 min
   max: 15, // 15 chat requests
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message: "Too many chat read requests, please try again after a minute",
   },
@@ -168,6 +175,7 @@ export const voiceSearchLimiter = rateLimit({
 export const reviewLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // wait time 15 min
   max: 5, // 5 reviews
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message: "Too many reviews submitted, please try again after 15 minutes",
   },
@@ -189,6 +197,7 @@ export const readReviewLimiter = rateLimit({
 export const storeLimiter = rateLimit({
   windowMs: 10 * 60 * 1000, // wait time 10 min
   max: 30, // max 30 store requests
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message: "Too many store requests, please try again after 10 minutes",
   },
@@ -200,6 +209,7 @@ export const storeLimiter = rateLimit({
 export const profileLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // wait time 15 min
   max: 10, // max 10 profile updates
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message: "Too many profile updates, please try again after 15 minutes",
   },
@@ -211,6 +221,7 @@ export const profileLimiter = rateLimit({
 export const addressLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // wait time 15 min
   max: 5, // max 5 address updates
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message: "Too many address updates, please try again after 15 minutes",
   },
@@ -222,6 +233,7 @@ export const addressLimiter = rateLimit({
 export const wishlistLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // wait time 15 min
   max: 50, // max 50 wishlist requests
+  keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message: "Too many wishlist requests, please try again after 15 minutes",
   },

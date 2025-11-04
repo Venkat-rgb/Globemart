@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.get("/stripe-key", verifyToken, getStripeKey);
 
-router.post("/payment-checkout", paymentLimiter, verifyToken, processPayment);
+router.post("/payment-checkout", verifyToken, paymentLimiter, processPayment);
 
 export default router;

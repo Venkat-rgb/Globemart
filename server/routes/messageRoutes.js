@@ -9,7 +9,7 @@ import { messageLimiter } from "../middlewares/rateLimiters.js";
 
 const router = express.Router();
 
-router.post("/", messageLimiter, verifyToken, createMessage);
+router.post("/", verifyToken, messageLimiter, createMessage);
 
 router.get("/:chatId", verifyToken, getAllMessagesOfChat);
 

@@ -11,6 +11,6 @@ const router = express.Router();
 router
   .route("/")
   .get(verifyToken, getAddress)
-  .post(addressLimiter, verifyToken, createOrUpdateAddress);
+  .post(verifyToken, addressLimiter, createOrUpdateAddress);
 
 export default router;

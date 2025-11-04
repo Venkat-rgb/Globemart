@@ -19,7 +19,7 @@ router.route("/single/:id").get(verifyToken, getSingleReview);
 
 router
   .route("/")
-  .post(reviewLimiter, verifyToken, createOrUpdateReview)
+  .post(verifyToken, reviewLimiter, createOrUpdateReview)
   .delete(verifyToken, restrictTo("admin"), deleteReview);
 
 export default router;

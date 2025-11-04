@@ -17,7 +17,7 @@ const router = express.Router();
 router
   .route("/")
   .get(verifyToken, restrictTo("admin"), getOrders)
-  .post(orderLimiter, verifyToken, createOrder);
+  .post(verifyToken, orderLimiter, createOrder);
 
 router.get("/my-orders", verifyToken, getMyOrders);
 

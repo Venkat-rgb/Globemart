@@ -16,8 +16,8 @@ router.get("/me", verifyToken, getUser);
 // Updates the logged in user's profile
 router.put(
   "/me/update",
-  profileLimiter,
   verifyToken,
+  profileLimiter,
   imageLimitMiddleware,
   updateUser
 );

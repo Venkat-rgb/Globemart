@@ -14,15 +14,15 @@ const router = express.Router();
 
 router.post(
   "/customer-support-agent",
-  aiChatLimiter,
   verifyToken,
+  aiChatLimiter,
   restrictTo("user"),
   customerSupportChat
 );
 
 router
   .route("/customer-support-agent/:userId")
-  .get(aiReadChatLimiter, verifyToken, restrictTo("user"), getChat)
+  .get(verifyToken, aiReadChatLimiter, restrictTo("user"), getChat)
   .delete(verifyToken, restrictTo("user"), deleteChat);
 
 export default router;
