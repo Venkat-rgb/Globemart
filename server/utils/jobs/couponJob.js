@@ -36,6 +36,7 @@ const checkInactiveCoupons = async () => {
 
         // Saving updated fields in database
         await coupon.save();
+        console.log(`Activated coupon: ${coupon.couponCode} successfully!`);
       }
     });
 
@@ -87,6 +88,8 @@ const checkActiveCoupons = async () => {
 
       // Saving updated fields in database
       await coupon.save();
+
+      console.log(`Expired coupon: ${coupon.couponCode} successfully!`);
     });
 
     // Invalidating the valid coupon
