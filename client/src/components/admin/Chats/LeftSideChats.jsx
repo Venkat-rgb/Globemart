@@ -13,7 +13,7 @@ const LeftSideChats = ({
   selectedChat,
   setSelectedChatHandler,
   isCustomerOnlineCheckHandler,
-  messages,
+  // messages,
   socket,
 }) => {
   // When particular chat is selected, chatId keeps track of that chat
@@ -95,7 +95,7 @@ const LeftSideChats = ({
     return () => {
       timer && clearTimeout(timer);
     };
-  }, [searchName, messages, getAllChatsHandler]);
+  }, [searchName, getAllChatsHandler]);
 
   return (
     <div className="min-[900px]:col-span-3 max-[900px]:col-span-4 p-2 font-inter space-y-3 bg-white">

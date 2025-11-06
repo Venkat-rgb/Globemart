@@ -70,6 +70,7 @@ const checkActiveCoupons = async () => {
       if (currentDateTime >= endDateTime) {
         // Marking couponStatus as expired
         coupon.couponStatus = "expired";
+        console.log(`Expired coupon: ${coupon.couponCode} successfully!`);
       } else {
         // If currentDateTime < endDateTime, then it means coupon is still active
         // As coupon is active, we update the couponText with startDate as currentDate
@@ -88,8 +89,6 @@ const checkActiveCoupons = async () => {
 
       // Saving updated fields in database
       await coupon.save();
-
-      console.log(`Expired coupon: ${coupon.couponCode} successfully!`);
     });
 
     // Invalidating the valid coupon
