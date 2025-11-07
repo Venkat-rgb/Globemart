@@ -48,17 +48,17 @@ const Chats = () => {
   // Intializing Socket Connection
   const { socket } = useCreateSocket();
 
-  const setChatIdHandler = (id) => {
+  const setChatIdHandler = useCallback((id) => {
     setChatId(id);
-  };
+  }, []);
 
   const setMessagesHandler = (messageInfo) => {
     setMessages(messageInfo);
   };
 
-  const setSelectedChatHandler = (id) => {
+  const setSelectedChatHandler = useCallback((id) => {
     setSelectedChat(id);
-  };
+  }, []);
 
   const getOnlineUsersListener = (data) => {
     setOnlineUsers(data);

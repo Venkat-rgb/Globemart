@@ -155,7 +155,6 @@ const LeftSideChats = ({
                 chat?.usersInChat[0]?._id
               )}
               socket={socket}
-              getAllChatsHandler={getAllChatsHandler}
             />
           ))}
 

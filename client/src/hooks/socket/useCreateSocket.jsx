@@ -20,6 +20,13 @@ const useCreateSocket = () => {
       );
     };
 
+    const socketReconnectHandler = (attemptNumber) => {
+      console.log(
+        `Reconnected to socket server after ${attemptNumber} attempts`
+      );
+      toast.success("Reconnected to chat server!");
+    };
+
     if (socket) {
       socket.connect();
 
@@ -31,6 +38,9 @@ const useCreateSocket = () => {
 
       // Reconnection errors are handled
       socket.on("reconnect_failed", socketReconnectFailedHandler);
+
+      // Successfully reconnected
+      socket.on("reconnect", socketReconnectHandler);
     }
 
     return () => {
@@ -39,6 +49,8 @@ const useCreateSocket = () => {
       socket.off("connect_error", socketConnectErrorHandler);
 
       socket.off("reconnect_failed", socketReconnectFailedHandler);
+
+      socket.off("reconnect", socketReconnectHandler);
 
       socket.disconnect();
     };

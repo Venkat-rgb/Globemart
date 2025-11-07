@@ -2,7 +2,7 @@ import { Badge, Tooltip } from "@mui/material";
 import { IoCheckmarkDone } from "react-icons/io5";
 import moment from "moment";
 import LazyImage from "../../LazyImage";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const ChatMessage = ({
   id,
@@ -19,18 +19,18 @@ const ChatMessage = ({
   selectedChat,
   setSelectedChatHandler,
   socket,
-  getAllChatsHandler,
 }) => {
-  // Keeps track of unread messages count
-  const [numOfMessageNotifications, setNumOfMessageNotifications] = useState(0);
+  // Keeps track of unread messages
+  const [areMessagesUnread, setAreMessagesUnread] = useState(false);
 
-  const getMessageNotificationHandler = (notificationSenderId) => {
-    getAllChatsHandler();
-
-    if (senderId === notificationSenderId) {
-      setNumOfMessageNotifications((prev) => prev + 1);
-    }
-  };
+  const getMessageNotificationHandler = useCallback(
+    (notificationSenderId) => {
+      if (senderId === notificationSenderId && selectedChat !== id) {
+        setAreMessagesUnread(true);
+      }
+    },
+    [senderId, selectedChat, id]
+  );
 
   useEffect(() => {
     if (socket) {
@@ -43,14 +43,14 @@ const ChatMessage = ({
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket]);
+  }, [socket, getMessageNotificationHandler]);
 
   useEffect(() => {
     if (selectedChat === id) {
-      setNumOfMessageNotifications(0);
+      setAreMessagesUnread(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedChat]);
+  }, [selectedChat, id]);
 
   // Selecting particular chat based on id and storing that chatId into state
   return (
@@ -124,15 +124,15 @@ const ChatMessage = ({
           </Tooltip>
         )}
 
-        <Badge
-          badgeContent={numOfMessageNotifications}
-          color="primary"
-          sx={{
-            position: "absolute",
-            right: "10px",
-            bottom: "10px",
-          }}
-        />
+        {areMessagesUnread && (
+          <Tooltip title="Unread" placement="left">
+            <div
+              className={`absolute bg-neutral-400 bottom-0 right-0 w-2.5 h-2.5 rounded-full`}
+            >
+              <div className="animate-ping bg-neutral-700 w-full h-full rounded-full" />
+            </div>
+          </Tooltip>
+        )}
       </div>
     </div>
   );
