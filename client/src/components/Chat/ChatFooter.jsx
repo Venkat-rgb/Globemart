@@ -15,6 +15,8 @@ const ChatFooter = ({
   setMessagesHandler,
   messages,
   emojiPlaceOfUse,
+  updateChatLastMessage,
+  userRole,
 }) => {
   // Keeps track of message which user is typing
   const [message, setMessage] = useState("");
@@ -54,6 +56,20 @@ const ChatFooter = ({
 
       // Sending this message to other user by emitting createMessage event
       socket.emit("createMessage", { ...messageRes?.messageData, receiverId });
+
+      if (userRole === "admin") {
+        const lastMessageObj = {
+          _id: messageRes?.messageData._id,
+          sender: {
+            _id: messageRes?.messageData?.sender?._id,
+          },
+          message: messageRes?.messageData?.message,
+          messageSeen: messageRes?.messageData?.messageSeen,
+          messageSentAt: messageRes?.messageData?.messageSentAt,
+        };
+
+        updateChatLastMessage(chatId, lastMessageObj);
+      }
 
       // Clearing message input
       setMessage("");

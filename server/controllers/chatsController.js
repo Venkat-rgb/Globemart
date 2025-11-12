@@ -112,7 +112,7 @@ export const getAllChatsOfUser = catchAsync(async (req, res) => {
       },
       select: "message messageSeen messageSentAt",
     })
-    .select("_id usersInChat updatedAt lastMessage");
+    .select("_id usersInChat updatedAt lastMessage unreadMessagesCount");
 
   // Returning chats to user
   res.status(200).json({ chats });

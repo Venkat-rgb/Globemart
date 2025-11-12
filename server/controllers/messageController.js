@@ -40,6 +40,11 @@ export const createMessage = catchAsync(async (req, res, next) => {
   // Updating the lastMessage of this chat
   chat.lastMessage = createdMessage._id;
 
+  // Increment the unread messages count if sender is user
+  if (req.user?.role === "user") {
+    chat.unreadMessagesCount += 1;
+  }
+
   // Saving the updated chat model to DB
   await chat.save();
 
@@ -100,10 +105,15 @@ export const markMessagesAsSeen = catchAsync(async (req, res, next) => {
 
   // If there are unseen messages with this chatId, so change the messageSeen status to true
   if (unseenMessages?.length > 0) {
-    const updateMessages = await Message.updateMany(
+    await Message.updateMany(
       { chat: chatId, sender: userId },
       { $set: { messageSeen: true } }
     );
+
+    if (req.user?.role === "admin") {
+      chat.unreadMessagesCount = 0;
+      await chat.save();
+    }
   }
 
   // If there are no messages in this chat and no unseen messages, then don't do anything client, don't make request when there are no messages in this chat.

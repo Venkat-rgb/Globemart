@@ -13,23 +13,33 @@ const ChatMessage = ({
   lastMessageTime,
   lastMessageSeen,
   lastMessageSender,
+  unreadMessagesCount,
   loggedInUserId,
   setChatIdHandler,
   isCustomerOnline,
   selectedChat,
   setSelectedChatHandler,
+  updateChatLastMessage,
   socket,
 }) => {
   // Keeps track of unread messages
-  const [areMessagesUnread, setAreMessagesUnread] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(unreadMessagesCount);
 
   const getMessageNotificationHandler = useCallback(
-    (notificationSenderId) => {
-      if (senderId === notificationSenderId && selectedChat !== id) {
-        setAreMessagesUnread(true);
+    (messageInfo) => {
+      const {
+        sender: { _id: notificationSenderId },
+      } = messageInfo;
+
+      if (senderId === notificationSenderId) {
+        if (selectedChat !== id) {
+          setUnreadCount((prev) => prev + 1);
+        }
+        console.log("LastMessageUpdated!");
+        updateChatLastMessage(id, messageInfo);
       }
     },
-    [senderId, selectedChat, id]
+    [senderId, selectedChat, id, updateChatLastMessage]
   );
 
   useEffect(() => {
@@ -47,7 +57,7 @@ const ChatMessage = ({
 
   useEffect(() => {
     if (selectedChat === id) {
-      setAreMessagesUnread(false);
+      setUnreadCount(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedChat, id]);
@@ -124,13 +134,11 @@ const ChatMessage = ({
           </Tooltip>
         )}
 
-        {areMessagesUnread && (
+        {unreadCount > 0 && (
           <Tooltip title="Unread" placement="left">
-            <div
-              className={`absolute bg-neutral-400 bottom-0 right-0 w-2.5 h-2.5 rounded-full`}
-            >
-              <div className="animate-ping bg-neutral-700 w-full h-full rounded-full" />
-            </div>
+            <span className="absolute right-0 bottom-0 flex items-center justify-center text-[0.7rem] font-inter w-[1.1rem] h-[1.1rem] text-white bg-indigo-400 rounded-full">
+              {unreadCount > 9 ? "9+" : unreadCount}
+            </span>
           </Tooltip>
         )}
       </div>

@@ -13,49 +13,17 @@ const LeftSideChats = ({
   selectedChat,
   setSelectedChatHandler,
   isCustomerOnlineCheckHandler,
-  // messages,
   socket,
+  chatsData,
+  setChatsData,
+  sortChats,
+  updateChatLastMessage,
 }) => {
   // When particular chat is selected, chatId keeps track of that chat
   const [searchName, setSearchName] = useState("");
 
-  // Keeps track of all the chats available
-  const [chatsData, setChatsData] = useState([]);
-
   const [getAllChats, { isFetching: areChatsLoading, isError: chatsError }] =
     useLazyGetAllChatsOfUserQuery();
-
-  const sortChats = (chats) => {
-    const validChats = [],
-      invalidChats = [];
-
-    chats?.forEach((chat) => {
-      // If chat contains lastMessage sentAt time then storing them in validChats which are used below for sorting
-      if (chat?.lastMessage?.messageSentAt) {
-        validChats.push(chat);
-      } else {
-        // If chat doesn't contain lastMessage sentAt time, then storing them in invalidChats which can't be used for sorting
-        invalidChats.push(chat);
-      }
-    });
-
-    // Sorting valid chats in descending order
-    let sortedChats = validChats?.sort((firstChat, secondChat) => {
-      const firstChatTime = new Date(
-        firstChat?.lastMessage?.messageSentAt
-      ).getTime();
-      const secondChatTime = new Date(
-        secondChat?.lastMessage?.messageSentAt
-      ).getTime();
-
-      return secondChatTime - firstChatTime;
-    });
-
-    // Appending invalid chats at the end of sortedChats
-    sortedChats = sortedChats.concat(invalidChats);
-
-    return sortedChats;
-  };
 
   const getAllChatsHandler = useCallback(
     async (name = "") => {
@@ -147,6 +115,7 @@ const LeftSideChats = ({
               lastMessageTime={chat?.lastMessage?.messageSentAt}
               lastMessageSeen={chat?.lastMessage?.messageSeen}
               lastMessageSender={chat?.lastMessage?.sender?._id}
+              unreadMessagesCount={chat?.unreadMessagesCount}
               loggedInUserId={userInfoId}
               setChatIdHandler={setChatIdHandler}
               selectedChat={selectedChat}
@@ -154,6 +123,7 @@ const LeftSideChats = ({
               isCustomerOnline={isCustomerOnlineCheckHandler(
                 chat?.usersInChat[0]?._id
               )}
+              updateChatLastMessage={updateChatLastMessage}
               socket={socket}
             />
           ))}

@@ -122,10 +122,15 @@ io.on("connection", (socket) => {
           io.to(isReceiverExists?.socketId).emit("getMessage", createdMessage);
 
           if (isReceiverExists?.role === "admin") {
-            io.to(isReceiverExists?.socketId).emit(
-              "getMessageNotification",
-              createdMessage?.sender?._id
-            );
+            io.to(isReceiverExists?.socketId).emit("getMessageNotification", {
+              _id: createdMessage?._id,
+              sender: {
+                _id: createdMessage?.sender?._id,
+              },
+              message: createdMessage?.message,
+              messageSeen: createdMessage?.messageSeen,
+              messageSentAt: createdMessage?.messageSentAt,
+            });
           }
         }
       } catch (err) {

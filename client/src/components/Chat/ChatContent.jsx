@@ -18,6 +18,8 @@ const ChatContent = ({
   isCustomerOnline,
   emojiPlaceOfUse,
   isTyping,
+  updateChatLastMessage,
+  userRole,
 }) => {
   // Used for scrolling to the last message in chat when user opens
   const messagesRef = useRef();
@@ -78,6 +80,8 @@ const ChatContent = ({
         setMessagesHandler={setMessagesHandler}
         emojiPlaceOfUse={emojiPlaceOfUse}
         isTyping={isTyping}
+        updateChatLastMessage={updateChatLastMessage}
+        userRole={userRole}
       />
     </div>
   );

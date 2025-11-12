@@ -35,6 +35,9 @@ const Chats = () => {
   // Indicates whether a customer is currently typing
   const [isTyping, setIsTyping] = useState(false);
 
+  // Keeps track of all the chats available
+  const [chatsData, setChatsData] = useState([]);
+
   // Stores the socket ID of the customer
   const [socketReceiverId, setSocketReceiverId] = useState("");
 
@@ -52,17 +55,17 @@ const Chats = () => {
     setChatId(id);
   }, []);
 
-  const setMessagesHandler = (messageInfo) => {
+  const setMessagesHandler = useCallback((messageInfo) => {
     setMessages(messageInfo);
-  };
+  }, []);
 
   const setSelectedChatHandler = useCallback((id) => {
     setSelectedChat(id);
   }, []);
 
-  const getOnlineUsersListener = (data) => {
+  const getOnlineUsersListener = useCallback((data) => {
     setOnlineUsers(data);
-  };
+  }, []);
 
   // Fetches data about single chat based on chatId
   const getSingleChatHandler = useCallback(
@@ -88,6 +91,57 @@ const Chats = () => {
 
     return isCustomerExists ? true : false;
   };
+
+  // Sorts all the chats
+  const sortChats = (chats) => {
+    const validChats = [],
+      invalidChats = [];
+
+    chats?.forEach((chat) => {
+      // If chat contains lastMessage sentAt time then storing them in validChats which are used below for sorting
+      if (chat?.lastMessage?.messageSentAt) {
+        validChats.push(chat);
+      } else {
+        // If chat doesn't contain lastMessage sentAt time, then storing them in invalidChats which can't be used for sorting
+        invalidChats.push(chat);
+      }
+    });
+
+    // Sorting valid chats in descending order
+    let sortedChats = validChats?.sort((firstChat, secondChat) => {
+      const firstChatTime = new Date(
+        firstChat?.lastMessage?.messageSentAt
+      ).getTime();
+      const secondChatTime = new Date(
+        secondChat?.lastMessage?.messageSentAt
+      ).getTime();
+
+      return secondChatTime - firstChatTime;
+    });
+
+    // Appending invalid chats at the end of sortedChats
+    sortedChats = sortedChats.concat(invalidChats);
+
+    return sortedChats;
+  };
+
+  // Updates the last message of a particular chat
+  const updateChatLastMessage = useCallback((chatId, lastMessageData) => {
+    setChatsData((prevData) => {
+      const updatedChats = prevData.map((chatData) => {
+        if (chatData._id === chatId) {
+          return {
+            ...chatData,
+            lastMessage: lastMessageData,
+            updatedAt: new Date().toISOString(),
+          };
+        }
+        return chatData;
+      });
+
+      return sortChats(updatedChats);
+    });
+  }, []);
 
   // Get all messages of a particular chat
   useEffect(() => {
@@ -134,8 +188,11 @@ const Chats = () => {
             selectedChat={selectedChat}
             setSelectedChatHandler={setSelectedChatHandler}
             isCustomerOnlineCheckHandler={isCustomerOnlineCheckHandler}
-            messages={messages}
             socket={socket}
+            chatsData={chatsData}
+            setChatsData={setChatsData}
+            sortChats={sortChats}
+            updateChatLastMessage={updateChatLastMessage}
           />
 
           <div className="min-[900px]:col-span-7 max-[900px]:col-span-6 h-[87.5vh]">
@@ -161,6 +218,8 @@ const Chats = () => {
                 )}
                 emojiPlaceOfUse="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                 isTyping={isTyping}
+                updateChatLastMessage={updateChatLastMessage}
+                userRole={userInfo?.role}
               />
             ) : isChatDataLoading ? (
               // Showing Loader while chatData is loading
