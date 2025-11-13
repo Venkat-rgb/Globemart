@@ -57,7 +57,7 @@ const PORT = process.env.PORT || 3000;
 // Using compression to optimize response body size and speed of application
 app.use(
   compression({
-    level: 6,
+    level: 4,
   })
 );
 
