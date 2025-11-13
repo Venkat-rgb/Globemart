@@ -1,6 +1,5 @@
 import schedule from "node-schedule";
 import { Coupon } from "../../models/Coupon.js";
-import { getNumOfDaysLeft } from "../getNumOfDaysLeft.js";
 import { myCache } from "../../server.js";
 
 // Marking all the 'inactive' coupons as 'active'
