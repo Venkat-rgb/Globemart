@@ -100,8 +100,8 @@ const checkActiveCoupons = async () => {
 
 export const startCouponJob = () => {
   try {
-    // job1 runs everyday midnight at 12:01:00 AM
-    const job1 = schedule.scheduleJob("0 1 0 * * *", async () => {
+    // This job runs everyday midnight at 12:01:00 AM
+    schedule.scheduleJob("0 1 0 * * *", async () => {
       try {
         // Get Inactive coupons and make them active if currentDate is equal to coupon  startDate
         await checkInactiveCoupons();
@@ -110,8 +110,8 @@ export const startCouponJob = () => {
       }
     });
 
-    // job2 runs everyday midnight at 12:01:05 AM
-    const job2 = schedule.scheduleJob("5 1 0 * * *", async () => {
+    // This job runs everyday midnight at 12:01:05 AM
+    schedule.scheduleJob("5 1 0 * * *", async () => {
       try {
         // Get Active coupons and check if they are expired
         await checkActiveCoupons();
