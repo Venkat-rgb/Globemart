@@ -42,7 +42,6 @@ import { v2 as cloudinary } from "cloudinary";
 import fileUpload from "express-fileupload";
 import { startCouponJob } from "./utils/jobs/couponJob.js";
 import helmet from "helmet";
-import morgan from "morgan";
 import mongoSanitize from "express-mongo-sanitize";
 import NodeCache from "node-cache";
 import compression from "compression";
@@ -63,11 +62,6 @@ app.use(
 
 // Setting Security HTTP Headers
 app.use(helmet());
-
-// Logging logs only in development mode
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
 
 // Allowing form data
 app.use(express.urlencoded({ limit: "15mb", extended: true }));

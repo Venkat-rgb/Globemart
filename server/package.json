@@ -33,11 +33,11 @@
     "jsonwebtoken": "^9.0.0",
     "libphonenumber-js": "^1.10.44",
     "mongoose": "^7.1.0",
-    "morgan": "^1.10.0",
     "node-cache": "^5.1.2",
     "node-schedule": "^2.1.1",
     "nodemailer": "^6.9.1",
     "stripe": "^13.5.0",
-    "validator": "^13.9.0"
+    "validator": "^13.9.0",
+    "winston": "^3.18.3"
   }
 }
