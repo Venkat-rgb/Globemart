@@ -49,9 +49,12 @@ import { GoogleGenAI } from "@google/genai";
 import { xss } from "express-xss-sanitizer";
 import mongoose from "mongoose";
 import { globalLimiter } from "./middlewares/rateLimiters.js";
+import { logger } from "./utils/logger.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+logger.info("Hello world!");
 
 // Using compression to optimize response body size and speed of application
 app.use(
