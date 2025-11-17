@@ -1,3 +1,5 @@
+import { logger } from "./logger.js";
+
 export const catchAsync = (func) => {
   try {
     // Capturing the errors
@@ -5,6 +7,6 @@ export const catchAsync = (func) => {
       func(req, res, next).catch(next);
     };
   } catch (err) {
-    console.log("catchAsync function error: ", err?.message);
+    logger.error(`catchAsync function error: ${err?.message}`);
   }
 };

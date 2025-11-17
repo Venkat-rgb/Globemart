@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { logger } from "./logger.js";
 
 // Sending order invoice email using nodemailer
 export const sendInvoice = async (emailInfo) => {
@@ -27,6 +28,6 @@ export const sendInvoice = async (emailInfo) => {
     // Sending the mail to user with above mailOptions
     await transporter.sendMail(mailOptions);
   } catch (err) {
-    console.log("sendInvoice error: ", err?.message);
+    logger.error(`sendOrderInvoice error: ${err?.message}`);
   }
 };

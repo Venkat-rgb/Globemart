@@ -4,6 +4,7 @@ import { AppError } from "../utils/appError.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import cloudinary from "cloudinary";
 import jwt from "jsonwebtoken";
+import { logger } from "../utils/logger.js";
 
 // Get Logged in user
 export const getUser = catchAsync(async (req, res) => {
@@ -87,7 +88,11 @@ export const updateUser = catchAsync(async (req, res) => {
 
     // Saving the updated user to DB
     await user.save();
+
+    logger.info(`Updated User_${req.user._id} profile images`);
   }
+
+  logger.info(`Updated User_${req.user._id} profile successfully`);
 
   res.status(200).json({
     message: `User updated successfully!`,
@@ -152,6 +157,8 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
 
   await user.save();
 
+  logger.info(`User_${req.user._id} password changed successfully`);
+
   // Making sure that user is logged out, so that they can login using new password
   // Getting the remaining expiration time of accessToken while user logging out
   const remainingExpirationTime =
@@ -163,6 +170,10 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
     expiresAt: remainingExpirationTime,
   });
 
+  logger.info(
+    `Blacklisting the User_${req.user._id} JWT to re-login as password changed`
+  );
+
   // Clearing the cookie as the user is logged out
   res.clearCookie("refreshToken", {
     httpOnly: true,
@@ -172,6 +183,10 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
     // should include secure: true for https and also sameSite: 'none' for cross-site cookie access.
     // Make sure to include expires like above, inorder to delete the cookie successfully, instead of leaving empty cookie without any value
   });
+
+  logger.info(
+    `Clearing the refreshToken cookie to re-login the User_${req.user._id}`
+  );
 
   res.status(200).json({
     message: `Password changed successfully!`,

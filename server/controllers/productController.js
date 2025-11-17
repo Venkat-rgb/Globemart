@@ -8,6 +8,7 @@ import { myCache } from "../server.js";
 import { generateEmbedding } from "../utils/ai/generateEmbedding.js";
 import { extractKeywords } from "../utils/ai/extractKeywords.js";
 import { markdownToJSON } from "../utils/ai/markdownToJSON.js";
+import { logger } from "../utils/logger.js";
 
 // GET ALL PRODUCTS
 export const getProducts = catchAsync(async (req, res) => {
@@ -34,9 +35,6 @@ export const getProducts = catchAsync(async (req, res) => {
   if (req.query?.placeOfUse === "related_products") {
     if (myCache.has(cacheKey)) {
       finalTrimmedProducts = JSON.parse(myCache.get(cacheKey));
-      console.log(
-        `Cached Related Products of category: ${req.query?.category}`
-      );
 
       // Returning cached related products
       return res.status(200).json({
@@ -52,10 +50,6 @@ export const getProducts = catchAsync(async (req, res) => {
   // Storing related_products in cache for future use
   if (req.query?.placeOfUse === "related_products") {
     myCache.set(cacheKey, JSON.stringify(finalTrimmedProducts));
-
-    console.log(
-      `Caching Related Products of category: ${req.query?.category} for future use!`
-    );
   }
 
   res.status(200).json({
@@ -72,7 +66,6 @@ export const getFeaturedProducts = catchAsync(async (req, res) => {
 
   // Checking if the products exists in the cache
   if (myCache.has(cacheKey)) {
-    console.log("Cached Featured Products!");
     // If exists, then send these products to client without making any request to database
     products = JSON.parse(myCache.get(cacheKey));
   } else {
@@ -97,7 +90,6 @@ export const getFeaturedProducts = catchAsync(async (req, res) => {
 
     // Storing the featured products in cache for future use
     myCache.set(cacheKey, JSON.stringify(products));
-    console.log("Featured Products from DB!");
   }
 
   res.status(200).json({ products });
@@ -128,8 +120,6 @@ export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
   const extractedKeywords = await extractKeywords(trimmedText);
   const keywordsJSON = markdownToJSON(extractedKeywords);
 
-  console.log("KeywordsJSON: ", keywordsJSON);
-
   // Search the products using user query embedding and mongodb vector search
   const similarProducts = await Product.aggregate([
     {
@@ -155,8 +145,6 @@ export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
     },
   ]);
 
-  console.log("SimilarProducts: ", similarProducts);
-
   // Sending similar products as response
   res.status(200).json({
     products: similarProducts,
@@ -174,7 +162,6 @@ export const getProduct = catchAsync(async (req, res, next) => {
   // If product is present in cache we don't make an API call to database
   if (myCache.has(cacheKey)) {
     product = JSON.parse(myCache.get(cacheKey));
-    console.log(`Cached Single product: ${id}`);
   } else {
     // Making API call to database as product is not in cache
     product = await Product.findById(id);
@@ -186,7 +173,6 @@ export const getProduct = catchAsync(async (req, res, next) => {
 
     // Setting product in cache for further use
     myCache.set(cacheKey, JSON.stringify(product));
-    console.log(`Single Product from DB: ${id}`);
   }
 
   res.status(200).json({
@@ -234,8 +220,6 @@ export const createProduct = catchAsync(async (req, res, next) => {
     images = [images];
   }
 
-  console.log("createProduct Images: ", images);
-
   if (images && images.length > 0) {
     // Saving multiple product images to cloudinary
     for (let i = 0; i < images.length; i++) {
@@ -250,8 +234,6 @@ export const createProduct = catchAsync(async (req, res, next) => {
 
       // Saving the stored cloudinary's image info in imgRes array
       imgRes.push({ public_id: imgData?.public_id, url: imgData?.secure_url });
-
-      console.log(`Saved ${i + 1} images createProduct`);
     }
   }
 
@@ -271,7 +253,8 @@ export const createProduct = catchAsync(async (req, res, next) => {
   // Saving the updated product model to DB
   await product.save();
 
-  console.log(`Successfully Created Embeddings of ${product.title}`);
+  logger.info(`Saved Product_${product?._id} images successfully`);
+  logger.info(`Created Product_${product?._id} embedding successfully`);
 
   // Deleting the featured products cache as we are adding new product
   const cacheKey = [
@@ -282,7 +265,7 @@ export const createProduct = catchAsync(async (req, res, next) => {
   // Deleting the products cache.
   myCache.del(cacheKey);
 
-  console.log(`Deleted ${cacheKey} from cache in createProductController`);
+  logger.info(`Invalidated cache as new product is created`);
 
   res.status(201).json({
     message: "Product created successfully!",
@@ -341,8 +324,6 @@ export const updateProduct = catchAsync(async (req, res, next) => {
     images = [images];
   }
 
-  console.log("updateProduct Images: ", images);
-
   if (images && images.length > 0) {
     // 1) Delete existing images from cloudinary
     for (let i = 0; i < modifiedProduct?.images?.length; ++i) {
@@ -365,8 +346,6 @@ export const updateProduct = catchAsync(async (req, res, next) => {
 
       // Saving the stored cloudinary's image info in imgRes array
       imgRes.push({ public_id: imgData?.public_id, url: imgData?.secure_url });
-
-      console.log(`Saved ${i + 1} images updateProduct`);
     }
 
     // Storing new images with their respective cloudinary image url's in images field of product model
@@ -395,9 +374,12 @@ export const updateProduct = catchAsync(async (req, res, next) => {
 
     // Saving the embeddings
     await modifiedProduct.save();
-
-    console.log(`Successfully updated embeddings of ${modifiedProduct.title}`);
   }
+
+  logger.info(
+    `Updated Product_${modifiedProduct?._id} info and images successfully`
+  );
+  logger.info(`Updated Product_${modifiedProduct?._id} embedding successfully`);
 
   // Deleting the products from the cache as they are getting updated
   let cacheKeys = [
@@ -415,7 +397,7 @@ export const updateProduct = catchAsync(async (req, res, next) => {
 
   myCache.del(cacheKeys);
 
-  console.log(`Deleted ${cacheKeys} from cache in updateProductController`);
+  logger.info(`Invalidated cache as product is updated`);
 
   res.status(200).json({
     message: `Product Updated Successfully!`,
@@ -460,7 +442,8 @@ export const deleteProduct = catchAsync(async (req, res, next) => {
 
   myCache.del(cacheKeys);
 
-  console.log(`Deleted ${cacheKeys} from cache in deleteProductController`);
+  logger.info(`Product_${id} deleted successfully`);
+  logger.info(`Invalidated cache as Product_${id} is deleted`);
 
   res.status(200).json({
     message: `Product deleted successfully!`,

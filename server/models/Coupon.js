@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { getNumOfDaysLeft } from "../utils/getNumOfDaysLeft.js";
+import { logger } from "../utils/logger.js";
 
 const couponSchema = new mongoose.Schema(
   {
@@ -78,7 +79,7 @@ couponSchema.methods.setCouponText = function (
       numOfDaysLeft === 1 ? "day" : "days"
     } left)`;
   } catch (err) {
-    console.log("setCouponText method error: ", err?.message);
+    logger.error(`setCouponText method error: ${err?.message}`);
   }
 };
 

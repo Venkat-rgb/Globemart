@@ -1,4 +1,5 @@
 import { llm } from "../../server.js";
+import { logger } from "../logger.js";
 
 // Extracting keywords from user query
 export const extractKeywords = async (query) => {
@@ -58,6 +59,6 @@ export const extractKeywords = async (query) => {
 
     return extractedKeywords.text;
   } catch (err) {
-    console.log("keywordExtractingError: ", err?.message);
+    logger.error(`AI keywordExtractingError: ${err?.message}`);
   }
 };

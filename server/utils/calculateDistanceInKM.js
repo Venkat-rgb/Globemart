@@ -1,3 +1,5 @@
+import { logger } from "./logger.js";
+
 export const calculateDistanceInKM = (lat1, lon1, lat2, lon2) => {
   try {
     const R = 6371; // Radius of the Earth in kilometers
@@ -13,6 +15,6 @@ export const calculateDistanceInKM = (lat1, lon1, lat2, lon2) => {
     const distance = R * c; // Distance in kilometers
     return distance;
   } catch (err) {
-    console.log("calculateDistanceInKM error: ", err?.message);
+    logger.error(`calculateDistanceInKM error: ${err?.message}`);
   }
 };

@@ -3,6 +3,7 @@ import { catchAsync } from "../utils/catchAsync.js";
 import { AppError } from "../utils/appError.js";
 import { Chat } from "../models/Chat.js";
 import { Message } from "../models/Message.js";
+import { logger } from "../utils/logger.js";
 
 // CREATE MESSAGE
 export const createMessage = catchAsync(async (req, res, next) => {
@@ -47,6 +48,10 @@ export const createMessage = catchAsync(async (req, res, next) => {
 
   // Saving the updated chat model to DB
   await chat.save();
+
+  logger.info(
+    `User_${req.user._id} successfully created Message_${createdMessage?._id} in Chat_${chat?._id}`
+  );
 
   // Sending message data to user
   res.status(201).json({
@@ -108,6 +113,10 @@ export const markMessagesAsSeen = catchAsync(async (req, res, next) => {
     await Message.updateMany(
       { chat: chatId, sender: userId },
       { $set: { messageSeen: true } }
+    );
+
+    logger.info(
+      `Messages of the User_${userId} of Chat_${chatId} are marked seen`
     );
 
     if (req.user?.role === "admin") {

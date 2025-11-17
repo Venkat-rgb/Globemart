@@ -1,11 +1,14 @@
 import { catchAsync } from "../utils/catchAsync.js";
 import Stripe from "stripe";
+import { logger } from "../utils/logger.js";
 
+// GETS STRIPE KEY
 export const getStripeKey = catchAsync(async (req, res) => {
   // Sending Stripe API key to client
   res.status(200).json({ stripeKey: process.env.STRIPE_API_KEY });
 });
 
+// CREATES PAYMENT INTENT
 export const processPayment = catchAsync(async (req, res) => {
   // Creating stripe instance
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -35,6 +38,8 @@ export const processPayment = catchAsync(async (req, res) => {
       enabled: true,
     },
   });
+
+  logger.info(`Payment intent for User_${req.user._id} created successfully`);
 
   // Sending clientSecret to user
   res.status(200).json({ clientSecret: paymentIntent.client_secret });

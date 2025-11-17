@@ -1,4 +1,5 @@
 import { llm } from "../../server.js";
+import { logger } from "../logger.js";
 
 // Generate embeddings
 export const generateEmbedding = async (text, type) => {
@@ -20,6 +21,6 @@ export const generateEmbedding = async (text, type) => {
 
     return embeddings[0]?.values;
   } catch (err) {
-    console.log("generateEmbeddingError: ", err?.message);
+    logger.error(`generateEmbeddingError: ${err?.message}`);
   }
 };

@@ -1,3 +1,5 @@
+import { logger } from "../utils/logger.js";
+
 // Showing detailed error to developers in development mode
 const sendDevelopmentError = (res, err) => {
   res.status(err.statusCode).json({
@@ -66,6 +68,6 @@ export const errorMiddleware = (err, req, res, next) => {
       sendProductionError(res, err);
     }
   } catch (err) {
-    console.log("errorMiddleware error: ", err?.message);
+    logger.error(`errorMiddleware error: ${err?.message}`);
   }
 };

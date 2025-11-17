@@ -4,11 +4,12 @@ import { llm } from "../server.js";
 import { generateEmbedding } from "../utils/ai/generateEmbedding.js";
 import { Company } from "../models/Company.js";
 import { Product } from "../models/Product.js";
-import { markdownToText } from "../utils/ai/markdownToText.js";
+// import { markdownToText } from "../utils/ai/markdownToText.js";
 import { Review } from "../models/Review.js";
 import { AppError } from "../utils/appError.js";
 import { Conversation } from "../models/Conversation.js";
 import { extractProductName } from "../utils/ai/extractProductName.js";
+import { logger } from "../utils/logger.js";
 
 const classifyIntent = async (state) => {
   try {
@@ -66,7 +67,7 @@ const classifyIntent = async (state) => {
       intent: trimmedIntentRes,
     };
   } catch (err) {
-    console.log("Error while classifying intent: ", err?.message);
+    logger.error(`Error while classifying intent: ${err?.message}`);
     return {
       ...state,
       intent: "unknown",
@@ -109,7 +110,7 @@ const handleGeneral = async (state) => {
       response: trimmedResult,
     };
   } catch (err) {
-    console.log("Error while handling general intent: ", err?.message);
+    logger.error(`Error while handling general intent: ${err?.message}`);
     return {
       ...state,
       response: `Sorry! I'm unable to answer right now`,
@@ -196,7 +197,7 @@ const handleCompanyPolicies = async (state) => {
       response: cleanInfoRes,
     };
   } catch (err) {
-    console.log("Error while handling company policies: ", err?.message);
+    logger.error(`Error while handling company policies: ${err?.message}`);
     return {
       ...state,
       response: `I apologize, but I'm having trouble accessing our policy information right now. Please switch to 'Chat with our Agent' to get your question answered`,
@@ -302,7 +303,7 @@ const handleProductInfo = async (state) => {
       productNameIntent: null,
     };
   } catch (err) {
-    console.log("Error while handling Product Info: ", err?.message);
+    logger.error(`Error while handling Product Info: ${err?.message}`);
     return {
       ...state,
       response: `I apologize, but I'm having trouble accessing product docs right now. Please check out the product page to know more about product features`,
@@ -435,7 +436,9 @@ const handleProductReviewSummary = async (state) => {
       productNameIntent: null,
     };
   } catch (err) {
-    console.log("Error while handling product review summary: ", err?.message);
+    logger.error(
+      `Error while handling product review summary: ${err?.message}`
+    );
     return {
       ...state,
       response: `I apologize, but I'm having trouble summarizing your product reviews`,

@@ -3,6 +3,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import { logger } from "../utils/logger.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -81,9 +82,8 @@ userSchema.pre("save", async function (next) {
     this.passwordConfirm = undefined;
     next();
   } catch (err) {
-    console.log(
-      `userSchema pre('save') hashing passwords middleware error: `,
-      err?.message
+    logger.error(
+      `userSchema pre('save') hashing passwords middleware error: ${err?.message}`
     );
   }
 });
@@ -102,9 +102,8 @@ userSchema.pre("save", function (next) {
     this.passwordChangedAt = Date.now() - 1000;
     next();
   } catch (err) {
-    console.log(
-      `userSchema pre('save') passwordChangedAt middleware error: `,
-      err?.message
+    logger.error(
+      `userSchema pre('save') passwordChangedAt middleware error: ${err?.message}`
     );
   }
 });
@@ -120,7 +119,7 @@ userSchema.methods.getJWTToken = function () {
       }
     );
   } catch (err) {
-    console.log("getJWTToken method error: ", err?.message);
+    logger.error(`getJWTToken method error: ${err?.message}`);
   }
 };
 
@@ -135,7 +134,7 @@ userSchema.methods.getRefreshToken = function () {
       }
     );
   } catch (err) {
-    console.log("getRefreshToken method error: ", err?.message);
+    logger.error(`getRefreshToken method error: ${err?.message}`);
   }
 };
 
@@ -147,7 +146,7 @@ userSchema.methods.checkPassword = async function (
   try {
     return await bcrypt.compare(enteredPassword, storedPassword);
   } catch (err) {
-    console.log("checkPassword method error: ", err?.message);
+    logger.error(`checkPassword method error: ${err?.message}`);
   }
 };
 
@@ -166,7 +165,7 @@ userSchema.methods.createPasswordResetToken = function () {
 
     return resetToken;
   } catch (err) {
-    console.log("createPasswordResetToken method error: ", err?.message);
+    logger.error(`createPasswordResetToken method error: ${err?.message}`);
   }
 
   /*
@@ -197,9 +196,8 @@ userSchema.methods.checkPasswordChangedAfterJWTIssued = function (
     // we are handling this return false case bcz when we create new user then passwordChangedAt is undefined. so thats why we are handling using return false. it means that password is not updated yet.
     return false;
   } catch (err) {
-    console.log(
-      "checkPasswordChangedAfterJWTIssued method error: ",
-      err?.message
+    logger.error(
+      `checkPasswordChangedAfterJWTIssued method error: ${err?.message}`
     );
   }
 };

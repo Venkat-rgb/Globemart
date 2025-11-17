@@ -1,3 +1,5 @@
+import { logger } from "./logger.js";
+
 // Order invoice template used for sending mail to customer when order is placed
 export const orderInvoiceTemplate = (invoiceInfo) => {
   try {
@@ -120,6 +122,6 @@ export const orderInvoiceTemplate = (invoiceInfo) => {
 
     return invoice;
   } catch (err) {
-    console.log("orderInvoiceTemplate function error: ", err?.message);
+    logger.error(`orderInvoiceTemplate function error: ${err?.message}`);
   }
 };

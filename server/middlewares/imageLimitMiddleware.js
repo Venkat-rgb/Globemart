@@ -1,4 +1,5 @@
 import { AppError } from "../utils/appError.js";
+import { logger } from "../utils/logger.js";
 
 export const imageLimitMiddleware = (req, res, next) => {
   try {
@@ -52,7 +53,7 @@ export const imageLimitMiddleware = (req, res, next) => {
     // As every image has correct type and correct size
     next();
   } catch (err) {
-    console.log("imageLimitMiddleware error: ", err?.message);
+    logger.warn(`imageLimitMiddleware error: ${err?.message}`);
     next(new AppError("Error validating images", 500));
   }
 };

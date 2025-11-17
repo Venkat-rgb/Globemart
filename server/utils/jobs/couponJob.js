@@ -1,6 +1,7 @@
 import schedule from "node-schedule";
 import { Coupon } from "../../models/Coupon.js";
 import { myCache } from "../../server.js";
+import { logger } from "../logger.js";
 
 // Marking all the 'inactive' coupons as 'active'
 const checkInactiveCoupons = async () => {
@@ -35,7 +36,7 @@ const checkInactiveCoupons = async () => {
 
         // Saving updated fields in database
         await coupon.save();
-        console.log(`Activated coupon: ${coupon.couponCode} successfully!`);
+        logger.info(`Activated coupon: ${coupon.couponCode} successfully!`);
       }
     });
 
@@ -43,9 +44,8 @@ const checkInactiveCoupons = async () => {
     const cacheKey = `valid_coupon`;
     myCache.del(cacheKey);
   } catch (err) {
-    console.error(
-      "Error in changing status from inactive to active coupons handler: ",
-      err?.message
+    logger.error(
+      `Error in changing status from inactive to active coupons handler: ${err?.message}`
     );
   }
 };
@@ -69,7 +69,7 @@ const checkActiveCoupons = async () => {
       if (currentDateTime >= endDateTime) {
         // Marking couponStatus as expired
         coupon.couponStatus = "expired";
-        console.log(`Expired coupon: ${coupon.couponCode} successfully!`);
+        logger.info(`Expired coupon: ${coupon.couponCode} successfully!`);
       } else {
         // If currentDateTime < endDateTime, then it means coupon is still active
         // As coupon is active, we update the couponText with startDate as currentDate
@@ -94,7 +94,7 @@ const checkActiveCoupons = async () => {
     const cacheKey = `valid_coupon`;
     myCache.del(cacheKey);
   } catch (err) {
-    console.error("Error in Expiring of coupons handler: ", err?.message);
+    logger.error(`Error in Expiring of coupons handler: ${err?.message}`);
   }
 };
 
@@ -106,7 +106,7 @@ export const startCouponJob = () => {
         // Get Inactive coupons and make them active if currentDate is equal to coupon  startDate
         await checkInactiveCoupons();
       } catch (err) {
-        console.log("Error in checking Inactive coupons Job", err?.message);
+        logger.error(`Error in checking Inactive coupons Job: ${err?.message}`);
       }
     });
 
@@ -116,10 +116,10 @@ export const startCouponJob = () => {
         // Get Active coupons and check if they are expired
         await checkActiveCoupons();
       } catch (err) {
-        console.log("Error in checking Expiry coupons Job", err?.message);
+        logger.error(`Error in checking Expiry coupons Job: ${err?.message}`);
       }
     });
   } catch (err) {
-    console.log("startCouponJob error: ", err?.message);
+    logger.error(`startCouponJob error: ${err?.message}`);
   }
 };

@@ -3,6 +3,7 @@ import { User } from "../models/User.js";
 import { AppError } from "../utils/appError.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import jwt from "jsonwebtoken";
+import { logger } from "../utils/logger.js";
 
 export const verifyToken = catchAsync(async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -79,6 +80,6 @@ export const restrictTo = (...roles) => {
       next();
     };
   } catch (err) {
-    console.log("restrictTo middleware error: ", err?.message);
+    logger.error(`restrictTo middleware error: ${err?.message}`);
   }
 };

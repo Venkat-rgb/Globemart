@@ -2,6 +2,7 @@ import { Address } from "../models/Address.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import { myCache } from "../server.js";
 import { AppError } from "../utils/appError.js";
+import { logger } from "../utils/logger.js";
 
 // GET USER ADDRESS
 export const getAddress = catchAsync(async (req, res, next) => {
@@ -12,7 +13,6 @@ export const getAddress = catchAsync(async (req, res, next) => {
   // Checking if the customer's address is present in the cache
   if (myCache.has(cacheKey)) {
     address = JSON.parse(myCache.get(cacheKey));
-    console.log("Cached User Address!");
   } else {
     // Getting customer address
     address = await Address.findOne({
@@ -26,8 +26,6 @@ export const getAddress = catchAsync(async (req, res, next) => {
 
     // Storing the customer address in cache for the future use
     myCache.set(cacheKey, JSON.stringify(address));
-
-    console.log("User Address from DB!");
   }
 
   res.status(200).json({ address });
@@ -61,7 +59,9 @@ export const createOrUpdateAddress = catchAsync(async (req, res) => {
   const cacheKey = `user_address_${req.user._id}`;
   myCache.del(cacheKey);
 
-  console.log("Deleted User Address cache from createOrUpdateAddress");
+  logger.info(
+    `Deleted User_${req.user._id} address cache from createOrUpdateAddress`
+  );
 
   res.status(200).json({ addressId: address?._id });
 });

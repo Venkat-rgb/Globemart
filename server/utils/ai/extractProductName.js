@@ -1,4 +1,5 @@
 import { llm } from "../../server.js";
+import { logger } from "../logger.js";
 
 export const extractProductName = async (userMessage = "") => {
   try {
@@ -32,6 +33,6 @@ export const extractProductName = async (userMessage = "") => {
 
     return productName.text.trim();
   } catch (err) {
-    console.log("Error while extracting product name: ", err?.message);
+    logger.error(`Error while extracting product name: ${err?.message}`);
   }
 };

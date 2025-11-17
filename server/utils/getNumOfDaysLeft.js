@@ -1,3 +1,5 @@
+import { logger } from "./logger.js";
+
 // Gives number of days left between startDate and endDate
 export const getNumOfDaysLeft = (startDate, endDate) => {
   try {
@@ -11,6 +13,6 @@ export const getNumOfDaysLeft = (startDate, endDate) => {
 
     return numOfDaysLeft;
   } catch (err) {
-    console.log("getNumOfDaysLeft function error: ", err?.message);
+    logger.error(`getNumOfDaysLeft function error: ${err?.message}`);
   }
 };

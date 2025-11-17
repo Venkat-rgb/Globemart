@@ -2,6 +2,7 @@ import { Coupon } from "../models/Coupon.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import { AppError } from "../utils/appError.js";
 import { myCache } from "../server.js";
+import { logger } from "../utils/logger.js";
 
 // GET ALL COUPONS (ADMIN)
 export const getAllCoupons = catchAsync(async (req, res) => {
@@ -31,7 +32,6 @@ export const singleValidCoupon = catchAsync(async (req, res, next) => {
 
   if (myCache.has(cacheKey)) {
     coupon = JSON.parse(myCache.get(cacheKey));
-    console.log("Cached Valid Coupon!");
   } else {
     // Finding active coupon
     coupon = await Coupon.findOne({ couponStatus: "active" })
@@ -44,7 +44,6 @@ export const singleValidCoupon = catchAsync(async (req, res, next) => {
     }
 
     myCache.set(cacheKey, JSON.stringify(coupon));
-    console.log("Valid Coupon from DB!");
   }
 
   res.status(200).json({
@@ -133,7 +132,8 @@ export const createCoupon = catchAsync(async (req, res, next) => {
   const cacheKey = `valid_coupon`;
   myCache.del(cacheKey);
 
-  console.log("Deleted Valid coupon cache from createCoupon");
+  logger.info(`Coupon_${coupon._id} created successfully`);
+  logger.info(`Invalidated cache as new coupon is created`);
 
   res.status(201).json({
     message: "Coupon code created successfully!",
@@ -237,7 +237,8 @@ export const updateCoupon = catchAsync(async (req, res, next) => {
   const cacheKey = `valid_coupon`;
   myCache.del(cacheKey);
 
-  console.log("Deleted Valid coupon cache from updateCoupon");
+  logger.info(`Coupon_${coupon._id} updated successfully`);
+  logger.info(`Invalidated cache as coupon is updated`);
 
   res.status(200).json({
     message: "Coupon code updated successfully!",
@@ -260,7 +261,8 @@ export const deleteCoupon = catchAsync(async (req, res, next) => {
   const cacheKey = `valid_coupon`;
   myCache.del(cacheKey);
 
-  console.log("Deleted Valid coupon cache from deleteCoupon");
+  logger.info(`Coupon_${id} deleted successfully`);
+  logger.info(`Invalidated cache as coupon is deleted`);
 
   res.status(200).json({
     message: "Coupon code deleted successfully!",

@@ -4,6 +4,7 @@ import { AppError } from "../utils/appError.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import cloudinary from "cloudinary";
 import { myCache } from "../server.js";
+import { logger } from "../utils/logger.js";
 
 // GET ALL USERS (Admin)
 export const getUsers = catchAsync(async (req, res) => {
@@ -32,7 +33,6 @@ export const getUser = catchAsync(async (req, res, next) => {
 
   // Check if user already exists in the cache
   if (myCache.has(cacheKey)) {
-    console.log(`Cached User: ${id}`);
     user = JSON.parse(myCache.get(cacheKey));
   } else {
     // As user is not present in cache, making an API call to DB
@@ -45,7 +45,6 @@ export const getUser = catchAsync(async (req, res, next) => {
     if (!user) return next(new AppError(`User does not exist!`, 404));
 
     myCache.set(cacheKey, JSON.stringify(user));
-    console.log(`Getting User from DB: ${id}`);
   }
 
   res.status(200).json({
@@ -74,7 +73,7 @@ export const updateUser = catchAsync(async (req, res, next) => {
   const cacheKey = `user_${id}`;
   myCache.del(cacheKey);
 
-  console.log(`Deleting user from cache in updateUser: ${id}`);
+  logger.info(`Deleting User_${id} from cache in updateUser`);
 
   res.status(200).json({
     message: `User updated successfully!`,
@@ -105,7 +104,7 @@ export const deleteUser = catchAsync(async (req, res, next) => {
   // Deleting the user from cache
   const cacheKey = `user_${id}`;
   myCache.del(cacheKey);
-  console.log(`Deleting user from cache in deleteUser: ${id}`);
+  logger.info(`Deleting User_${id} from cache in deleteUser`);
 
   res.status(200).json({
     message: `User deleted successfully!`,

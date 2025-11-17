@@ -5,6 +5,7 @@ import { User } from "../models/User.js";
 import { AppError } from "../utils/appError.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import { myCache } from "../server.js";
+import { logger } from "../utils/logger.js";
 
 // GET ALL PRODUCT REVIEWS
 export const getReviews = catchAsync(async (req, res, next) => {
@@ -28,7 +29,6 @@ export const getReviews = catchAsync(async (req, res, next) => {
   // Checking if the reviews are present in cache
   if (myCache.has(cacheKey)) {
     reviews = JSON.parse(myCache.get(cacheKey));
-    console.log("Cached Product Reviews!");
   } else {
     // Fetching product reviews from DB as they don't exist in cache
     reviews = await Review.find({ productId: trimmedProductId })
@@ -37,7 +37,6 @@ export const getReviews = catchAsync(async (req, res, next) => {
 
     // Storing the newly fetched reviews into the cache
     myCache.set(cacheKey, JSON.stringify(reviews));
-    console.log("Product Reviews from DB!");
   }
 
   // Finding all product reviews based on productId
@@ -139,11 +138,14 @@ export const createOrUpdateReview = catchAsync(async (req, res, next) => {
       .keys()
       .filter((key) => key.includes(`product_reviews_${trimmedProductId}`));
 
-    console.log("productReviewKeys in updateReviewPart: ", productReviewKeys);
-
     myCache.del(productReviewKeys);
 
-    console.log("Deleted product reviews from cache in updateReviewPart: ");
+    logger.info(
+      `User_${req.user._id} updated their Product_${trimmedProductId} review successfully`
+    );
+    logger.info(
+      `Invalidated cache as User_${req.user._id} updated their review`
+    );
 
     res.status(200).json({
       message: "Review updated successfully!",
@@ -194,15 +196,12 @@ export const createOrUpdateReview = catchAsync(async (req, res, next) => {
 
     cacheKeys = cacheKeys.concat(reviewAndWishlistKeys);
 
-    console.log("cacheKeys: ", cacheKeys);
-    console.log(
-      "reviewAndWishlistKeys in createReviewPart: ",
-      reviewAndWishlistKeys
-    );
-
     myCache.del(cacheKeys);
 
-    console.log("Deleted product reviews from cache in createReviewPart: ");
+    logger.info(
+      `User_${req.user._id} gave Product_${product?._id} review successfully`
+    );
+    logger.info(`Invalidated cache as User_${req.user._id} gave review`);
 
     res.status(201).json({
       message: "Review created successfully!",
@@ -285,15 +284,12 @@ export const deleteReview = catchAsync(async (req, res, next) => {
 
   cacheKeys = cacheKeys.concat(reviewAndWishlistKeys);
 
-  console.log("cacheKeys: ", cacheKeys);
-  console.log(
-    "reviewAndWishlistKeys in deleteReviewPart: ",
-    reviewAndWishlistKeys
-  );
-
   myCache.del(cacheKeys);
 
-  console.log("Deleted product reviews from cache in deleteReviewPart: ");
+  logger.info(
+    `Admin_${req.user._id} deleted Product_${product?._id} review successfully`
+  );
+  logger.info(`Invalidated cache as Admin_${req.user._id} deleted review`);
 
   res.status(200).json({
     message: "Review deleted successfully!",

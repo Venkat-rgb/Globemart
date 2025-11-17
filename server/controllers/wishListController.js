@@ -3,6 +3,7 @@ import { WishList } from "../models/WishList.js";
 import { AppError } from "../utils/appError.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import { myCache } from "../server.js";
+import { logger } from "../utils/logger.js";
 
 // GETTING USER WISHLIST
 export const getWishList = catchAsync(async (req, res) => {
@@ -44,8 +45,6 @@ export const getWishList = catchAsync(async (req, res) => {
     if (myCache.has(cacheKey[0])) {
       paginatedWishlistProducts = JSON.parse(myCache.get(cacheKey[0]));
 
-      console.log("Cached wishlist data page is provided!");
-
       // Sending the cached paginated wishlist to the client
       return res.status(200).json({
         wishList: paginatedWishlistProducts,
@@ -56,8 +55,6 @@ export const getWishList = catchAsync(async (req, res) => {
     // Checking for total wishlist in the cache as page is not provided
     if (myCache.has(cacheKey[1])) {
       paginatedWishlistProducts = JSON.parse(myCache.get(cacheKey[1]));
-
-      console.log("Cached wishlist data page is not provided!");
 
       // Sending the cached total wishlist to the client
       return res.status(200).json({
@@ -116,10 +113,6 @@ export const getWishList = catchAsync(async (req, res) => {
     JSON.stringify(paginatedWishlistProducts)
   );
 
-  console.log(
-    `Caching wishlist data for page:${cacheKey[+page ? 0 : 1]} for further use!`
-  );
-
   res.status(200).json({
     wishList: paginatedWishlistProducts,
     totalWishlistCount: wishlistProductsCount[0]?.productsCount,
@@ -146,8 +139,6 @@ export const createOrUpdateWishList = catchAsync(async (req, res, next) => {
     .keys()
     .filter((key) => key.includes(`user_wishlist_${req.user._id}`));
 
-  console.log("filteredKeys in createOrUpdateWishlist: ", filteredKeys);
-
   // If wishlist is already present
   if (isWishListExists) {
     // 1) If product already exists in wishlist then we dont want to insert again
@@ -173,7 +164,12 @@ export const createOrUpdateWishList = catchAsync(async (req, res, next) => {
       // Invalidating the user wishlist cache as wishlist is updated
       myCache.del(filteredKeys);
 
-      console.log(`Deleted user wishlist from update part!`);
+      logger.info(
+        `Updated User_${req.user._id} wishlist by adding new product`
+      );
+      logger.info(
+        `Invalidating the cache as User_${req.user._id} wishlist is updated`
+      );
 
       res.status(200).json({
         message: `Product added to wishlist successfully!`,
@@ -189,7 +185,12 @@ export const createOrUpdateWishList = catchAsync(async (req, res, next) => {
     // Invaliting the user wishlist cache as wishlist is created
     myCache.del(filteredKeys);
 
-    console.log(`Deleted user wishlist from create part!`);
+    logger.info(
+      `Successfully created User_${req.user._id} wishlist and added new product`
+    );
+    logger.info(
+      `Invalidating the cache as User_${req.user._id} wishlist is created`
+    );
 
     res.status(201).json({
       message: `Product added to wishlist successfully!`,
@@ -242,11 +243,13 @@ export const deleteProductFromWishList = catchAsync(async (req, res, next) => {
     .keys()
     .filter((key) => key.includes(`user_wishlist_${req.user._id}`));
 
-  console.log("filteredKeys in deleteProductFromWishList: ", filteredKeys);
-
   myCache.del(filteredKeys);
 
-  console.log(`Deleted single product from user wishlist!`);
+  logger.info(`Deleted a product from User_${req.user._id} wishlist`);
+
+  logger.info(
+    `Invalidating the cache as User_${req.user._id} wishlist is updated`
+  );
 
   res.status(200).json({
     message: `Product deleted successfully from Wishlist!`,
@@ -276,9 +279,11 @@ export const deleteWishList = catchAsync(async (req, res, next) => {
 
   myCache.del(filteredKeys);
 
-  console.log("filteredKeys in deleteWishList: ", filteredKeys);
+  logger.info(`Deleted all products from User_${req.user._id} wishlist`);
 
-  console.log(`Deleted all products from user wishlist!`);
+  logger.info(
+    `Invalidating the cache as User_${req.user._id} wishlist is deleted`
+  );
 
   res.status(200).json({
     message: `Products deleted from wishlist successfully!`,

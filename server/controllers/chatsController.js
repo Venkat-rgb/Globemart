@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { AppError } from "../utils/appError.js";
 import { Chat } from "../models/Chat.js";
 import { Message } from "../models/Message.js";
+import { logger } from "../utils/logger.js";
 
 // CREATE CHAT
 export const createChat = catchAsync(async (req, res, next) => {
@@ -33,6 +34,8 @@ export const createChat = catchAsync(async (req, res, next) => {
     const creatingChat = await Chat.create({
       usersInChat: [req.user?._id, admin?._id],
     });
+
+    logger.info(`Chat_${creatingChat?._id} created successfully`);
 
     // Sending chatId of created Chat
     res.status(201).json({

@@ -5,6 +5,7 @@ import { catchAsync } from "../utils/catchAsync.js";
 import { orderInvoiceTemplate } from "../utils/orderInvoiceTemplate.js";
 import { sendInvoice } from "../utils/sendInvoice.js";
 import { myCache } from "../server.js";
+import { logger } from "../utils/logger.js";
 
 // GET ALL ORDERS (Admin)
 export const getOrders = catchAsync(async (req, res) => {
@@ -44,7 +45,6 @@ export const getMyOrders = catchAsync(async (req, res) => {
 
   if (myCache.has(cacheKey)) {
     orders = JSON.parse(myCache.get(cacheKey));
-    console.log(`Cached User orders ${cacheKey}`);
   } else {
     // Implementing Pagination by only sending 10 orders per page
     orders = await Order.find({ "user.customerId": req.user._id })
@@ -58,7 +58,6 @@ export const getMyOrders = catchAsync(async (req, res) => {
       .limit(10);
 
     myCache.set(cacheKey, JSON.stringify(orders));
-    console.log(`User ${req.user._id} orders from DB!"`);
   }
 
   // Getting total orders of logged in customer
@@ -168,10 +167,6 @@ const decreaseStockAndSendInvoiceHelper = async (
       // Deleting the cache of this product whose stock is reduced
       const cacheKey = `product_${product?._id}`;
       myCache.del(cacheKey);
-
-      console.log(
-        `Deleted Product ${product?._id} from the cache as stock is reduced`
-      );
     });
 
     // Sending Order Invoice to the customer email
@@ -186,6 +181,10 @@ const decreaseStockAndSendInvoiceHelper = async (
       emailMessage,
       customerEmail: req?.user?.email,
     });
+
+    logger.info(
+      `Order_${order?._id} invoice has been sent to Email: ${req?.user?.email}`
+    );
   } catch (err) {
     throw new AppError(err.message, 400);
   }
@@ -234,14 +233,15 @@ export const createOrder = catchAsync(async (req, res) => {
     .keys()
     .filter((key) => key.includes(cacheKey));
 
-  console.log(
-    `ordersToBeRemovedFromCache in createOrder: `,
-    ordersToBeRemovedFromCache
-  );
-
   myCache.del(ordersToBeRemovedFromCache);
 
-  console.log(`Orders of ${req.user._id} has been removed from the cache`);
+  logger.info(
+    `Order_${order?._id} created successfully by User_${req.user._id}`
+  );
+  logger.info(
+    `Products stock has been decreased, Order invoice has been sent!`
+  );
+  logger.info(`Invalidated cache as new order is created`);
 
   // Returning order successfull message to user
   res.status(201).json({
@@ -259,7 +259,7 @@ export const updateOrder = catchAsync(async (req, res, next) => {
     return next(new AppError(`Please enter order delivery status!`, 400));
   }
 
-  // Updating the delivery status provided by user
+  // Updating the delivery status provided by admin
   const order = await Order.findByIdAndUpdate(
     id,
     { deliveryInfo: { deliveryStatus: deliveryStatus } },
@@ -290,16 +290,12 @@ export const updateOrder = catchAsync(async (req, res, next) => {
     .keys()
     .filter((key) => key.includes(cacheKey));
 
-  console.log(
-    `ordersToBeRemovedFromCache in updateOrder: `,
-    ordersToBeRemovedFromCache
-  );
-
   myCache.del(ordersToBeRemovedFromCache);
 
-  console.log(
-    `Orders of ${order?.user?.customerId} has been removed from the cache`
+  logger.info(
+    `Admin_${req.user._id} updated User_${order?.user?.customerId} Order_${id} delivery status successfully`
   );
+  logger.info(`Invalidated cache as order is updated`);
 
   res.status(200).json({
     message: `Order updated successfully!`,
@@ -333,16 +329,12 @@ export const updateOrderPayment = catchAsync(async (req, res, next) => {
     .keys()
     .filter((key) => key.includes(cacheKey));
 
-  console.log(
-    `ordersToBeRemovedFromCache in updateOrderPayment: `,
-    ordersToBeRemovedFromCache
-  );
-
   myCache.del(ordersToBeRemovedFromCache);
 
-  console.log(
-    `Orders of ${order?.user?.customerId} has been removed from the cache`
+  logger.info(
+    `Admin_${req.user._id} updated User_${order?.user?.customerId} Order_${id} payment status successfully`
   );
+  logger.info(`Invalidated cache as order is updated`);
 
   res.status(200).json({
     message: `Order payment status is updated successfully!`,
@@ -356,8 +348,6 @@ export const deleteOrder = catchAsync(async (req, res, next) => {
   // Deleting the order based on orderId
   const order = await Order.findByIdAndDelete(id);
 
-  console.log(`Delete order, customer Id: `, order.user.customerId);
-
   // Returning error if order doesn't exist
   if (!order) return next(new AppError(`Order does not exist!`, 400));
 
@@ -368,16 +358,12 @@ export const deleteOrder = catchAsync(async (req, res, next) => {
     .keys()
     .filter((key) => key.includes(cacheKey));
 
-  console.log(
-    `ordersToBeRemovedFromCache in deleteOrder: `,
-    ordersToBeRemovedFromCache
-  );
-
   myCache.del(ordersToBeRemovedFromCache);
 
-  console.log(
-    `Orders of ${order?.user?.customerId} has been removed from the cache`
+  logger.info(
+    `Admin_${req.user._id} deleted User_${order?.user?.customerId} Order_${id} successfully`
   );
+  logger.info(`Invalidated cache as order is deleted`);
 
   res.status(200).json({
     message: `Order deleted successfully!`,

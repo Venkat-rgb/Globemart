@@ -1,6 +1,14 @@
 import { AppError } from "./appError.js";
+import { logger } from "./logger.js";
 
-export const sendToken = async (res, statusCode, user, message, next) => {
+export const sendToken = async (
+  res,
+  statusCode,
+  user,
+  message,
+  logMessage,
+  next
+) => {
   // Creating jsonwebtoken in userSchema methods.
   try {
     // Generating new JWT accessToken
@@ -16,6 +24,8 @@ export const sendToken = async (res, statusCode, user, message, next) => {
       sameSite: "none",
       maxAge: process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000,
     });
+
+    logger.info(logMessage);
 
     // Sending the accessToken to the client
     res.status(statusCode).json({

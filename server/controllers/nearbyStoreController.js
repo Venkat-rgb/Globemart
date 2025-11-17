@@ -1,6 +1,7 @@
 import { catchAsync } from "../utils/catchAsync.js";
 import { Store } from "../models/Store.js";
 import { calculateDistanceInKM } from "../utils/calculateDistanceInKM.js";
+import { logger } from "../utils/logger.js";
 
 export const getNearbyStores = catchAsync(async (req, res) => {
   const { latitude, longitude, category, page } = req.body;
@@ -59,7 +60,9 @@ export const getNearbyStores = catchAsync(async (req, res) => {
 
 export const createNearbyStore = catchAsync(async (req, res) => {
   // Creating the store document and storing in database
-  await Store.create(req.body);
+  const store = await Store.create(req.body);
+
+  logger.info(`New Store_${store?._id} created successfully`);
 
   res.status(201).json({ message: "Nearby store created successfully!" });
 });

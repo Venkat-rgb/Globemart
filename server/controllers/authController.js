@@ -7,6 +7,7 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import cloudinary from "cloudinary";
 import { BlacklistToken } from "../models/BlacklistToken.js";
+import { logger } from "../utils/logger.js";
 
 // REGISTER USER
 export const registerUser = catchAsync(async (req, res, next) => {
@@ -40,6 +41,9 @@ export const registerUser = catchAsync(async (req, res, next) => {
 
     // Saving updated user model to DB
     await user.save();
+    logger.info(
+      `User_${user?._id} profile image stored during registration successfully`
+    );
   }
 
   // Creating JSON web token and cookie and returning to the client.
@@ -48,6 +52,7 @@ export const registerUser = catchAsync(async (req, res, next) => {
     201,
     user,
     `User registered Successfully, Welcome ${user?.username}!`,
+    `User_${user?._id} registed Successfully`,
     next
   );
 });
@@ -85,7 +90,14 @@ export const loginUser = catchAsync(async (req, res, next) => {
   }
 
   // here passwords match so we return the create token, cookie and return.
-  sendToken(res, 200, isUserExists, `Welcome ${isUserExists.username}!`, next);
+  sendToken(
+    res,
+    200,
+    isUserExists,
+    `Welcome ${isUserExists.username}!`,
+    `User_${isUserExists?._id} logged in successfully`,
+    next
+  );
 });
 
 // LOGOUT USER
@@ -106,6 +118,8 @@ export const logoutUser = catchAsync(async (req, res) => {
     expiresAt: remainingExpirationTime,
   });
 
+  logger.info(`User_${req.user._id} JWT has been blacklisted due to logout`);
+
   // Clearing the cookie as the user is logged out
   res.clearCookie("refreshToken", {
     httpOnly: true,
@@ -114,6 +128,11 @@ export const logoutUser = catchAsync(async (req, res) => {
     expires: new Date(0),
     // should include secure: true for https and also sameSite: 'none' for cross-site cookie access.
   });
+
+  logger.info(
+    `Clearing refreshToken cookie of User_${req.user._id} due to logout`
+  );
+  logger.info(`User_${req.user._id} logged out successfully`);
 
   res.status(200).json({
     message: "User has successfully logged out!",
@@ -158,6 +177,10 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
     trimmedEmail,
     emailSubject,
   });
+
+  logger.info(
+    `ForgotPassword mail sent to User_${user?._id} email: ${trimmedEmail}`
+  );
 
   res.status(200).json({
     // user,
@@ -213,6 +236,8 @@ export const resetPassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   // 3) Now setting the passwordChangedAt property. so we did this in pre('save') middleware
+
+  logger.info(`User_${user?._id} password changed successfully`);
 
   // 4) Now send new jwt and Login the user as the password is changed.
   res.status(200).json({
