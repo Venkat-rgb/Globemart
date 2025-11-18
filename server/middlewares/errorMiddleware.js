@@ -11,14 +11,18 @@ const sendDevelopmentError = (res, err) => {
 
 // Showing only error to user and hiding details in production mode
 const sendProductionError = (req, res, err) => {
-  logger.error(
-    `errorMiddleware error: 
+  const errorMsg = `errorMiddleware error: 
      Method - ${req.method} 
      URL - ${req.originalUrl}
      StatusCode - ${err.statusCode}
      IP - ${req.ip}
-     Error - ${err.message}`
-  );
+     Error - ${err.message}`;
+
+  if (err.statusCode >= 500) {
+    logger.error(errorMsg);
+  } else {
+    logger.warn(errorMsg);
+  }
 
   res.status(err.statusCode).json({
     success: false,
