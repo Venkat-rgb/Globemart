@@ -253,7 +253,7 @@ process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
 // Handling unhandled rejection error
 process.on("unhandledRejection", (err) => {
-  logger.error(`Socket rejection error: ${err.name}: ${err.message}`);
+  logger.error(`Socket rejection error ${err.name}: ${err.message}`);
   httpServer.close(() => {
     process.exit(1);
   });
