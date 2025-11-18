@@ -1,6 +1,8 @@
+import { logger } from "./utils/logger.js";
+
 // Handling Uncaught errors
 process.on("uncaughtException", (err) => {
-  console.log(`Socket Uncaught Error: ${err.name} - ${err.message}`);
+  logger.error(`Socket Uncaught Error: ${err.name} - ${err.message}`);
 
   // Giving some time to finish all ongoing requests before exit
   setTimeout(() => {
@@ -85,8 +87,6 @@ io.on("connection", (socket) => {
         // Here we also add role to know if person is user (or) admin which will help in sending different responses to user and admin
         addUser(userId, socket.id, role);
 
-        console.log("onlineUsers: ", onlineUsers);
-
         // Finding if the admin is present in onlineUsers (or) not
         const adminSocket = getUser("admin");
 
@@ -102,7 +102,7 @@ io.on("connection", (socket) => {
             .to(adminSocket?.socketId)
             .emit("getOnlineUsers", trimmedOnlineUsers);
       } catch (err) {
-        console.log("addNewUser socket event error: ", err?.message);
+        logger.error(`addNewUser socket event error: ${err?.message}`);
       }
     });
 
@@ -134,7 +134,7 @@ io.on("connection", (socket) => {
           }
         }
       } catch (err) {
-        console.log("createMessage socket event error: ", err?.message);
+        logger.error(`createMessage socket event error: ${err?.message}`);
       }
     });
 
@@ -154,7 +154,7 @@ io.on("connection", (socket) => {
           });
         }
       } catch (err) {
-        console.log("isTyping socket event error: ", err?.message);
+        logger.error(`isTyping socket event error: ${err?.message}`);
       }
     });
 
@@ -173,25 +173,23 @@ io.on("connection", (socket) => {
           });
         }
       } catch (err) {
-        console.log("messageSeen socket event error: ", err?.message);
+        logger.error(`messageSeen socket event error: ${err?.message}`);
       }
     });
 
     // Handle socket errors
     socket.on("error", (error) => {
-      console.error(`Socket error for ${socket.id}`, error.message);
+      logger.error(`Socket error for ${socket.id}: ${error.message}`);
     });
 
     // Handle connection errors
     socket.on("connect_error", (error) => {
-      console.error(`Connection error for ${socket.id}`, error.message);
+      logger.error(`Connection error for ${socket.id}: ${error.message}`);
     });
 
     // When user disconnects
     socket.on("disconnect", () => {
       try {
-        console.log("User is disconnected: ", socket.id);
-
         // Finding admin
         const adminSocket = getUser("admin");
 
@@ -212,29 +210,29 @@ io.on("connection", (socket) => {
               .emit("getOnlineUsers", trimmedOnlineUsers);
         }
       } catch (err) {
-        console.log("disconnect socket event error: ", err?.message);
+        logger.error(`Disconnect socket event error: ${err?.message}`);
       }
     });
   } catch (err) {
-    console.log("socket connection event error: ", err?.message);
+    logger.error(`Socket connection event error: ${err?.message}`);
   }
 });
 
 // Listening to the socker server
 const httpServer = server.listen(PORT, () => {
-  console.log("Socket server connected successfully!");
+  logger.info(`Socket server connected successfully!`);
 });
 
 const gracefulShutdown = (signal) => {
-  console.log(`${signal} received from socket, starting graceful shutdown...`);
+  logger.info(`${signal} received from socket, starting graceful shutdown...`);
 
   // Stop accepting new connections
   server.close(() => {
-    console.log("HTTP socket server closed");
+    logger.info(`HTTP socket server closed`);
 
     // Close all socket connections
     io.close(() => {
-      console.log("Socket.io server closed");
+      logger.info(`Socket.io server closed successfully`);
 
       // Clear online users
       onlineUsers = [];
@@ -244,7 +242,7 @@ const gracefulShutdown = (signal) => {
 
   // Force close after 10 seconds
   setTimeout(() => {
-    console.error("Forced socket shutdown after timeout");
+    logger.error(`Forced socket shutdown after timeout`);
     process.exit(1);
   }, 10000);
 };
@@ -255,7 +253,7 @@ process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
 // Handling unhandled rejection error
 process.on("unhandledRejection", (err) => {
-  console.log(`Socket rejection error: ${err.name}`, err.message);
+  logger.error(`Socket rejection error: ${err.name}: ${err.message}`);
   httpServer.close(() => {
     process.exit(1);
   });
