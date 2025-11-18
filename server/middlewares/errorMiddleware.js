@@ -10,7 +10,16 @@ const sendDevelopmentError = (res, err) => {
 };
 
 // Showing only error to user and hiding details in production mode
-const sendProductionError = (res, err) => {
+const sendProductionError = (req, res, err) => {
+  logger.error(
+    `errorMiddleware error: 
+     Method - ${req.method} 
+     URL - ${req.originalUrl}
+     StatusCode - ${err.statusCode}
+     IP - ${req.ip}
+     Error - ${err.message}`
+  );
+
   res.status(err.statusCode).json({
     success: false,
     message: err.message,
@@ -65,7 +74,7 @@ export const errorMiddleware = (err, req, res, next) => {
     if (process.env.NODE_ENV === "development") {
       sendDevelopmentError(res, err);
     } else if (process.env.NODE_ENV === "production") {
-      sendProductionError(res, err);
+      sendProductionError(req, res, err);
     }
   } catch (err) {
     logger.error(`errorMiddleware error: ${err?.message}`);
