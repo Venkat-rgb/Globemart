@@ -59,8 +59,6 @@ const RelatedProducts = ({
     numOfSlidesToDisplay = 2;
   }
 
-  console.log("Related Products: ", productsData);
-
   return (
     // Showing related products only if they are present
     <div

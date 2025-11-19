@@ -56,7 +56,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
     return result;
   } catch (err) {
-    console.log("ecommerceApi error: ", err);
+    console.error("ecommerceApi error: ", err.message);
     throw err;
   }
 };

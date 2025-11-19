@@ -66,8 +66,6 @@ const Wishlist = () => {
     try {
       const wishlistRes = await getWishlist(page).unwrap();
 
-      console.log("wishlistRes: ", wishlistRes);
-
       if (wishlistRes?.wishList) {
         setWishListProducts((prev) => [...prev, ...wishlistRes.wishList]);
       }

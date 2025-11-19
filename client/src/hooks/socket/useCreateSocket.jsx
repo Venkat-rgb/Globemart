@@ -20,10 +20,7 @@ const useCreateSocket = () => {
       );
     };
 
-    const socketReconnectHandler = (attemptNumber) => {
-      console.log(
-        `Reconnected to socket server after ${attemptNumber} attempts`
-      );
+    const socketReconnectHandler = () => {
       toast.success("Reconnected to chat server!");
     };
 

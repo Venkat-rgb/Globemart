@@ -35,7 +35,6 @@ const ChatMessage = ({
         if (selectedChat !== id) {
           setUnreadCount((prev) => prev + 1);
         }
-        console.log("LastMessageUpdated!");
         updateChatLastMessage(id, messageInfo);
       }
     },

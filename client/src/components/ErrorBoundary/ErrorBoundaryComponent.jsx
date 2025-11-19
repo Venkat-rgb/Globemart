@@ -3,8 +3,10 @@ import ErrorFallback from "./ErrorFallback";
 
 const ErrorBoundaryComponent = ({ errorMessage, children, styles }) => {
   const errorHandler = (error, info) => {
-    console.log("Error boundary error: ", error);
-    console.log("Error boundary info: ", info);
+    if (import.meta.env.VITE_APP_NODE_ENV === "development") {
+      console.log("Error boundary error: ", error);
+      console.log("Error boundary info: ", info);
+    }
   };
 
   return (

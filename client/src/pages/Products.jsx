@@ -83,7 +83,7 @@ const Products = () => {
 
   // Handling error, if occured during fetching wishlist
   if (wishlistDataError) {
-    console.log("Products wishlist error: ", wishlistError?.data?.message);
+    console.error("Products wishlist error: ", wishlistError?.data?.message);
   }
 
   return (

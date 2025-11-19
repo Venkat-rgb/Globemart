@@ -26,7 +26,9 @@ const CashOnDelivery = () => {
 
     setTimeout(() => {
       paymentSuccessMusic.play().catch((err) => {
-        console.log(`Error while playing paymentSuccessMusic: ${err?.message}`);
+        console.error(
+          `Error while playing paymentSuccessMusic: ${err?.message}`
+        );
       });
     }, 800);
 
