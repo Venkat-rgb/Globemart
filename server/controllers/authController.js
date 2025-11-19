@@ -263,7 +263,7 @@ export const newAccessToken = catchAsync(async (req, res, next) => {
   // Before generating the new accessToken, we are checking whether the user who is requesting the new accessToken even exists for security reasons.
   const isUserExists = await User.findById(isRefreshTokenValid.id);
 
-  if (!isUserExists) return next(new AppError(`Please login again!`, 401));
+  if (!isUserExists) return next(new AppError(`User doesn't exists!`, 404));
 
   // As user exists, we are generating new accessToken
   const accessToken = isUserExists.getJWTToken();
