@@ -2,19 +2,33 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button, Input, MetaData } from "../components";
-import { useUpdateProfileMutation } from "../redux/features/profile/profileApiSlice";
+import {
+  useDeleteUserAccountMutation,
+  useUpdateProfileMutation,
+} from "../redux/features/profile/profileApiSlice";
 import toast from "react-hot-toast";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Tooltip } from "@mui/material";
 import lodash from "lodash";
 import ProfileOverlay from "../components/Profile/ProfileOverlay";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/features/slices/authSlice";
+import { deleteTotalCart } from "../redux/features/slices/cartSlice";
+import useLocalStorage from "../hooks/basic/useLocalStorage";
+import useSessionStorage from "../hooks/basic/useSessionStorage";
 
 const EditProfile = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { state: userInfo } = useLocation();
 
   const [updateProfile, { isLoading: isProfileUpdating }] =
     useUpdateProfileMutation();
+  const [deleteUserAccount, { isLoading: isAccountDeleting }] =
+    useDeleteUserAccountMutation();
+
+  const { removeLocalData } = useLocalStorage();
+  const { removeSessionData } = useSessionStorage();
 
   const [profileImg, setProfileImg] = useState("");
   const [profileImgFile, setProfileImgFile] = useState(null);
@@ -50,6 +64,34 @@ const EditProfile = () => {
 
       // Redirecting to Profile page to see whether changes are reflected
       navigate("/profile");
+    } catch (err) {
+      toast.error(err?.message || err?.data?.message);
+    }
+  };
+
+  // User account deletion
+  const deleteUserAccountHandler = async () => {
+    try {
+      // Deleting the user account
+      const res = await deleteUserAccount().unwrap();
+
+      // Making the token and userInfo to null in redux as account is deleted
+      dispatch(logOut());
+
+      // Deleting all items in the cart as user account is deleted
+      dispatch(deleteTotalCart());
+
+      // Deleting the cart items from localStorage as user account is deleted
+      removeLocalData("cart");
+
+      // Deleting the orderInfo from sessionStorage as user account is deleted
+      removeSessionData("orderInfo");
+
+      // Displaying successful account deletion message
+      toast.success(res?.message);
+
+      // Redirecting to login page
+      navigate("/login", { replace: true });
     } catch (err) {
       toast.error(err?.message || err?.data?.message);
     }
@@ -100,7 +142,7 @@ const EditProfile = () => {
       />
       <div className="px-3 pb-5">
         <motion.div
-          className="max-w-xl mx-auto shadow-lg rounded-xl p-5 space-y-6"
+          className="max-w-xl mx-auto shadow-lg rounded-xl p-5 space-y-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
@@ -153,6 +195,30 @@ const EditProfile = () => {
               )}
             </Button>
           </form>
+
+          <Button
+            onClick={deleteUserAccountHandler}
+            isLoading={isAccountDeleting}
+            moreStyles="w-full bg-red-500"
+          >
+            {isAccountDeleting ? (
+              <div className="flex items-center justify-center gap-2">
+                <p className="text-white/75">Deleting Account</p>
+                <CircularProgress
+                  sx={{ color: "white", opacity: 0.8 }}
+                  size={20}
+                />
+              </div>
+            ) : (
+              <Tooltip
+                title="This action cannot be undone"
+                placement="right-start"
+                arrow
+              >
+                <p>Delete Account</p>
+              </Tooltip>
+            )}
+          </Button>
         </motion.div>
       </div>
       <Outlet />

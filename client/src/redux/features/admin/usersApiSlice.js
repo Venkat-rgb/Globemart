@@ -26,7 +26,7 @@ export const usersApiSlice = ecommerceApi.injectEndpoints({
 
     deleteUser: builder.mutation({
       query: (userId) => ({
-        url: `/admin/users/${userId}`,
+        url: `/admin/users/delete-account/${userId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Users"],

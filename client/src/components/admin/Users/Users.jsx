@@ -35,7 +35,7 @@ const Users = () => {
       // Deleting the user from database
       const res = await deleteUser(userId).unwrap();
 
-      // Showing successfull deletion of user message using toast
+      // Showing successful deletion of user account using toast
       toast.success(res?.message);
     } catch (err) {
       toast.error(err?.message || err?.data?.message);

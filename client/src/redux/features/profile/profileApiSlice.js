@@ -23,6 +23,13 @@ export const profileApiSlice = ecommerceApi.injectEndpoints({
         body: userInfo,
       }),
     }),
+
+    deleteUserAccount: builder.mutation({
+      query: () => ({
+        url: `/users/me/delete-account`,
+        method: "DELETE",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -31,4 +38,5 @@ export const {
   useGetProfileQuery,
   useUpdateProfileMutation,
   useChangePasswordMutation,
+  useDeleteUserAccountMutation,
 } = profileApiSlice;

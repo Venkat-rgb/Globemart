@@ -1,8 +1,6 @@
 import { User } from "../models/User.js";
-import { WishList } from "../models/WishList.js";
 import { AppError } from "../utils/appError.js";
 import { catchAsync } from "../utils/catchAsync.js";
-import cloudinary from "cloudinary";
 import { myCache } from "../server.js";
 import { logger } from "../utils/logger.js";
 
@@ -78,35 +76,5 @@ export const updateUser = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: `User updated successfully!`,
     user,
-  });
-});
-
-// DELETE USER (Admin)
-export const deleteUser = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-
-  const user = await User.findById(id);
-
-  // Returning error when user doesn't exist
-  if (!user) return next(new AppError(`User does not exist!`, 404));
-
-  // Deleting User profile image if its present
-  if (user?.profileImg?.public_id) {
-    await cloudinary.v2.uploader.destroy(user?.profileImg?.public_id);
-  }
-
-  // Deleting User Wishlist if its present
-  await WishList.findOneAndDelete({ user: id });
-
-  // Deleting the user account
-  await User.findByIdAndDelete(id);
-
-  // Deleting the user from cache
-  const cacheKey = `user_${id}`;
-  myCache.del(cacheKey);
-  logger.info(`Deleting User_${id} from cache in deleteUser`);
-
-  res.status(200).json({
-    message: `User deleted successfully!`,
   });
 });
