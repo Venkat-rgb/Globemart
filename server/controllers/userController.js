@@ -5,6 +5,11 @@ import { catchAsync } from "../utils/catchAsync.js";
 import cloudinary from "cloudinary";
 import jwt from "jsonwebtoken";
 import { logger } from "../utils/logger.js";
+import { Chat } from "../models/Chat.js";
+import { Message } from "../models/Message.js";
+import { WishList } from "../models/WishList.js";
+import { myCache } from "../server.js";
+import { Conversation } from "../models/Conversation.js";
 
 // Get Logged in user
 export const getUser = catchAsync(async (req, res) => {
@@ -190,5 +195,115 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     message: `Password changed successfully!`,
+  });
+});
+
+// Deletes user account
+export const deleteUserAccount = catchAsync(async (req, res, next) => {
+  const userId = (req.params.id || req.user._id).toString();
+
+  // Admin account can't be deleted
+  if (req.user._id.toString() === userId && req.user.role === "admin") {
+    return next(new AppError(`Admin account cannot be deleted`, 403));
+  }
+
+  const user = await User.findById(userId);
+
+  // Checks if user exists
+  // If user is deleting, then this check is already done in verifyToken
+  // But if admin is deleting, then this check is needed
+  if (!user) {
+    return next(new AppError(`User not found!`, 404));
+  }
+
+  // 1) Delete the profile image of user
+  const publicId = user?.profileImg?.public_id;
+  const deleteProfileImgFromCloudinary = publicId
+    ? cloudinary.v2.uploader.destroy(publicId)
+    : Promise.resolve();
+
+  // 2) Delete the user wishlist
+  const deleteWishlist = WishList.findOneAndDelete({
+    user: userId,
+  });
+
+  // 3) Delete the user cache
+  logger.info(`Before deleting cache: ${myCache.getStats().keys}`);
+
+  const keysToBeDeleted = [
+    `user_address_${userId}`,
+    `user_${userId}`,
+    `user_orders_${userId}`,
+    `user_wishlist_${userId}`,
+  ];
+
+  const filteredKeys = myCache.keys().filter((key) => {
+    return keysToBeDeleted.some((prefix) => key.startsWith(prefix));
+  });
+
+  myCache.del(filteredKeys);
+
+  logger.info(`After deleting cache: ${myCache.getStats().keys}`);
+
+  // 4) Delete the user's refreshToken cookie (only user can delete his cookie)
+  if (req.user._id.toString() === userId) {
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      expires: new Date(0),
+      // should include secure: true for https and also sameSite: 'none' for cross-site cookie access.
+    });
+
+    logger.info(`User_${userId} refreshToken cookie deleted`);
+  }
+
+  // 5) Delete the user's AI customer support chat and messages
+  const deleteAIChat = Conversation.findOneAndDelete({
+    userId,
+  });
+
+  // 6) Finding user chat
+  const chat = await Chat.findOne({
+    usersInChat: {
+      $in: [userId],
+    },
+  });
+
+  // If chat doesn't exist for this user, then delete the above operations parallelly
+  if (!chat) {
+    await Promise.all([
+      deleteProfileImgFromCloudinary,
+      deleteWishlist,
+      deleteAIChat,
+    ]);
+  } else {
+    // Chat exists, so delete (above operations + chat messages) parallelly
+    // Deleting the user chat and messages in this chat
+    const deleteChat = Chat.findByIdAndDelete(chat._id);
+    const deleteChatMessages = Message.deleteMany({
+      chat: chat._id,
+    });
+
+    await Promise.all([
+      deleteProfileImgFromCloudinary,
+      deleteWishlist,
+      deleteAIChat,
+      deleteChat,
+      deleteChatMessages,
+    ]);
+  }
+
+  logger.info(`Deleted everything using Promise.all`);
+
+  // 7) Delete the user info
+  await User.findByIdAndDelete(userId);
+
+  // 8) logger.info
+  logger.info(`User_${userId} account deleted successfully`);
+
+  // 9) Send message that account is deleted successfully
+  res.status(200).json({
+    message: `User account deleted successfully`,
   });
 });

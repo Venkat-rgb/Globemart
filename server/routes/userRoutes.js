@@ -3,6 +3,7 @@ import {
   getUser,
   updateUser,
   updateMyPassword,
+  deleteUserAccount,
 } from "../controllers/userController.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { imageLimitMiddleware } from "../middlewares/imageLimitMiddleware.js";
@@ -24,5 +25,8 @@ router.put(
 
 // Updates the logged in user's password
 router.put("/me/password/update", verifyToken, updateMyPassword);
+
+// Deletes the user account
+router.delete(`/me/delete-account`, verifyToken, deleteUserAccount);
 
 export default router;
