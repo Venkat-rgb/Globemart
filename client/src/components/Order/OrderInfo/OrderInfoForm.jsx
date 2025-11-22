@@ -41,7 +41,7 @@ const OrderInfoForm = ({
         <div className="w-full">
           <div className="pb-1">Phone No*</div>
           <PhoneInput
-            country={shippingDetails.phoneNo.countryCode.toLowerCase()}
+            country={shippingDetails.phoneNo.countryCode?.toLowerCase()}
             value={shippingDetails.phoneNo.phone}
             onChange={(newPhoneNo) =>
               setShippingDetails({

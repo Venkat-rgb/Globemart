@@ -24,11 +24,8 @@ const Order = () => {
   const [finalAmountToBePaid, setFinalAmountToBePaid] = useState(0);
 
   // Fetching the addressInfo of the customer
-  const {
-    data: addressInfo,
-    isLoading: isAddressInfoLoading,
-    isError: addressInfoError,
-  } = useGetCustomerAddressQuery();
+  const { data: addressInfo, isLoading: isAddressInfoLoading } =
+    useGetCustomerAddressQuery();
 
   const [createOrUpdateAddress] = useCreateOrUpdateAddressMutation();
 
@@ -316,14 +313,14 @@ const Order = () => {
       </div>
       <div className="grid grid-cols-3 max-[850px]:grid-cols-1 gap-4">
         {/* Showing Customer Address details and Ordered products */}
-        <OrderInfo
-          shippingDetails={shippingDetails}
-          setShippingDetails={setShippingDetails}
-          shippingDetailsChangeHandler={shippingDetailsChangeHandler}
-          products={products}
-          addressInfoError={addressInfoError}
-        />
-
+        <ErrorBoundaryComponent errorMessage="Sorry, we are unable to show your Order Info. Please try again later.">
+          <OrderInfo
+            shippingDetails={shippingDetails}
+            setShippingDetails={setShippingDetails}
+            shippingDetailsChangeHandler={shippingDetailsChangeHandler}
+            products={products}
+          />
+        </ErrorBoundaryComponent>
         {/* Showing Order Summary */}
 
         <ErrorBoundaryComponent errorMessage="Sorry, we are unable to show your Order summary. Please try again later.">

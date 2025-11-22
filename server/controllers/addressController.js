@@ -1,7 +1,6 @@
 import { Address } from "../models/Address.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import { myCache } from "../server.js";
-import { AppError } from "../utils/appError.js";
 import { logger } from "../utils/logger.js";
 
 // GET USER ADDRESS
@@ -18,11 +17,6 @@ export const getAddress = catchAsync(async (req, res, next) => {
     address = await Address.findOne({
       "customer.customerId": req.user._id,
     });
-
-    // Sending error if address is not present
-    if (!address) {
-      return next(new AppError(`User address not found!`, 404));
-    }
 
     // Storing the customer address in cache for the future use
     myCache.set(cacheKey, JSON.stringify(address));

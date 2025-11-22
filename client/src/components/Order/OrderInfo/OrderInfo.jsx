@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import OrderInfoForm from "./OrderInfoForm";
 import { Country, State, City } from "country-state-city";
 import ErrorBoundaryComponent from "../../ErrorBoundary/ErrorBoundaryComponent";
-import ErrorUI from "../../UI/ErrorUI";
 import OrderedProducts from "./OrderedProducts";
 import { useMemo } from "react";
 
@@ -11,7 +10,6 @@ const OrderInfo = ({
   setShippingDetails,
   shippingDetailsChangeHandler,
   products,
-  addressInfoError,
 }) => {
   // Choosing location details from these below countries, states, and cities for product delivery
   const allCountries = useMemo(() => Country.getAllCountries(), []);
@@ -64,11 +62,6 @@ const OrderInfo = ({
         <p className="font-public-sans font-semibold text-neutral-600 drop-shadow  text-center text-lg">
           Your Details
         </p>
-
-        {/* Showing errMsg, if an error occured during fetching customer address */}
-        {addressInfoError && (
-          <ErrorUI message="Unable to fetch customer address due to some error!" />
-        )}
 
         {/* Customer Address Info */}
         <ErrorBoundaryComponent errorMessage="We're sorry, the shipping information of your order is currently unavailable. Please try again later.">

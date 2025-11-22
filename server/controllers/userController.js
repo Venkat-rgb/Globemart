@@ -204,6 +204,7 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
 
   // Admin account can't be deleted
   if (req.user._id.toString() === userId && req.user.role === "admin") {
+    logger.info(`Admin account request`);
     return next(new AppError(`Admin account cannot be deleted`, 403));
   }
 
@@ -219,7 +220,7 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
   // 1) Delete the profile image of user
   const publicId = user?.profileImg?.public_id;
   const deleteProfileImgFromCloudinary = publicId
-    ? cloudinary.v2.uploader.destroy(publicId)
+    ? cloudinary.v2.uploader.destroy(publicId, { invalidate: true })
     : Promise.resolve();
 
   // 2) Delete the user wishlist
