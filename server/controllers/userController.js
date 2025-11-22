@@ -10,6 +10,7 @@ import { Message } from "../models/Message.js";
 import { WishList } from "../models/WishList.js";
 import { myCache } from "../server.js";
 import { Conversation } from "../models/Conversation.js";
+import { Review } from "../models/Review.js";
 
 // Get Logged in user
 export const getUser = catchAsync(async (req, res) => {
@@ -223,6 +224,16 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
     ? cloudinary.v2.uploader.destroy(publicId, { invalidate: true })
     : Promise.resolve();
 
+  // 3) Make the customerProfileImg to null in Review model
+  const deleteUserReviewImg = Review.updateMany(
+    {
+      "user.customerId": userId,
+    },
+    {
+      $set: { "user.customerProfileImg": null },
+    }
+  );
+
   // 2) Delete the user wishlist
   const deleteWishlist = WishList.findOneAndDelete({
     user: userId,
@@ -275,6 +286,7 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
   if (!chat) {
     await Promise.all([
       deleteProfileImgFromCloudinary,
+      deleteUserReviewImg,
       deleteWishlist,
       deleteAIChat,
     ]);
@@ -288,6 +300,7 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
 
     await Promise.all([
       deleteProfileImgFromCloudinary,
+      deleteUserReviewImg,
       deleteWishlist,
       deleteAIChat,
       deleteChat,
