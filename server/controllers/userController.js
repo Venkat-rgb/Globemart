@@ -205,7 +205,6 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
 
   // Admin account can't be deleted
   if (req.user._id.toString() === userId && req.user.role === "admin") {
-    logger.info(`Admin account request`);
     return next(new AppError(`Admin account cannot be deleted`, 403));
   }
 
@@ -224,7 +223,7 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
     ? cloudinary.v2.uploader.destroy(publicId, { invalidate: true })
     : Promise.resolve();
 
-  // 3) Make the customerProfileImg to null in Review model
+  // 2) Make the customerProfileImg to null in Review model
   const deleteUserReviewImg = Review.updateMany(
     {
       "user.customerId": userId,
@@ -234,14 +233,12 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
     }
   );
 
-  // 2) Delete the user wishlist
+  // 3) Delete the user wishlist
   const deleteWishlist = WishList.findOneAndDelete({
     user: userId,
   });
 
-  // 3) Delete the user cache
-  logger.info(`Before deleting cache: ${myCache.getStats().keys}`);
-
+  // 4) Delete the user cache
   const keysToBeDeleted = [
     `user_address_${userId}`,
     `user_${userId}`,
@@ -255,9 +252,7 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
 
   myCache.del(filteredKeys);
 
-  logger.info(`After deleting cache: ${myCache.getStats().keys}`);
-
-  // 4) Delete the user's refreshToken cookie (only user can delete his cookie)
+  // 5) Delete the user's refreshToken cookie (only user can delete his cookie)
   if (req.user._id.toString() === userId) {
     res.clearCookie("refreshToken", {
       httpOnly: true,
@@ -266,16 +261,14 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
       expires: new Date(0),
       // should include secure: true for https and also sameSite: 'none' for cross-site cookie access.
     });
-
-    logger.info(`User_${userId} refreshToken cookie deleted`);
   }
 
-  // 5) Delete the user's AI customer support chat and messages
+  // 6) Delete the user's AI customer support chat and messages
   const deleteAIChat = Conversation.findOneAndDelete({
     userId,
   });
 
-  // 6) Finding user chat
+  // 7) Finding user chat
   const chat = await Chat.findOne({
     usersInChat: {
       $in: [userId],
@@ -308,15 +301,13 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
     ]);
   }
 
-  logger.info(`Deleted everything using Promise.all`);
-
-  // 7) Delete the user info
+  // 8) Delete the user info
   await User.findByIdAndDelete(userId);
 
-  // 8) logger.info
+  // 9) logger.info
   logger.info(`User_${userId} account deleted successfully`);
 
-  // 9) Send message that account is deleted successfully
+  // 10) Send message that account is deleted successfully
   res.status(200).json({
     message: `User account deleted successfully`,
   });
