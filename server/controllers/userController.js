@@ -244,6 +244,7 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
     `user_${userId}`,
     `user_orders_${userId}`,
     `user_wishlist_${userId}`,
+    "product_reviews",
   ];
 
   const filteredKeys = myCache.keys().filter((key) => {
