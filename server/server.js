@@ -48,7 +48,6 @@ import mongoSanitize from "express-mongo-sanitize";
 import NodeCache from "node-cache";
 import compression from "compression";
 import { GoogleGenAI } from "@google/genai";
-import { xss } from "express-xss-sanitizer";
 import mongoose from "mongoose";
 import { globalLimiter } from "./middlewares/rateLimiters.js";
 
@@ -75,7 +74,6 @@ app.use(express.json({ limit: "15mb" }));
 app.use(mongoSanitize());
 
 // Escaping HTML and Script tags to prevent XSS attack
-app.use(xss());
 
 // Parsing Cookies received from client
 app.use(cookieParser());
