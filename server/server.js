@@ -65,15 +65,13 @@ app.use(
 app.use(helmet());
 
 // Allowing form data
-app.use(express.urlencoded({ limit: "15mb", extended: true }));
+app.use(express.urlencoded({ limit: "11mb", extended: true }));
 
 // Parsing data in form of json
-app.use(express.json({ limit: "15mb" }));
+app.use(express.json({ limit: "11mb" }));
 
 // Santizing the user input and removing symbols like '$' or '.'
 app.use(mongoSanitize());
-
-// Escaping HTML and Script tags to prevent XSS attack
 
 // Parsing Cookies received from client
 app.use(cookieParser());
