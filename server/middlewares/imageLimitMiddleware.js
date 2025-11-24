@@ -21,8 +21,8 @@ export const imageLimitMiddleware = (req, res, next) => {
       return next();
     }
 
-    // Limiting the image size to 10MB
-    const imageSizeLimit = 10 * 1024 * 1024;
+    // Limiting the image size to 8MB
+    const imageSizeLimit = 8 * 1024 * 1024;
 
     // Only allowing these image types
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
@@ -45,7 +45,7 @@ export const imageLimitMiddleware = (req, res, next) => {
 
       if (images[i].size > imageSizeLimit) {
         return next(
-          new AppError(`File "${images[i].name}" exceeds 10MB limit`, 413)
+          new AppError(`File "${images[i].name}" exceeds 8MB limit`, 413)
         );
       }
     }
