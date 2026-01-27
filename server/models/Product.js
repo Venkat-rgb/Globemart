@@ -73,7 +73,7 @@ const productSchema = new mongoose.Schema(
 
     stock: {
       type: Number,
-      max: [100, `Product stock can't exceed 100`],
+      max: [3000, `Product stock can't exceed 3000`],
       default: 1,
     },
 
