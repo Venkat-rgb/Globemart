@@ -54,6 +54,9 @@ import { globalLimiter } from "./middlewares/rateLimiters.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Adding trust proxy
+app.set('trust proxy', 1);
+
 // Using compression to optimize response body size and speed of application
 app.use(
   compression({
