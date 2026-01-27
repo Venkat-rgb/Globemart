@@ -26,20 +26,33 @@ const ChatMessage = ({
   const [unreadCount, setUnreadCount] = useState(unreadMessagesCount);
 
   const getMessageNotificationHandler = useCallback(
-    (messageInfo) => {
-      const {
-        sender: { _id: notificationSenderId },
-      } = messageInfo;
-
+    (notificationSenderId) => {
       if (senderId === notificationSenderId) {
         if (selectedChat !== id) {
           setUnreadCount((prev) => prev + 1);
         }
-        updateChatLastMessage(id, messageInfo);
+        console.log(`Notification Id: `, notificationSenderId);
+        updateChatLastMessage(id);
       }
     },
     [senderId, selectedChat, id, updateChatLastMessage]
   );
+
+  // const getMessageNotificationHandler = useCallback(
+  //   (messageInfo) => {
+  //     const {
+  //       sender: { _id: notificationSenderId },
+  //     } = messageInfo;
+
+  //     if (senderId === notificationSenderId) {
+  //       if (selectedChat !== id) {
+  //         // setUnreadCount((prev) => prev + 1);
+  //       }
+  //       updateChatLastMessage(id, messageInfo);
+  //     }
+  //   },
+  //   [senderId, selectedChat, id, updateChatLastMessage]
+  // );
 
   useEffect(() => {
     if (socket) {

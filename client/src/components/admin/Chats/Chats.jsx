@@ -2,7 +2,10 @@ import { useSelector } from "react-redux";
 import Layout from "../Layout";
 import { useCallback, useEffect, useState } from "react";
 import ChatContent from "../../Chat/ChatContent";
-import { useLazyGetSingleChatQuery } from "../../../redux/features/chats/chatsApiSlice";
+import {
+  useLazyGetSingleChatQuery,
+  useLazyGetSingleChatLastMessageQuery,
+} from "../../../redux/features/chats/chatsApiSlice";
 import Loader from "../../UI/Loader";
 import toast from "react-hot-toast";
 import LeftSideChats from "./LeftSideChats";
@@ -47,6 +50,8 @@ const Chats = () => {
     getSingleChat,
     { isLoading: isChatDataLoading, isError: chatDataError },
   ] = useLazyGetSingleChatQuery();
+
+  const [getSingleChatWithLastMessage] = useLazyGetSingleChatLastMessageQuery();
 
   // Intializing Socket Connection
   const { socket } = useCreateSocket();
@@ -126,22 +131,38 @@ const Chats = () => {
   };
 
   // Updates the last message of a particular chat
-  const updateChatLastMessage = useCallback((chatId, lastMessageData) => {
-    setChatsData((prevData) => {
-      const updatedChats = prevData.map((chatData) => {
-        if (chatData._id === chatId) {
-          return {
-            ...chatData,
-            lastMessage: lastMessageData,
-            updatedAt: new Date().toISOString(),
-          };
-        }
-        return chatData;
-      });
+  const updateChatLastMessage = useCallback(
+    async (chatId) => {
+      try {
+        const chatRes = await getSingleChatWithLastMessage(chatId).unwrap();
 
-      return sortChats(updatedChats);
-    });
-  }, []);
+        setChatsData((prevData) => {
+          const updatedChats = prevData.map((chatData) =>
+            chatData?._id === chatId ? chatRes?.chat : chatData
+          );
+
+          return sortChats(updatedChats);
+        });
+      } catch (err) {
+        toast.error(err?.message || err?.data?.message);
+      }
+
+      // setChatsData((prevData) => {
+      //   const updatedChats = prevData.map((chatData) => {
+      //     if (chatData._id === chatId) {
+      //       return {
+      //         ...chatData,
+      //         lastMessage: lastMessageData,
+      //         updatedAt: new Date().toISOString(),
+      //       };
+      //     }
+      //     return chatData;
+      //   });
+      //   return sortChats(updatedChats);
+      // });
+    },
+    [getSingleChatWithLastMessage]
+  );
 
   // Get all messages of a particular chat
   useEffect(() => {

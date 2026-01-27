@@ -10,6 +10,10 @@ const chatsApiSlice = ecommerceApi.injectEndpoints({
       query: (chatId) => `/chats/${chatId}`,
     }),
 
+    getSingleChatLastMessage: builder.query({
+      query: (chatId) => `/chats/${chatId}/last-message`,
+    }),
+
     createChat: builder.mutation({
       query: () => ({
         url: `/chats`,
@@ -30,6 +34,7 @@ const chatsApiSlice = ecommerceApi.injectEndpoints({
 export const {
   useLazyGetAllChatsOfUserQuery,
   useLazyGetSingleChatQuery,
+  useLazyGetSingleChatLastMessageQuery,
   useCreateChatMutation,
   // useDeleteChatMutation,
 } = chatsApiSlice;

@@ -120,3 +120,34 @@ export const getAllChatsOfUser = catchAsync(async (req, res) => {
   // Returning chats to user
   res.status(200).json({ chats });
 });
+
+export const getSingleChatWithLastMessage = catchAsync(
+  async (req, res, next) => {
+    const { id } = req.params;
+
+    // Check if chatId is valid
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return next(new AppError("Please enter valid chatId", 400));
+    }
+
+    // Fetching the chat with last message and unread messages count
+    const chat = await Chat.findById(id)
+      .populate("usersInChat", "username profileImg")
+      .populate({
+        path: "lastMessage",
+        populate: {
+          path: "sender",
+          select: "_id",
+        },
+        select: "message messageSeen messageSentAt",
+      })
+      .select("_id usersInChat updatedAt lastMessage unreadMessagesCount");
+
+    // If chat is not found, then return error
+    if (!chat) {
+      return next(new AppError("Chat does not exist!", 404));
+    }
+
+    res.status(200).json({ chat });
+  }
+);

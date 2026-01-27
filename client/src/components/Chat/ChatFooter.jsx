@@ -58,18 +58,22 @@ const ChatFooter = ({
       socket.emit("createMessage", { ...messageRes?.messageData, receiverId });
 
       if (userRole === "admin") {
-        const lastMessageObj = {
-          _id: messageRes?.messageData._id,
-          sender: {
-            _id: messageRes?.messageData?.sender?._id,
-          },
-          message: messageRes?.messageData?.message,
-          messageSeen: messageRes?.messageData?.messageSeen,
-          messageSentAt: messageRes?.messageData?.messageSentAt,
-        };
-
-        updateChatLastMessage(chatId, lastMessageObj);
+        updateChatLastMessage(chatId);
       }
+
+      // if (userRole === "admin") {
+      //   const lastMessageObj = {
+      //     _id: messageRes?.messageData._id,
+      //     sender: {
+      //       _id: messageRes?.messageData?.sender?._id,
+      //     },
+      //     message: messageRes?.messageData?.message,
+      //     messageSeen: messageRes?.messageData?.messageSeen,
+      //     messageSentAt: messageRes?.messageData?.messageSentAt,
+      //   };
+
+      //   updateChatLastMessage(chatId, lastMessageObj);
+      // }
 
       // Clearing message input
       setMessage("");
