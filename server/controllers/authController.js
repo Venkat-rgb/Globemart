@@ -123,10 +123,9 @@ export const logoutUser = catchAsync(async (req, res) => {
   // Clearing the cookie as the user is logged out
   res.clearCookie("refreshToken", {
     httpOnly: true,
-    secure: true,
-    sameSite: "none",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
     expires: new Date(0),
-    // should include secure: true for https and also sameSite: 'none' for cross-site cookie access.
   });
 
   logger.info(

@@ -21,7 +21,7 @@ export const sendToken = async (
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
       maxAge: process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000,
     });
 

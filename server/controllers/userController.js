@@ -184,10 +184,8 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
   res.clearCookie("refreshToken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "none",
+    sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
     expires: new Date(0),
-    // should include secure: true for https and also sameSite: 'none' for cross-site cookie access.
-    // Make sure to include expires like above, inorder to delete the cookie successfully, instead of leaving empty cookie without any value
   });
 
   logger.info(
@@ -257,10 +255,9 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
   if (req.user._id.toString() === userId) {
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
       expires: new Date(0),
-      // should include secure: true for https and also sameSite: 'none' for cross-site cookie access.
     });
   }
 
