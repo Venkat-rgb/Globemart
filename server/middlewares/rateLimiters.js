@@ -231,8 +231,8 @@ export const addressLimiter = rateLimit({
 
 // 11) Wishlist Routes Limiter
 export const wishlistLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // wait time 15 min
-  max: 50, // max 50 wishlist requests
+  windowMs: 10 * 60 * 1000, // wait time 10 min
+  max: 100, // max 100 wishlist requests
   keyGenerator: (req) => req.user?._id?.toString() || req.ip,
   message: {
     message: "Too many wishlist requests, please try again after 15 minutes",
