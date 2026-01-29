@@ -1,6 +1,6 @@
 import { ecommerceApi } from "../../services/ecommerceApi";
 
-export const wishListApiSlice = ecommerceApi.injectEndpoints({
+export const wishlistApiSlice = ecommerceApi.injectEndpoints({
   endpoints: (builder) => ({
     getWishlist: builder.query({
       query: (page) => (page ? `/wishlist?page=${Number(page)}` : `/wishlist`),
@@ -41,4 +41,4 @@ export const {
   useAddProductToWishlistMutation,
   useDeleteProductFromWishlistMutation,
   useDeleteTotalWishlistMutation,
-} = wishListApiSlice;
+} = wishlistApiSlice;

@@ -1,0 +1,124 @@
+# Dependencies
+node_modules
+*node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist
+dist-ssr
+*dist
+build
+.next
+out
+.output
+.nuxt
+.vite
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+*.env
+.env.*
+
+# Git
+.git
+.gitignore
+.gitattributes
+.github
+
+# IDE and Editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Testing
+coverage
+.nyc_output
+*.test.js
+*.test.jsx
+*.test.ts
+*.test.tsx
+*.spec.js
+*.spec.jsx
+*.spec.ts
+*.spec.tsx
+__tests__
+__mocks__
+jest.config.*
+*.test.*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Documentation
+README.md
+README*.md
+CHANGELOG.md
+LICENSE
+*.md
+docs
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+.circleci
+Jenkinsfile
+azure-pipelines.yml
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Misc
+.cache
+.parcel-cache
+.turbo
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+.vscode-test
+*.local
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
