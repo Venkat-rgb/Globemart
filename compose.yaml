@@ -6,6 +6,11 @@ services:
       - "5173:5173"
     env_file: 
       - ./client/.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
     depends_on:
       - server
       - socket
@@ -17,6 +22,11 @@ services:
       - "3000:3000"
     env_file:
       - ./server/config/config.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   socket:
     build: ./socket
@@ -25,3 +35,8 @@ services:
       - "4000:4000"
     env_file:
       - ./socket/config/config.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
