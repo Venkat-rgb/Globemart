@@ -1,0 +1,27 @@
+services:
+  client:
+    build: ./client
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    env_file: 
+      - ./client/.env
+    depends_on:
+      - server
+      - socket
+
+  server:
+    build: ./server
+    container_name: backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./server/config/config.env
+
+  socket:
+    build: ./socket
+    container_name: chat
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./socket/config/config.env
