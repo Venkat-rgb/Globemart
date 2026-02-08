@@ -18,15 +18,15 @@ import ErrorBoundaryComponent from "./components/ErrorBoundary/ErrorBoundaryComp
 import CouponModal from "./components/UI/CouponModal";
 import { AnimatePresence } from "framer-motion";
 import PageTransistion from "./components/UI/PageTransistion";
-import Sidebar from "./components/UI/Sidebar";
 import ChatOptions from "./components/UI/ChatOptions";
+import Sidebar from "./components/UI/Sidebar";
 
 const Profile = lazy(() => wait(500).then(() => import("./pages/Profile")));
 const EditProfile = lazy(() =>
-  wait(500).then(() => import("./pages/EditProfile"))
+  wait(500).then(() => import("./pages/EditProfile")),
 );
 const ChangePassword = lazy(() =>
-  wait(500).then(() => import("./pages/ChangePassword"))
+  wait(500).then(() => import("./pages/ChangePassword")),
 );
 
 const App = () => {
