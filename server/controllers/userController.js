@@ -184,7 +184,7 @@ export const updateMyPassword = catchAsync(async (req, res, next) => {
   res.clearCookie("refreshToken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
+    sameSite: "none",
     expires: new Date(0),
   });
 
@@ -256,7 +256,7 @@ export const deleteUserAccount = catchAsync(async (req, res, next) => {
     res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
+      sameSite: "none",
       expires: new Date(0),
     });
   }

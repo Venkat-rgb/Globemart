@@ -124,7 +124,7 @@ export const logoutUser = catchAsync(async (req, res) => {
   res.clearCookie("refreshToken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
+    sameSite: "none",
     expires: new Date(0),
   });
 

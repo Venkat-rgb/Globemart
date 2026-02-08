@@ -55,8 +55,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Adding trust proxy
-if(process.env.NODE_ENV === "production") {
-  app.set('trust proxy', 1);
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
 }
 
 // Using compression to optimize response body size and speed of application

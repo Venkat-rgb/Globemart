@@ -3,9 +3,7 @@ services:
     build: ./client
     container_name: frontend
     ports:
-      - "5173:5173"
-    env_file: 
-      - ./client/.env
+      - "4173:4173"
     logging:
       driver: "json-file"
       options:

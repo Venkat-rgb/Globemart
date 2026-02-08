@@ -16,20 +16,24 @@ const useGetUserLocation = () => {
         try {
           const res = await fetch(import.meta.env.VITE_APP_USER_LOCATION);
 
+          if (!res.ok) {
+            throw new Error(`Unable to get user location: ${res.statusText}`);
+          }
+
           const data = await res.json();
 
           setSessionData("userCurrency", {
-            countryCode: data?.countryCode,
+            countryCode: data?.country_code,
             currency: data?.currency,
           });
 
           setSessionData("userLocation", {
-            latitude: data?.lat,
-            longitude: data?.lon,
+            latitude: data?.latitude,
+            longitude: data?.longitude,
           });
 
           setUserCurrency({
-            countryCode: data?.countryCode,
+            countryCode: data?.country_code,
             currency: data?.currency,
           });
         } catch (err) {
