@@ -3,7 +3,7 @@ name: Globemart Workflow
 on:
   push:
     branches:
-      - main
+      - experiment/docker-setup
 
 jobs:
   check-changes:
