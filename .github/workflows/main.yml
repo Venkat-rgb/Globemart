@@ -3,7 +3,7 @@ name: Globemart Workflow
 on:
   push:
     branches:
-      - experiment/docker-setup
+      - main
 
 jobs:
   check-changes:
@@ -45,21 +45,84 @@ jobs:
     runs-on: ubuntu-latest
     if: needs.check-changes.outputs.client_changed == 'true'
     steps:
-      - name: Client working
-        run: echo "Client has changed!"
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Creating Docker Image
+        run: |
+          cd client
+          sudo docker build -t venkatreddy366/globemart-client .
+
+      - name: Pushing image to dockerhub
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          sudo docker push venkatreddy366/globemart-client
+
+      - name: SSH into VPS and Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker pull venkatreddy366/globemart-client
+            cd /home/ubuntu/globemart
+            sudo docker compose up -d --no-deps client
 
   server:
     needs: check-changes
     runs-on: ubuntu-latest
     if: needs.check-changes.outputs.server_changed == 'true'
     steps:
-      - name: Server working
-        run: echo "Server has changed!"
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Creating Docker Image
+        run: |
+          cd server
+          sudo docker build -t venkatreddy366/globemart-server .
+
+      - name: Pushing image to dockerhub
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          sudo docker push venkatreddy366/globemart-server
+
+      - name: SSH into VPS and Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker pull venkatreddy366/globemart-server
+            cd /home/ubuntu/globemart
+            sudo docker compose up -d --no-deps server
 
   socket:
     needs: check-changes
     runs-on: ubuntu-latest
     if: needs.check-changes.outputs.socket_changed == 'true'
     steps:
-      - name: Socket working
-        run: echo "Socket has changed!"
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Creating Docker Image
+        run: |
+          cd socket
+          sudo docker build -t venkatreddy366/globemart-socket .
+
+      - name: Pushing image to dockerhub
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          sudo docker push venkatreddy366/globemart-socket
+
+      - name: SSH into VPS and Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker pull venkatreddy366/globemart-socket
+            cd /home/ubuntu/globemart
+            sudo docker compose up -d --no-deps socket
