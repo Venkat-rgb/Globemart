@@ -48,8 +48,8 @@ import mongoSanitize from "express-mongo-sanitize";
 import NodeCache from "node-cache";
 import compression from "compression";
 import { GoogleGenAI } from "@google/genai";
-import mongoose from "mongoose";
 import { globalLimiter } from "./middlewares/rateLimiters.js";
+import mongoose from "mongoose";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -63,7 +63,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(
   compression({
     level: 4,
-  })
+  }),
 );
 
 // Setting Security HTTP Headers
@@ -88,7 +88,7 @@ app.use(
     origin: [process.env.FRONTEND_URL_1],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
-  })
+  }),
 );
 
 // Allowing files like images to upload
@@ -191,7 +191,7 @@ function setupGracefulShutDown() {
       // Force shutdown after 15 seconds if graceful shutdown hangs
       setTimeout(() => {
         logger.error(
-          "⚠️ Could not close connections in time, forcing shutdown"
+          "⚠️ Could not close connections in time, forcing shutdown",
         );
         process.exit(1);
       }, 15000);

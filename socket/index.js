@@ -22,8 +22,8 @@ dotenv.config({
   path: path.join(__dirname, "config", "config.env"),
 });
 
-import express from "express";
 import http from "http";
+import express from "express";
 import { Server } from "socket.io";
 
 // Initialising express app
@@ -124,7 +124,7 @@ io.on("connection", (socket) => {
           if (isReceiverExists?.role === "admin") {
             io.to(isReceiverExists?.socketId).emit(
               "getMessageNotification",
-              createdMessage?.sender?._id
+              createdMessage?.sender?._id,
             );
             // io.to(isReceiverExists?.socketId).emit("getMessageNotification", {
             //   _id: createdMessage?._id,
