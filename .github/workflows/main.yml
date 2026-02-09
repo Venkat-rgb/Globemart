@@ -48,6 +48,21 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Create .env file for client
+        run: |
+          cd client
+          echo "VITE_APP_CURRENCY_API_KEY=${{ secrets.VITE_APP_CURRENCY_API_KEY }}" >> .env
+
+          echo "VITE_APP_CURRENCY_SECRET_KEY=${{ secrets.VITE_APP_CURRENCY_SECRET_KEY }}" >> .env
+
+          echo "VITE_APP_USER_LOCATION=${{ secrets.VITE_APP_USER_LOCATION }}" >> .env
+
+          echo "VITE_APP_BACKEND_URL=${{ secrets.VITE_APP_BACKEND_URL }}" >> .env
+
+          echo "VITE_APP_SOCKET_BACKEND_URL=${{ secrets.VITE_APP_SOCKET_BACKEND_URL }}" >> .env
+
+          echo "VITE_APP_NODE_ENV=${{ secrets.VITE_APP_NODE_ENV }}" >> .env
+
       - name: Creating Docker Image
         run: |
           cd client
