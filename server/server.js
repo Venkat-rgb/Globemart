@@ -46,7 +46,6 @@ import { startCouponJob } from "./utils/jobs/couponJob.js";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 import NodeCache from "node-cache";
-import compression from "compression";
 import { GoogleGenAI } from "@google/genai";
 import { globalLimiter } from "./middlewares/rateLimiters.js";
 import mongoose from "mongoose";
@@ -58,13 +57,6 @@ const PORT = process.env.PORT || 3000;
 if (process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1);
 }
-
-// Using compression to optimize response body size and speed of application
-app.use(
-  compression({
-    level: 4,
-  }),
-);
 
 // Setting Security HTTP Headers
 app.use(helmet());
