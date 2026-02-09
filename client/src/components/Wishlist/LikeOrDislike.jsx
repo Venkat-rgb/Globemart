@@ -59,7 +59,7 @@ const LikeOrDislike = ({
       setIsLiked(true);
     } else if (wishListProducts?.length > 0) {
       const isProductLiked = wishListProducts?.find(
-        (product) => product?.product?._id === id
+        (product) => product?.product?._id === id,
       );
       if (isProductLiked) {
         setIsLiked(true);
