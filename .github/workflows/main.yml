@@ -55,7 +55,7 @@ jobs:
 
       - name: Pushing image to dockerhub
         run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           sudo docker push venkatreddy366/globemart-client
 
       - name: SSH into VPS and Deploy
@@ -65,7 +65,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            docker pull venkatreddy366/globemart-client
+            sudo docker pull venkatreddy366/globemart-client
             cd /home/ubuntu/globemart
             sudo docker compose up -d --no-deps client
 
@@ -84,7 +84,7 @@ jobs:
 
       - name: Pushing image to dockerhub
         run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           sudo docker push venkatreddy366/globemart-server
 
       - name: SSH into VPS and Deploy
@@ -94,7 +94,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            docker pull venkatreddy366/globemart-server
+            sudo docker pull venkatreddy366/globemart-server
             cd /home/ubuntu/globemart
             sudo docker compose up -d --no-deps server
 
@@ -113,7 +113,7 @@ jobs:
 
       - name: Pushing image to dockerhub
         run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           sudo docker push venkatreddy366/globemart-socket
 
       - name: SSH into VPS and Deploy
@@ -123,6 +123,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            docker pull venkatreddy366/globemart-socket
+            sudo docker pull venkatreddy366/globemart-socket
             cd /home/ubuntu/globemart
             sudo docker compose up -d --no-deps socket
