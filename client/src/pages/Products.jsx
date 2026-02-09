@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Loader, MetaData } from "../components";
 import { Pagination } from "@mui/material";
 import { useGetProductsQuery } from "../redux/features/products/productsApiSlice";
-import { useGetWishlistQuery } from "../redux/features/wishlist/wishlistApiSlice";
+import { useGetWishlistQuery } from "../redux/features/wishlist/wishListApiSlice";
 import ProductItem from "../components/Products/ProductItem";
 import CategoriesSection from "../components/Products/Categories/CategoriesSection";
 import ErrorUI from "../components/UI/ErrorUI";
@@ -50,10 +50,10 @@ const Products = () => {
   const setUrl = useCallback(
     (category, priceRange, rating, page, sort) => {
       const firstPriceRange = Number(
-          (priceRange[0] * currencyData?.conversion).toFixed(2)
+          (priceRange[0] * currencyData?.conversion).toFixed(2),
         ),
         secondPriceRange = Number(
-          (priceRange[1] * currencyData?.conversion).toFixed(2)
+          (priceRange[1] * currencyData?.conversion).toFixed(2),
         );
 
       const reqFields = `&fields=title,price,createdAt,numOfReviews,rating,discount,discountPrice`;
@@ -66,7 +66,7 @@ const Products = () => {
 
       setFilters(query);
     },
-    [currencyData?.conversion]
+    [currencyData?.conversion],
   );
 
   // Whenever products change due to filters, we scroll to top of the page

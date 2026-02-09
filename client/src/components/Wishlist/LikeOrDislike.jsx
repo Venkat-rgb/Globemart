@@ -3,7 +3,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import {
   useAddProductToWishlistMutation,
   useDeleteProductFromWishlistMutation,
-} from "../../redux/features/wishlist/wishlistApiSlice";
+} from "../../redux/features/wishlist/wishListApiSlice";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";

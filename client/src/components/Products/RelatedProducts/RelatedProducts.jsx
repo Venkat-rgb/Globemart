@@ -4,7 +4,7 @@ import { Scrollbar } from "swiper";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import ProductItem from "../ProductItem";
-import { useGetWishlistQuery } from "../../../redux/features/wishlist/wishlistApiSlice";
+import { useGetWishlistQuery } from "../../../redux/features/wishlist/wishListApiSlice";
 import { useInView } from "react-intersection-observer";
 import ErrorUI from "../../UI/ErrorUI";
 import SmallLoader from "../../UI/SmallLoader";

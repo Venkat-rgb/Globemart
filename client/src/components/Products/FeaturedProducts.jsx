@@ -1,7 +1,7 @@
 import ProductItem from "./ProductItem";
 import { useInView } from "react-intersection-observer";
 import { useGetFeaturedProductsQuery } from "../../redux/features/products/productsApiSlice";
-import { useGetWishlistQuery } from "../../redux/features/wishlist/wishlistApiSlice";
+import { useGetWishlistQuery } from "../../redux/features/wishlist/wishListApiSlice";
 import SmallLoader from "../UI/SmallLoader";
 import ErrorUI from "../UI/ErrorUI";
 import useSessionStorage from "../../hooks/basic/useSessionStorage";

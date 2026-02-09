@@ -7,7 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {
   useDeleteTotalWishlistMutation,
   useLazyGetWishlistQuery,
-} from "../redux/features/wishlist/wishlistApiSlice";
+} from "../redux/features/wishlist/wishListApiSlice";
 import toast from "react-hot-toast";
 import LazyImage from "../components/LazyImage";
 import ProductItem from "../components/Products/ProductItem";
@@ -78,12 +78,12 @@ const Wishlist = () => {
   const resetPagination = useCallback(
     (productId) => {
       const filteredProducts = wishListProducts?.filter(
-        (item) => item?.product?._id !== productId
+        (item) => item?.product?._id !== productId,
       );
 
       setWishListProducts(filteredProducts);
     },
-    [wishListProducts]
+    [wishListProducts],
   );
 
   // Fetching wishlist products
