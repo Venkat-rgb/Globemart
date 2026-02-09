@@ -22,7 +22,7 @@ const LandingPage = ({ featuredProductsRef }) => {
     <header className="relative flex items-center gap-4 w-full mt-11 max-[1024px]:mt-0 max-[1024px]:flex-wrap-reverse max-[1024px]:justify-center">
       <div className="space-y-10 max-[1024px]:space-y-7 font-inter w-1/2 max-[1024px]:w-full max-[1024px]:px-5 max-[550px]:px-2">
         <p className="font-bold text-4xl max-[550px]:text-[1.45rem] max-[550px]:leading-8 max-[1024px]:text-3xl text-neutral-700 drop-shadow">
-          Your Ultimate Shopping Hub for Everything You Need
+          Your Ultimate Shopping Hub for Everything You Need Bro
         </p>
 
         <p className="text-lg max-[550px]:text-base drop-shadow">
