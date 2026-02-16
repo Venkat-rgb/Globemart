@@ -1,11 +1,13 @@
 name: Globemart Workflow
 
+# This workflow runs only when push is made to main branch
 on:
   push:
     branches:
       - main
 
 jobs:
+  # It basically identifies which folder code has been modified (client, server, socket)
   check-changes:
     runs-on: ubuntu-latest
     outputs:
@@ -13,9 +15,11 @@ jobs:
       server_changed: ${{ steps.server_changed.outputs.server }}
       socket_changed: ${{ steps.socket_changed.outputs.socket }}
     steps:
+      # First it pulls the code into github runner hosted VM
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # Checks for any changes in client
       - name: Check for changes in client
         id: client_changed
         uses: dorny/paths-filter@v3
@@ -24,6 +28,7 @@ jobs:
             client:
               - 'client/**'
 
+      # Checks for any changes in server
       - name: Check for changes in server
         id: server_changed
         uses: dorny/paths-filter@v3
@@ -32,6 +37,7 @@ jobs:
             server:
               - 'server/**'
 
+      # Checks for any changes in socket
       - name: Check for changes in socket
         id: socket_changed
         uses: dorny/paths-filter@v3
@@ -40,14 +46,17 @@ jobs:
             socket:
               - 'socket/**'
 
+  # Performing the below job, if only client is changed
   client:
     needs: check-changes
     runs-on: ubuntu-latest
     if: needs.check-changes.outputs.client_changed == 'true'
     steps:
+      # Checking out the client code into github runner VM
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # Creating env file inside the runner VM to pass client env variables
       - name: Create .env file for client
         run: |
           cd client
@@ -63,16 +72,19 @@ jobs:
 
           echo "VITE_APP_NODE_ENV=${{ secrets.VITE_APP_NODE_ENV }}" >> .env
 
+      # Rebuilding the docker image for client
       - name: Creating Docker Image
         run: |
           cd client
           sudo docker build -t venkatreddy366/globemart-client .
 
+      # After re-building docker image, pushing it to dockerhub
       - name: Pushing image to dockerhub
         run: |
           echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           sudo docker push venkatreddy366/globemart-client
 
+      # Logs into my actual VPS and re-deploys only client
       - name: SSH into VPS and Deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -87,24 +99,29 @@ jobs:
             sudo docker compose up -d --no-deps client
             echo "Deployment completed"
 
+  # Performing the below job, if only server is changed
   server:
     needs: check-changes
     runs-on: ubuntu-latest
     if: needs.check-changes.outputs.server_changed == 'true'
     steps:
+      # Checking out the server code into github runner VM
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # Rebuilding the docker image for server
       - name: Creating Docker Image
         run: |
           cd server
           sudo docker build -t venkatreddy366/globemart-server .
 
+      # After re-building docker image, pushing it to dockerhub
       - name: Pushing image to dockerhub
         run: |
           echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           sudo docker push venkatreddy366/globemart-server
 
+      # Logs into my actual VPS and re-deploys only server
       - name: SSH into VPS and Deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -119,24 +136,29 @@ jobs:
             sudo docker compose up -d --no-deps server
             echo "Deployment completed"
 
+  # Performing the below job, if only socket is changed
   socket:
     needs: check-changes
     runs-on: ubuntu-latest
     if: needs.check-changes.outputs.socket_changed == 'true'
     steps:
+      # Checking out the socket code into github runner VM
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # Rebuilding the docker image for socket
       - name: Creating Docker Image
         run: |
           cd socket
           sudo docker build -t venkatreddy366/globemart-socket .
 
+      # After re-building docker image, pushing it to dockerhub
       - name: Pushing image to dockerhub
         run: |
           echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           sudo docker push venkatreddy366/globemart-socket
 
+      # Logs into my actual VPS and re-deploys only socket
       - name: SSH into VPS and Deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
