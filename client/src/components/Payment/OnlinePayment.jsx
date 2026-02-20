@@ -57,7 +57,7 @@ const OnlinePayment = ({ isError }) => {
     setTimeout(() => {
       paymentSuccessMusic.play().catch((err) => {
         console.error(
-          `Error while playing paymentSuccessMusic: ${err?.message}`
+          `Error while playing paymentSuccessMusic: ${err?.message}`,
         );
       });
     }, 800);
@@ -103,7 +103,7 @@ const OnlinePayment = ({ isError }) => {
               },
             },
           },
-        }
+        },
       );
 
       // If payment was unsuccessfull (or) some issue occured
@@ -177,7 +177,12 @@ const OnlinePayment = ({ isError }) => {
       <div className="space-y-5">
         <div className="flex items-center gap-4 border py-2 px-4 drop-shadow rounded ">
           <CreditCardIcon className="text-neutral-500" />
-          <CardNumberElement className="w-full" />
+          <CardNumberElement
+            className="w-full"
+            options={{
+              placeholder: `4242 4242 4242 4242`,
+            }}
+          />
         </div>
         <div className="flex items-center gap-4 border py-2 px-4 drop-shadow rounded">
           <EventIcon className="text-neutral-500" />
