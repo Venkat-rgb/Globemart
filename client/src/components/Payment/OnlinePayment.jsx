@@ -180,7 +180,7 @@ const OnlinePayment = ({ isError }) => {
           <CardNumberElement
             className="w-full"
             options={{
-              placeholder: `4242 4242 4242 4242`,
+              placeholder: `Use 4242 4242 4242 4242`,
             }}
           />
         </div>
