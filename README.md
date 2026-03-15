@@ -1,4 +1,35 @@
-# Globemart Images
+<h1 align="center">
+  Globemart (AI-Powered Global Ecommerce Platform)
+</h1>
+
+## Project Overview
+1) What's the project about?
+2) Why did you build it and what problem it solves
+
+## Tech Stack
+1) **Frontend**: HTML, Tailwind CSS, JavaScript, React.js, Redux Toolkit (state management), RTK Query (API calls), Framer Motion (animations), Leaflet.js (for maps), Recharts (charts for dashboard)
+2) **Backend**: Node.js, Express.js, Socket.io (chat), Cloudinary (images), Winston (Logging), Nodemailer (sending emails), node-schedule (Automatic coupon expiry) 
+3) **Database**: MongoDB
+4) **Payment Gateway**: Stripe
+5) **AI Integration**: gemini-embedding-001 (vector embeddings), gemma-3-27b-it (LLM), LangChain.js, LangGraph.js (building agents) 
+6) **Deployment**: Hostinger KVM1 VPS, Docker, Nginx, CI/CD Pipeline 
+
+## Project Architecture
+
+## Performance Optimizations
+- Rate Limiting
+- Caching
+- Gzip Compression
+- Lazy Loading and Code Splitting
+- MongoDB Aggregation Pipelines
+- Debounced Search
+- Infinite Scrolling
+- Pagination
+
+## Challenges Faced
+
+## Future Enhancements
+
 
 ## Login Page
 ![Login](https://github.com/user-attachments/assets/942c55c3-ab60-4120-9faf-7710a266419b)
