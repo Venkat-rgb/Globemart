@@ -7,12 +7,48 @@
 2) Why did you build it and what problem it solves
 
 ## Tech Stack
-1) **Frontend**: HTML, Tailwind CSS, JavaScript, React.js, Redux Toolkit (state management), RTK Query (API calls), Framer Motion (animations), Leaflet.js (for maps), Recharts (charts for dashboard)
-2) **Backend**: Node.js, Express.js, Socket.io (chat), Cloudinary (images), Winston (Logging), Nodemailer (sending emails), node-schedule (Automatic coupon expiry) 
-3) **Database**: MongoDB
-4) **Payment Gateway**: Stripe
-5) **AI Integration**: gemini-embedding-001 (vector embeddings), gemma-3-27b-it (LLM), LangChain.js, LangGraph.js (building agents) 
-6) **Deployment**: Hostinger KVM1 VPS, Docker, Nginx, CI/CD Pipeline 
+
+### 🚀 Frontend 
+- **JavaScript**
+- **React.js** – Core app
+- **Tailwind CSS** – styling
+- **Redux Toolkit** – global state management
+- **RTK Query** – API data fetching
+- **Framer Motion** – UI animations
+- **Leaflet.js** – maps and geolocation features
+- **Recharts** – analytics and dashboard charts
+
+
+### 🚀 Backend
+- **Node.js**
+- **Express.js**
+- **JWT** - authentication & authorization
+- **Socket.io** – real-time chat functionality
+- **Cloudinary** – image storage and optimization
+- **Nodemailer** – email notifications
+- **Node Cache** - caching
+- **Node Schedule** – background job scheduling (automatic coupon expiry)
+- **Winston** – centralized logging
+
+
+### 🚀 Database
+- **MongoDB** (MongoDB Atlas)
+
+### 🚀 Payment Gateway
+- **Stripe** – secure online payment processing
+
+### 🚀 AI Integration 
+- **LangChain.js** – building LLM-powered workflows
+- **LangGraph.js** – agent orchestration
+- **gemini-embedding-001** – vector embeddings
+- **gemma-3-27b-it** – LLM for AI responses
+
+### 🚀 Deployment (DevOps & Infrastructure) 
+- **Docker** – containerization
+- **Nginx** – reverse proxy and request handling
+- **Hostinger VPS (KVM1)** – production hosting
+- **Github Actions CI/CD Pipeline** – automated build and deployment
+
 
 ## Project Architecture
 
