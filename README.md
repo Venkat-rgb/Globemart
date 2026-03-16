@@ -79,7 +79,7 @@ profiles, and an order tracking system
 ## Performance Optimizations
 
 ### Frontend Optimizations
-- Lazy Loading and Code Splitting: Used React.lazy(), Suspense to lazy load components only when required. also used dynamic imports
+- Lazy Loading and Code Splitting: Used React.lazy(), Suspense, dynamic imports to lazy load components only when required, and reduced bundle size from this to this MB. 
 - Using memo, useMemo, useCallback
 - Debouncing: Used for searching products, admin searching customers to chat 
 - Infinite Scrolling
@@ -94,16 +94,22 @@ profiles, and an order tracking system
 - Indexing
 - MongoDB Aggregation Pipelines
 - Data Projection
-- Handled errors using react-error-boundary
+- Implemented image limit middleware which allows admin to upload only 8 MB images 
+- Implemented docker logging rotation, so that winston logs on VPS don't occupy the whole disk 
 
 ### Security
 - Rate Limiting
 - JWT Auth and Token Blacklisting
-- 
+- Used helmet package to add secure headers like CSP and avoid attacks like XSS, MITM, Clickjacking    
+- Used Bcrypt for storing passwords safely
+- Implemented VPS firewall and OS layer firewall using UFW to allow only configured ports
 
-## Error Handling
-- Frontend 
+### Error Handling
+- Frontend error handling: Implemented React-Error-Boundary at levels. component level, individual feature level, root level  
+- Backend error handling: Implemented a global centralized error middleware, which handles all types of errors
 
+
+  
 ## Challenges Faced
 
 ## Future Enhancements
