@@ -79,36 +79,35 @@ profiles, and an order tracking system
 ## Performance Optimizations
 
 ### Frontend Optimizations
-- Lazy Loading and Code Splitting: Used React.lazy(), Suspense, dynamic imports to lazy load components only when required, and reduced bundle size from this to this MB. 
-- Using memo, useMemo, useCallback
-- Debouncing: Used for searching products, admin searching customers to chat 
-- Infinite Scrolling
-- Caching on API calls using RTK Query
-- Serving images using Cloudinary CDN, instead of the server
+- **Lazy Loading & Code Splitting** – Implemented **React.lazy**, **Suspense**, and **dynamic imports** to load components on demand, significantly reducing initial bundle size and improving page load performance. 
+- **Memoization** – Used **React.memo**, **useMemo**, and **useCallback** to prevent unnecessary component re-renders, improving rendering efficiency in complex UI components.
+- **Debounced Search** – Implemented debouncing for product search and admin chat search to avoid triggering API requests on every keystroke, reducing unnecessary network calls.
+- **Infinite Scrolling** – Implemented infinite scroll for wishlist and product lists so that data is fetched only when users reach the end of the list, improving performance and user experience.
+- **API Caching with RTK Query** – Used RTK Query’s built-in caching to reuse previously fetched API responses, reducing redundant network requests and improving response time 
+- **Image Optimization with Cloudinary CDN** – Served product images through Cloudinary CDN instead of the application server, reducing server load and improving image delivery latency globally.
 - Put images of LCP, FCP scores
 
 ### Backend Optimizations
-- Caching
-- Gzip Compression
-- Pagination
-- Indexing
-- MongoDB Aggregation Pipelines
-- Data Projection
-- Implemented image limit middleware which allows admin to upload only 8 MB images 
-- Implemented docker logging rotation, so that winston logs on VPS don't occupy the whole disk 
+- **Server-side Caching** – Cached frequently requested data to minimize repeated database queries, reducing database load and improving API response latency.
+- **Gzip Compression** – Enabled **gzip** compression for frontend bundles and backend API responses, reducing payload sizes and improving response time over the network.
+- **Pagination for Large Datasets** – Implemented pagination to return only a limited number of products per request, reducing database load, bandwidth usage, and improving API performance   
+- **Database Indexing** – Created indexes on high-frequency query fields such as **product title**, **user email**, and **username**, along with **geospatial indexing** for store locations, significantly improving query performance.
+- **MongoDB Aggregation Pipelines** – Used aggregation pipelines for complex operations such as **sales analytics**, **multi-filter product queries**, and **vector search**, enabling efficient server-side data processing.  
+- **Selective Data Projection** – Returned only required fields in API responses to reduce payload size and improve response latency. 
+- **Upload Size Restrictions** – Implemented middleware to restrict image uploads to 8 MB, preventing large file uploads from degrading server performance 
+- **Log Rotation in Docker** – Configured **Docker log rotation** to prevent Winston logs from filling disk space on the VPS, ensuring long-term server stability. 
 
 ### Security
-- Rate Limiting
-- JWT Auth and Token Blacklisting
-- Used helmet package to add secure headers like CSP and avoid attacks like XSS, MITM, Clickjacking    
-- Used Bcrypt for storing passwords safely
-- Implemented VPS firewall and OS layer firewall using UFW to allow only configured ports
+- **Rate Limiting** – Implemented request rate limiting to protect APIs from **DDoS** attacks and **brute-force** attempts.
+- **JWT Authentication with Token Blacklisting** – Implemented secure JWT authentication with **token blacklisting** to invalidate compromised or logged-out tokens.
+- **Secure HTTP Headers** – Used the **helmet** middleware to add security headers such as **Content Security Policy** (CSP) to mitigate **XSS**, **MITM**, and **clickjacking** attacks.
+- **NoSQL Injection Protection** – Integrated **mongo-sanitize** to prevent malicious query operators and protect against **NoSQL** injection attacks.
+- **Password Security** – Stored user passwords securely using **bcrypt** hashing with salt
+- **Infrastructure Firewall** – Configured VPS firewall and OS level **UFW** (Uncomplicated Firewall) to restrict server access to only necessary ports, reducing attack surface.
 
 ### Error Handling
-- Frontend error handling: Implemented React-Error-Boundary at levels. component level, individual feature level, root level  
-- Backend error handling: Implemented a global centralized error middleware, which handles all types of errors
-
-
+- **Frontend Error Boundaries** – Implemented **react-error-boundary** at component, feature, and root levels to gracefully handle UI errors without crashing the entire application.  
+- **Centralized Backend Error Handling** – Designed a global error-handling middleware in Express.js to standardize error responses and simplify debugging and logging.
   
 ## Challenges Faced
 
