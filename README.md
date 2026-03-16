@@ -16,6 +16,31 @@
 
 ## Project Architecture
 
+
+## Key Features
+- Engineered an end-to-end **AI Customer support agent RAG (Retrieval-Augmented Generation)**
+pipeline using **LangChain** and **LangGraph**, capable of **answering policy FAQs**, **retrieving product
+details**, and **summarizing product reviews** from the platform's knowledge base.
+- Implemented **AI-powered voice product search** using **Gemma-3-27B-IT** model and **vector
+embeddings**, enabling natural queries like ‘show wedding kurta under 5000‘.
+- Developed a **real-time customer support chat** system using **Socket.io** with **typing indicators**, **online
+presence**, **unread notifications**, **emoji support**, and **message read status**.
+- Architected a **Geospatial Nearby Stores** feature using **MongoDB geospatial indexes** and **Haversine**
+formula, displaying store locations on interactive **Leaflet maps** with route visualization and distance
+calculation when the product is out of stock.
+- Integrated payment processing with **Stripe** supporting online payments and offline order flow, with
+**automated invoice generation** and **order confirmation emails** via **Nodemailer**.
+- Built a **Dynamic currency conversion system** supporting 165+ global currencies based on user location
+using FreeCurrencyAPI.
+- Implemented **automated coupon lifecycle management** using **node-schedule jobs** to activate and
+expire coupons daily at midnight without manual intervention.
+- Developed a comprehensive **Admin Dashboard** with **sales analytics** (last week, 6 months chart),
+inventory, coupons, orders management, customer reviews monitoring, real-time admin chat support.
+- **Containerized** and deployed the full stack application using **Docker**, **CI/CD pipeline**, and **Nginx** as
+reverse proxy on a **VPS** (Virtual Private Server)
+- Built complete e-commerce functionality including product catalog with filters, cart, wishlist, reviews, user
+profiles, and an order tracking system
+
 ## Performance Optimizations
 - Rate Limiting
 - Caching
@@ -25,6 +50,9 @@
 - Debounced Search
 - Infinite Scrolling
 - Pagination
+- Handled errors using react-error-boundary
+
+
 
 ## Challenges Faced
 
