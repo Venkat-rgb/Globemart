@@ -10,14 +10,13 @@
 
 ### 🚀 Frontend 
 - **JavaScript**
-- **React.js** – Core app
+- **React.js** – core app
 - **Tailwind CSS** – styling
 - **Redux Toolkit** – global state management
 - **RTK Query** – API data fetching
 - **Framer Motion** – UI animations
 - **Leaflet.js** – maps and geolocation features
 - **Recharts** – analytics and dashboard charts
-
 
 ### 🚀 Backend
 - **Node.js**
@@ -30,7 +29,6 @@
 - **Node Schedule** – background job scheduling (automatic coupon expiry)
 - **Winston** – centralized logging
 
-
 ### 🚀 Database
 - **MongoDB** (MongoDB Atlas)
 
@@ -39,7 +37,7 @@
 
 ### 🚀 AI Integration 
 - **LangChain.js** – building LLM-powered workflows
-- **LangGraph.js** – agent orchestration
+- **LangGraph.js** – RAG agent orchestration
 - **gemini-embedding-001** – vector embeddings
 - **gemma-3-27b-it** – LLM for AI responses
 
@@ -77,18 +75,34 @@ reverse proxy on a **VPS** (Virtual Private Server)
 - Built complete e-commerce functionality including product catalog with filters, cart, wishlist, reviews, user
 profiles, and an order tracking system
 
+
 ## Performance Optimizations
-- Rate Limiting
+
+### Frontend Optimizations
+- Lazy Loading and Code Splitting: Used React.lazy(), Suspense to lazy load components only when required. also used dynamic imports
+- Using memo, useMemo, useCallback
+- Debouncing: Used for searching products, admin searching customers to chat 
+- Infinite Scrolling
+- Caching on API calls using RTK Query
+- Serving images using Cloudinary CDN, instead of the server
+- Put images of LCP, FCP scores
+
+### Backend Optimizations
 - Caching
 - Gzip Compression
-- Lazy Loading and Code Splitting
-- MongoDB Aggregation Pipelines
-- Debounced Search
-- Infinite Scrolling
 - Pagination
+- Indexing
+- MongoDB Aggregation Pipelines
+- Data Projection
 - Handled errors using react-error-boundary
 
+### Security
+- Rate Limiting
+- JWT Auth and Token Blacklisting
+- 
 
+## Error Handling
+- Frontend 
 
 ## Challenges Faced
 
