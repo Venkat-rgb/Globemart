@@ -158,7 +158,23 @@ profiles, and an order tracking system
 
 
 ## Future Enhancements
+### 1) Handling Race Conditions & Data Consistency
+- I plan to handle race conditions in critical flows such as **product stock updates**, **coupon usage limits**, and **concurrent order placements**.
+- This can be solved using **atomic** database operations, **transactions**, and **locking mechanisms** to ensure data consistency under high concurrency.
 
+### 2) Asynchronous Processing with Message Queues
+- Introduce message queues (**RabbitMQ**) to offload tasks like **sending emails**, **order processing**, and **notifications** from the main request cycle.
+- This will improve API response time and ensure reliable background processing without blocking the **main thread**.
+
+### 3) Monitoring & Observability
+- Integrate **Prometheus** and **Grafana** to monitor system metrics such as **API latency**, **error rates**, and **resource utilization**.
+- This will enable real-time insights, faster debugging, and proactive issue detection in production.
+
+### 4) Scalable System Architecture
+- **Vertical scaling** initially to handle moderate traffic growth
+- **Horizontal scaling** of the monolithic application using **load balancing** for higher **concurrency**
+- Gradual transition to **microservices** architecture if specific modules become performance bottlenecks
+- This ensures the system evolves efficiently based on real-world traffic demands.
 
 ## Login Page
 ![Login](https://github.com/user-attachments/assets/942c55c3-ab60-4120-9faf-7710a266419b)
