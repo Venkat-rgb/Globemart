@@ -110,6 +110,52 @@ profiles, and an order tracking system
 - **Centralized Backend Error Handling** – Designed a global error-handling middleware in Express.js to standardize error responses and simplify debugging and logging.
   
 ## Challenges Faced
+### 1) AI Customer Support Agent
+**Challenge**: Building an **AI agent** that can handle multiple intents (policy questions like returns/refunds, product queries, review summaries) was difficult because a generic LLM does not have access to platform-specific data and often produces hallucinated or irrelevant responses.
+
+**Solution**: 
+- Implemented an intent-based routing system using **LangChain** and **LangGraph**, where each query is first classified using an **intent classifier**, and then routed to the appropriate tool for processing.
+- Built a **RAG (Retrieval-Augmented Generation)** pipeline trained on my Globemart data (policies, products, reviews), ensuring the LLM generates context-aware and accurate responses instead of generic outputs.
+
+### 2) Real-Time Customer Support Chat
+**Challenge**: Implementing real-time chat was not just about sending messages, it required handling multiple real-time states like:
+- Online/Offline presence
+- Typing indicators
+- Unread message counts
+- Message seen status
+- Maintaining consistency across all these states with low latency was challenging.
+
+**Solution**: I implemented an event-driven architecture using **Socket.io**, where different events handle different states (message, typing, seen, presence).
+
+### 3) Nearby Stores (Proximity Service)
+**Challenge**: Calculating the physical distance between a user and multiple stores in real-time for every store would be inefficient.
+
+**Solution**: 
+- I used **MongoDB geospatial indexing (2dsphere index)** and **$nearSphere** queries to fetch nearby stores based on user location and efficiently calculate distances using the **haversine** formula
+- This allows the database to perform optimized distance-based searches, ensuring fast and scalable retrieval of nearby stores.
+
+### 4) Complex Authentication and Authorization
+**Challenge**: Designing a secure authentication system required handling multiple concerns such as secure **login/signup**, **protecting private routes**, **preventing token reuse after logout**, and mitigating **brute-force** attacks. Additionally, ensuring a seamless user experience with token expiry and refresh without forcing users to re-login frequently was a key challenge.
+
+**Solution**: 
+- I implemented **JWT-based** authentication with **token blacklisting**, ensuring that invalidated tokens cannot be reused after logout.
+- Added **role-based authorization (admin/user)** using middleware to protect sensitive routes.
+- To enhance security, I implemented **rate limiting** on authentication endpoints to mitigate **brute-force** attacks.
+- For a better user experience, I integrated **automatic token refresh** using **RTK Query interceptors**, which transparently refresh expired access tokens without interrupting user sessions.
+
+### 5) Deployment
+**Challenge**: Deploying my Globemart application in a production-like environment required solving:
+- Environment consistency issues
+- Manual deployment errors
+- Scalability limitations
+- Secure request routing
+  
+**Solution**: 
+- I containerized the application using **Docker**, ensuring consistent environments across development and production.
+- Set up **CI/CD** pipelines to automate build and deployment, eliminating manual errors.
+- Used **Nginx** as a reverse proxy to route requests to appropriate containers and configured firewalls for security.
+- This architecture also enables horizontal scaling by adding more containers in the future.
+
 
 ## Future Enhancements
 
