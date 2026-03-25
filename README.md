@@ -49,7 +49,106 @@
 
 
 ## Project Architecture
+### Main Architecture
+<img width="1423" height="587" alt="diagram-export-3-25-2026-12_37_51-PM" src="https://github.com/user-attachments/assets/ef13531f-e2bf-49f2-a6cf-f6dd55607e4c" />
 
+
+### AI Customer Support Agent Architecture
+```mermaid
+graph TD
+    %% Start Node
+    Start((Customer Query)) --> Sanitize[Sanitization & Pre-processing]
+    Sanitize --> IntentNode{Intent Classification<br/><i>Gemini LLM</i>}
+
+    %% Intent Branching
+    IntentNode -- "general" --> GenHandler[General Chat Handler]
+    IntentNode -- "policy" --> PolicyHandler[Policy RAG Handler]
+    IntentNode -- "product_info" --> InfoHandler[Product Detail Handler]
+    IntentNode -- "product_review_summary" --> ReviewHandler[Review Summarizer]
+    IntentNode -- "unknown" --> UnknownHandler[Fallback Agent]
+
+    %% General Flow
+    GenHandler --> GenLLM[Gemma LLM: Contextual Response]
+    GenLLM --> FinalOutput
+
+    %% Policy RAG Flow
+    PolicyHandler --> Embed[Generate Embeddings for customer query using<br/><i>Gemini Embedding-001</i>]
+    Embed --> VectorSearch[Vector Search<br/><i>MongoDB Atlas</i>]
+    VectorSearch --> PolicyCheck{Docs Found?}
+    PolicyCheck -- "No" --> PolicyFail["I couldn't find specific information..."]
+    PolicyCheck -- "Yes (Top 3)" --> PolicySum[Summarize Docs<br/><i>Gemma LLM</i>]
+    PolicySum --> FinalOutput
+    PolicyFail --> FinalOutput
+
+    %% Product Info Flow
+    InfoHandler --> InfoExtract[Extract Product Name using<br/><i>Gemma LLM</i>]
+    InfoExtract --> InfoCheckName{Name Found?}
+    InfoCheckName -- "No" --> InfoNoName["Please enter exact product name..."]
+    InfoCheckName -- "Yes" --> InfoDB[Query MongoDB for product]
+    InfoDB --> InfoCheckDB{In Database?}
+    InfoCheckDB -- "No" --> InfoNoDB["Product not available..."]
+    InfoCheckDB -- "Yes" --> InfoFilter[Filter & Format details using<br/><i>Gemma LLM</i>]
+    InfoFilter --> FinalOutput
+    InfoNoName --> FinalOutput
+    InfoNoDB --> FinalOutput
+
+    %% Updated Review Summary Flow
+    ReviewHandler --> RevExtract[Extract Product Name using<br/><i>Gemma LLM</i>]
+    RevExtract --> RevCheckName{Name Found?}
+    RevCheckName -- "No" --> RevNoName["Please enter product name for reviews..."]
+    
+    RevCheckName -- "Yes" --> RevCheckDBExist{Product in DB?}
+    
+    RevCheckDBExist -- "No" --> RevNoProd["Sorry! Review summary for product you want is not available"]
+    
+    RevCheckDBExist -- "Yes" --> RevFetch[Fetch top 5 product reviews from DB]
+    
+    RevFetch --> RevCount{Reviews > 0?}
+    RevCount -- "No" --> RevNone["No reviews found for this product..."]
+    RevCount -- "Yes" --> RevSum[Summarize Reviews using<br/><i>Gemma LLM</i>]
+    
+    RevSum --> FinalOutput
+    RevNoName --> FinalOutput
+    RevNoProd --> FinalOutput
+    RevNone --> FinalOutput
+
+    %% Unknown Flow
+    UnknownHandler --> UnknownMsg["Sorry, please switch to 'Chat with our Agent'"]
+    UnknownMsg --> FinalOutput
+
+    %% End Node
+    FinalOutput((Response Sent to User))
+
+    %% Styling
+    style IntentNode fill:#b202b8,stroke:#333,stroke-width:2px
+    style Start fill:#e35b5b
+    style FinalOutput fill:#e35b5b
+    style VectorSearch fill:#424242
+    style InfoDB fill:#424242
+    style RevFetch fill:#424242
+```
+
+### Deployment Architecture
+```mermaid
+sequenceDiagram
+    autonumber
+    actor D as Developer
+    participant GH as GitHub
+    participant GHA as GitHub Actions (CI/CD)
+    participant DH as DockerHub
+    participant VPS as VPS
+
+    Note over GHA: Detects changes in folders:<br/>client, server, or socket
+
+    D->>GH: Push code
+    GH->>GHA: Trigger Workflow
+    GHA->>GHA: Detect changed folder (client/server/socket)
+    GHA->>GHA: Build Docker Image
+    GHA->>DH: Push Docker Image
+    GHA->>VPS: SSH Login
+    VPS->>DH: Pull Docker Image
+    VPS->>VPS: Run Docker Container using Docker Compose
+```
 
 ## Key Features
 - Engineered an end-to-end **AI Customer support agent RAG (Retrieval-Augmented Generation)**
