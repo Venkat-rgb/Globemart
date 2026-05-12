@@ -2,8 +2,17 @@
   Globemart (AI-Powered Global Ecommerce Platform)
 </h1>
 
-## Project Overview
-### 1) What's the project about?
+# Contents
+- [Project Overview](#project-overview)
+- [Tech Stack](#tech-stack)
+- [Project Architecture](#project-architecture)
+- [Key Features](#key-features)
+- [Performance Optimizations](#performance-optimizations)
+- [Challenges Faced](#challenges-faced)
+- [Future Enhancements](#future-enhancements)
+
+# Project Overview
+## 1) What's the project about?
 - **Globemart** is a production-level **AI-powered global e-commerce platform** built using the **MERN** stack. It enables users worldwide to shop seamlessly with advanced features like
 
   - AI Customer Support Agent (built using RAG pipeline)
@@ -13,10 +22,11 @@
   - Dynamic currency conversion based on customer location
   - Secure payments
   - Automated coupon management using cron jobs.
+
 - The platform also includes a powerful **Admin Dashboard** for **sales analytics** and managing users, inventory, orders, reviews, chats, and coupons, and it is deployed using **Docker** with a **CI/CD** pipeline on a VPS for automated production deployment.
 
 
-### 2) There are many other e-commerce platforms, so why did you build it? What's the differentiating factor, and what problem does it solve?
+## 2) There are many other e-commerce platforms, so why did you build it? What's the differentiating factor, and what problem does it solve?
 - I built Globemart to solve practical limitations commonly found in traditional e-commerce applications while also gaining end-to-end product development experience.
 
 - Most e-commerce platforms provide basic search and customer support systems, but they often lack intelligent assistance, voice-based shopping, and offline store integration when products go out of stock. To address these gaps, I implemented:
@@ -28,7 +38,7 @@
 - Apart from solving these problems, I built this project to deeply understand the complete **SDLC** of a real-world product — from planning and development to deployment, scalability, and DevOps. This project taught me **Product Ownership** and helped me develop a **strong product-thinking mindset** and understand how large-scale applications are built and maintained end-to-end.
 
 
-## Tech Stack
+# Tech Stack
 
 ### 🚀 Frontend 
 - **JavaScript**
@@ -70,12 +80,12 @@
 - **Github Actions CI/CD Pipeline** – automated build and deployment
 
 
-## Project Architecture
-### Main Architecture
+# Project Architecture
+## Main Architecture
 <img width="1423" height="587" alt="diagram-export-3-25-2026-12_37_51-PM" src="https://github.com/user-attachments/assets/ef13531f-e2bf-49f2-a6cf-f6dd55607e4c" />
 
 
-### AI Customer Support Agent Architecture
+## AI Customer Support Agent Architecture
 ```mermaid
 graph TD
     %% Start Node
@@ -150,7 +160,7 @@ graph TD
     style RevFetch fill:#424242
 ```
 
-### Deployment Architecture
+## Deployment Architecture
 ```mermaid
 sequenceDiagram
     autonumber
@@ -172,7 +182,7 @@ sequenceDiagram
     VPS->>VPS: Run Docker Container using Docker Compose
 ```
 
-## Key Features
+# Key Features
 - Engineered an end-to-end **AI Customer support agent RAG (Retrieval-Augmented Generation)**
 pipeline using **LangChain** and **LangGraph**, capable of **answering policy FAQs**, **retrieving product
 details**, and **summarizing product reviews** from the platform's knowledge base.
@@ -197,7 +207,7 @@ reverse proxy on a **VPS** (Virtual Private Server)
 profiles, and an order tracking system
 
 
-## Performance Optimizations
+# Performance Optimizations
 
 ### Frontend Optimizations
 - **Lazy Loading & Code Splitting** – Implemented **React.lazy**, **Suspense**, and **dynamic imports** to load components on demand, significantly reducing initial bundle size and improving page load performance. 
@@ -230,7 +240,7 @@ profiles, and an order tracking system
 - **Frontend Error Boundaries** – Implemented **react-error-boundary** at component, feature, and root levels to gracefully handle UI errors without crashing the entire application.  
 - **Centralized Backend Error Handling** – Designed a global error-handling middleware in Express.js to standardize error responses and simplify debugging and logging.
   
-## Challenges Faced
+# Challenges Faced
 ### 1) AI Customer Support Agent
 **Challenge**: Building an **AI agent** that can handle multiple intents (policy questions like returns/refunds, product queries, review summaries) was difficult because a generic LLM does not have access to platform-specific data and often produces hallucinated or irrelevant responses.
 
@@ -239,20 +249,20 @@ profiles, and an order tracking system
 - Built a **RAG (Retrieval-Augmented Generation)** pipeline trained on my Globemart data (policies, products, reviews), ensuring the LLM generates context-aware and accurate responses instead of generic outputs.
 
 ### 2) Real-Time Customer Support Chat
-**Challenge**: Implementing real-time chat was not just about sending messages, it required handling multiple real-time states like:
+**Challenge**: Implementing real-time chat was not just about sending messages, it required handling multiple real-time states, like:
 - Online/Offline presence
 - Typing indicators
 - Unread message counts
 - Message seen status
 - Maintaining consistency across all these states with low latency was challenging.
 
-**Solution**: I implemented an event-driven architecture using **Socket.io**, where different events handle different states (message, typing, seen, presence).
+**Solution**: I implemented an event-driven architecture using Socket.io, where separate events manage different chat states such as messages, typing indicators, seen status, and user presence. For each feature, I developed **reusable custom hooks** on the frontend to support both customer-side and admin-side chat functionality, while maintaining a clean, scalable codebase.
 
 ### 3) Nearby Stores (Proximity Service)
 **Challenge**: Calculating the physical distance between a user and multiple stores in real-time for every store would be inefficient.
 
 **Solution**: 
-- I used **MongoDB geospatial indexing (2dsphere index)** and **$nearSphere** queries to fetch nearby stores based on user location and efficiently calculate distances using the **haversine** formula
+- I used **MongoDB geospatial indexing (2dsphere index)** and **$nearSphere** queries to fetch nearby stores based on user location and efficiently calculate distances using the **Haversine** formula
 - This allows the database to perform optimized distance-based searches, ensuring fast and scalable retrieval of nearby stores.
 
 ### 4) Complex Authentication and Authorization
@@ -278,7 +288,7 @@ profiles, and an order tracking system
 - This architecture also enables horizontal scaling by adding more containers in the future.
 
 
-## Future Enhancements
+# Future Enhancements
 ### 1) Handling Race Conditions & Data Consistency
 - I plan to handle race conditions in critical flows such as **product stock updates**, **coupon usage limits**, and **concurrent order placements**.
 - This can be solved using **atomic** database operations, **transactions**, and **locking mechanisms** to ensure data consistency under high concurrency.
