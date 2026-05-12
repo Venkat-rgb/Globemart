@@ -3,8 +3,30 @@
 </h1>
 
 ## Project Overview
-1) What's the project about?
-2) Why did you build it and what problem it solves
+### 1) What's the project about?
+- **Globemart** is a production-level **AI-powered global e-commerce platform** built using the **MERN** stack. It enables users worldwide to shop seamlessly with advanced features like
+
+  - AI Customer Support Agent (built using RAG pipeline)
+  - AI-Powered Voice Product Search
+  - Geospatial Nearby Stores (Proximity Service)
+  - Real-time low-latency Customer Support Chat
+  - Dynamic currency conversion based on customer location
+  - Secure payments
+  - Automated coupon management using cron jobs.
+- The platform also includes a powerful **Admin Dashboard** for **sales analytics** and managing users, inventory, orders, reviews, chats, and coupons, and it is deployed using **Docker** with a **CI/CD** pipeline on a VPS for automated production deployment.
+
+
+### 2) There are many other e-commerce platforms, so why did you build it? What's the differentiating factor, and what problem does it solve?
+- I built Globemart to solve practical limitations commonly found in traditional e-commerce applications while also gaining end-to-end product development experience.
+
+- Most e-commerce platforms provide basic search and customer support systems, but they often lack intelligent assistance, voice-based shopping, and offline store integration when products go out of stock. To address these gaps, I implemented:
+
+  - **AI Customer Support Agent** to instantly handle common user queries using intent understanding, reducing dependency on human support for repetitive questions.
+  - **AI Product Voice Search** that allows users to search naturally using voice commands like “Show me wedding kurtas between ₹2000 and ₹5000”, making product discovery faster and more user-friendly.
+  - **Nearby Stores (Proximity Service)** to help users find nearby offline stores when products are out of stock online, improving customer satisfaction and trust.
+
+- Apart from solving these problems, I built this project to deeply understand the complete **SDLC** of a real-world product — from planning and development to deployment, scalability, and DevOps. This project taught me **Product Ownership** and helped me develop a **strong product-thinking mindset** and understand how large-scale applications are built and maintained end-to-end.
+
 
 ## Tech Stack
 
