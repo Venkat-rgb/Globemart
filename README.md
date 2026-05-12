@@ -3,8 +3,30 @@
 </h1>
 
 ## Project Overview
-1) What's the project about?
-2) Why did you build it and what problem it solves
+### 1) What's the project about?
+- **Globemart** is a production-level **AI-powered global e-commerce platform** built using the **MERN** stack. It enables users worldwide to shop seamlessly with advanced features like
+
+  - AI Customer Support Agent (built using RAG pipeline)
+  - AI-Powered Voice Product Search
+  - Geospatial Nearby Stores (Proximity Service)
+  - Real-time low-latency Customer Support Chat
+  - Dynamic currency conversion based on customer location
+  - Secure payments
+  - Automated coupon management using cron jobs.
+- The platform also includes a powerful **Admin Dashboard** for **sales analytics** and managing users, inventory, orders, reviews, chats, and coupons, and it is deployed using **Docker** with a **CI/CD** pipeline on a VPS for automated production deployment.
+
+
+### 2) There are many other e-commerce platforms, so why did you build it? What's the differentiating factor, and what problem does it solve?
+- I built Globemart to solve practical limitations commonly found in traditional e-commerce applications while also gaining end-to-end product development experience.
+
+- Most e-commerce platforms provide basic search and customer support systems, but they often lack intelligent assistance, voice-based shopping, and offline store integration when products go out of stock. To address these gaps, I implemented:
+
+  - **AI Customer Support Agent** to instantly handle common user queries using intent understanding, reducing dependency on human support for repetitive questions.
+  - **AI Product Voice Search** that allows users to search naturally using voice commands like “Show me wedding kurtas between ₹2000 and ₹5000”, making product discovery faster and more user-friendly.
+  - **Nearby Stores (Proximity Service)** to help users find nearby offline stores when products are out of stock online, improving customer satisfaction and trust.
+
+- Apart from solving these problems, I built this project to deeply understand the complete **SDLC** of a real-world product — from planning and development to deployment, scalability, and DevOps. This project taught me **Product Ownership** and helped me develop a **strong product-thinking mindset** and understand how large-scale applications are built and maintained end-to-end.
+
 
 ## Tech Stack
 
@@ -49,7 +71,106 @@
 
 
 ## Project Architecture
+### Main Architecture
+<img width="1423" height="587" alt="diagram-export-3-25-2026-12_37_51-PM" src="https://github.com/user-attachments/assets/ef13531f-e2bf-49f2-a6cf-f6dd55607e4c" />
 
+
+### AI Customer Support Agent Architecture
+```mermaid
+graph TD
+    %% Start Node
+    Start((Customer Query)) --> Sanitize[Sanitization & Pre-processing]
+    Sanitize --> IntentNode{Intent Classification<br/><i>Gemini LLM</i>}
+
+    %% Intent Branching
+    IntentNode -- "general" --> GenHandler[General Chat Handler]
+    IntentNode -- "policy" --> PolicyHandler[Policy RAG Handler]
+    IntentNode -- "product_info" --> InfoHandler[Product Detail Handler]
+    IntentNode -- "product_review_summary" --> ReviewHandler[Review Summarizer]
+    IntentNode -- "unknown" --> UnknownHandler[Fallback Agent]
+
+    %% General Flow
+    GenHandler --> GenLLM[Gemma LLM: Contextual Response]
+    GenLLM --> FinalOutput
+
+    %% Policy RAG Flow
+    PolicyHandler --> Embed[Generate Embeddings for customer query using<br/><i>Gemini Embedding-001</i>]
+    Embed --> VectorSearch[Vector Search<br/><i>MongoDB Atlas</i>]
+    VectorSearch --> PolicyCheck{Docs Found?}
+    PolicyCheck -- "No" --> PolicyFail["I couldn't find specific information..."]
+    PolicyCheck -- "Yes (Top 3)" --> PolicySum[Summarize Docs<br/><i>Gemma LLM</i>]
+    PolicySum --> FinalOutput
+    PolicyFail --> FinalOutput
+
+    %% Product Info Flow
+    InfoHandler --> InfoExtract[Extract Product Name using<br/><i>Gemma LLM</i>]
+    InfoExtract --> InfoCheckName{Name Found?}
+    InfoCheckName -- "No" --> InfoNoName["Please enter exact product name..."]
+    InfoCheckName -- "Yes" --> InfoDB[Query MongoDB for product]
+    InfoDB --> InfoCheckDB{In Database?}
+    InfoCheckDB -- "No" --> InfoNoDB["Product not available..."]
+    InfoCheckDB -- "Yes" --> InfoFilter[Filter & Format details using<br/><i>Gemma LLM</i>]
+    InfoFilter --> FinalOutput
+    InfoNoName --> FinalOutput
+    InfoNoDB --> FinalOutput
+
+    %% Updated Review Summary Flow
+    ReviewHandler --> RevExtract[Extract Product Name using<br/><i>Gemma LLM</i>]
+    RevExtract --> RevCheckName{Name Found?}
+    RevCheckName -- "No" --> RevNoName["Please enter product name for reviews..."]
+    
+    RevCheckName -- "Yes" --> RevCheckDBExist{Product in DB?}
+    
+    RevCheckDBExist -- "No" --> RevNoProd["Sorry! Review summary for product you want is not available"]
+    
+    RevCheckDBExist -- "Yes" --> RevFetch[Fetch top 5 product reviews from DB]
+    
+    RevFetch --> RevCount{Reviews > 0?}
+    RevCount -- "No" --> RevNone["No reviews found for this product..."]
+    RevCount -- "Yes" --> RevSum[Summarize Reviews using<br/><i>Gemma LLM</i>]
+    
+    RevSum --> FinalOutput
+    RevNoName --> FinalOutput
+    RevNoProd --> FinalOutput
+    RevNone --> FinalOutput
+
+    %% Unknown Flow
+    UnknownHandler --> UnknownMsg["Sorry, please switch to 'Chat with our Agent'"]
+    UnknownMsg --> FinalOutput
+
+    %% End Node
+    FinalOutput((Response Sent to User))
+
+    %% Styling
+    style IntentNode fill:#b202b8,stroke:#333,stroke-width:2px
+    style Start fill:#e35b5b
+    style FinalOutput fill:#e35b5b
+    style VectorSearch fill:#424242
+    style InfoDB fill:#424242
+    style RevFetch fill:#424242
+```
+
+### Deployment Architecture
+```mermaid
+sequenceDiagram
+    autonumber
+    actor D as Developer
+    participant GH as GitHub
+    participant GHA as GitHub Actions (CI/CD)
+    participant DH as DockerHub
+    participant VPS as VPS
+
+    Note over GHA: Detects changes in folders:<br/>client, server, or socket
+
+    D->>GH: Push code
+    GH->>GHA: Trigger Workflow
+    GHA->>GHA: Detect changed folder (client/server/socket)
+    GHA->>GHA: Build Docker Image
+    GHA->>DH: Push Docker Image
+    GHA->>VPS: SSH Login
+    VPS->>DH: Pull Docker Image
+    VPS->>VPS: Run Docker Container using Docker Compose
+```
 
 ## Key Features
 - Engineered an end-to-end **AI Customer support agent RAG (Retrieval-Augmented Generation)**
@@ -110,9 +231,71 @@ profiles, and an order tracking system
 - **Centralized Backend Error Handling** – Designed a global error-handling middleware in Express.js to standardize error responses and simplify debugging and logging.
   
 ## Challenges Faced
+### 1) AI Customer Support Agent
+**Challenge**: Building an **AI agent** that can handle multiple intents (policy questions like returns/refunds, product queries, review summaries) was difficult because a generic LLM does not have access to platform-specific data and often produces hallucinated or irrelevant responses.
+
+**Solution**: 
+- Implemented an intent-based routing system using **LangChain** and **LangGraph**, where each query is first classified using an **intent classifier**, and then routed to the appropriate tool for processing.
+- Built a **RAG (Retrieval-Augmented Generation)** pipeline trained on my Globemart data (policies, products, reviews), ensuring the LLM generates context-aware and accurate responses instead of generic outputs.
+
+### 2) Real-Time Customer Support Chat
+**Challenge**: Implementing real-time chat was not just about sending messages, it required handling multiple real-time states like:
+- Online/Offline presence
+- Typing indicators
+- Unread message counts
+- Message seen status
+- Maintaining consistency across all these states with low latency was challenging.
+
+**Solution**: I implemented an event-driven architecture using **Socket.io**, where different events handle different states (message, typing, seen, presence).
+
+### 3) Nearby Stores (Proximity Service)
+**Challenge**: Calculating the physical distance between a user and multiple stores in real-time for every store would be inefficient.
+
+**Solution**: 
+- I used **MongoDB geospatial indexing (2dsphere index)** and **$nearSphere** queries to fetch nearby stores based on user location and efficiently calculate distances using the **haversine** formula
+- This allows the database to perform optimized distance-based searches, ensuring fast and scalable retrieval of nearby stores.
+
+### 4) Complex Authentication and Authorization
+**Challenge**: Designing a secure authentication system required handling multiple concerns such as secure **login/signup**, **protecting private routes**, **preventing token reuse after logout**, and mitigating **brute-force** attacks. Additionally, ensuring a seamless user experience with token expiry and refresh without forcing users to re-login frequently was a key challenge.
+
+**Solution**: 
+- I implemented **JWT-based** authentication with **token blacklisting**, ensuring that invalidated tokens cannot be reused after logout.
+- Added **role-based authorization (admin/user)** using middleware to protect sensitive routes.
+- To enhance security, I implemented **rate limiting** on authentication endpoints to mitigate **brute-force** attacks.
+- For a better user experience, I integrated **automatic token refresh** using **RTK Query interceptors**, which transparently refresh expired access tokens without interrupting user sessions.
+
+### 5) Deployment
+**Challenge**: Deploying my Globemart application in a production-like environment required solving:
+- Environment consistency issues
+- Manual deployment errors
+- Scalability limitations
+- Secure request routing
+  
+**Solution**: 
+- I containerized the application using **Docker**, ensuring consistent environments across development and production.
+- Set up **CI/CD** pipelines to automate build and deployment, eliminating manual errors.
+- Used **Nginx** as a reverse proxy to route requests to appropriate containers and configured firewalls for security.
+- This architecture also enables horizontal scaling by adding more containers in the future.
+
 
 ## Future Enhancements
+### 1) Handling Race Conditions & Data Consistency
+- I plan to handle race conditions in critical flows such as **product stock updates**, **coupon usage limits**, and **concurrent order placements**.
+- This can be solved using **atomic** database operations, **transactions**, and **locking mechanisms** to ensure data consistency under high concurrency.
 
+### 2) Asynchronous Processing with Message Queues
+- Introduce message queues (**RabbitMQ**) to offload tasks like **sending emails**, **order processing**, and **notifications** from the main request cycle.
+- This will improve API response time and ensure reliable background processing without blocking the **main thread**.
+
+### 3) Monitoring & Observability
+- Integrate **Prometheus** and **Grafana** to monitor system metrics such as **API latency**, **error rates**, and **resource utilization**.
+- This will enable real-time insights, faster debugging, and proactive issue detection in production.
+
+### 4) Scalable System Architecture
+- **Vertical scaling** initially to handle moderate traffic growth
+- **Horizontal scaling** of the monolithic application using **load balancing** for higher **concurrency**
+- Gradual transition to **microservices** architecture if specific modules become performance bottlenecks
+- This ensures the system evolves efficiently based on real-world traffic demands.
 
 ## Login Page
 ![Login](https://github.com/user-attachments/assets/942c55c3-ab60-4120-9faf-7710a266419b)
