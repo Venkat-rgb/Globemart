@@ -307,134 +307,401 @@ profiles, and an order tracking system
 - Gradual transition to **microservices** architecture if specific modules become performance bottlenecks
 - This ensures the system evolves efficiently based on real-world traffic demands.
 
-## Login Page
-![Login](https://github.com/user-attachments/assets/942c55c3-ab60-4120-9faf-7710a266419b)
+## Product Images 
+<table width="100%">
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/942c55c3-ab60-4120-9faf-7710a266419b"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Sign In</b></p>
+    </td>
 
-## SignUp Page
-![Signup](https://github.com/user-attachments/assets/d45c50ab-7c98-40f2-aa97-b331baeeabdf)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/d45c50ab-7c98-40f2-aa97-b331baeeabdf"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Sign Up</b></p>
+    </td>
+  </tr>
 
-## Rate Limiting the Login Attempts
-![Rate limit](https://github.com/user-attachments/assets/4bd5cca1-f087-4c8f-84ad-73370923794c)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/4bd5cca1-f087-4c8f-84ad-73370923794c"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Rate Limiting the Login Attempts</b></p>
+    </td>
 
-## Forgot Password Page
-![Forgot Password](https://github.com/user-attachments/assets/92dbf233-2c49-4490-85dc-46defc13ba49)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/92dbf233-2c49-4490-85dc-46defc13ba49"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Forgot Password</b></p>
+    </td>
+  </tr>
 
-## Reset token sent to customer's Gmail
-![reset token](https://github.com/user-attachments/assets/53d36a2b-e7a9-4275-ba01-5b9f155eeea5)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/53d36a2b-e7a9-4275-ba01-5b9f155eeea5"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Reset Token Sent to Customer's Gmail</b></p>
+    </td>
 
-## Reset Password Page
-![Set New password](https://github.com/user-attachments/assets/4b90c471-da27-4135-9e4a-a39ec97f9e7f)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/4b90c471-da27-4135-9e4a-a39ec97f9e7f"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Reset Password</b></p>
+    </td>
+  </tr>
 
-## Home Page
-![Home](https://github.com/user-attachments/assets/f3cba155-cedb-4a0a-90d6-e4730d349de0)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/f3cba155-cedb-4a0a-90d6-e4730d349de0"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Home</b></p>
+    </td>
 
-## Benefits Section
-![Benefits](https://github.com/user-attachments/assets/94a87f44-225e-4a1c-a831-7415ca1a5172)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/94a87f44-225e-4a1c-a831-7415ca1a5172"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Benefits</b></p>
+    </td>
+  </tr>
 
-## Featured Products Section
-![Featured Products](https://github.com/user-attachments/assets/b0046872-018d-4e34-b622-488ad4b0a28e)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/b0046872-018d-4e34-b622-488ad4b0a28e"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Featured Products</b></p>
+    </td>
 
-## All Products Page
-![All Products](https://github.com/user-attachments/assets/804453af-3154-4af6-9697-8df9965c5745)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/804453af-3154-4af6-9697-8df9965c5745"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>All Products</b></p>
+    </td>
+  </tr>
 
-## Search Products Page
-![Search Products Normal](https://github.com/user-attachments/assets/e5cd1263-dc6f-490f-8f7f-bc6e5a0f7d91)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/e5cd1263-dc6f-490f-8f7f-bc6e5a0f7d91"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Search Products</b></p>
+    </td>
 
-## Search Products using voice (products for customer's voice query are below)
-![Voice search](https://github.com/user-attachments/assets/cc3b669b-862e-4841-abf2-dbf477aa2b55)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/cc3b669b-862e-4841-abf2-dbf477aa2b55"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Search Products using voice</b></p>
+    </td>
+  </tr>
 
-## Products requested by the customer through their voice
-![Voice Search result](https://github.com/user-attachments/assets/68d7cea4-f4b3-4230-a520-247491e5de18)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/68d7cea4-f4b3-4230-a520-247491e5de18"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Products requested by the customer through their voice</b></p>
+    </td>
 
-## Single Product Page
-![Single Product](https://github.com/user-attachments/assets/5fda93c8-672f-436e-b617-fc4279725e40)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/5fda93c8-672f-436e-b617-fc4279725e40"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Single Product</b></p>
+    </td>
+  </tr>
 
-## Single Product Description Section
-![Product Description main](https://github.com/user-attachments/assets/ac40d768-3a22-4688-82dd-1636522b7fb4)
+  <tr>
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/ac40d768-3a22-4688-82dd-1636522b7fb4"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Product Description</b></p>
+    </td>
 
-## Product Reviews Section
-![Reviews](https://github.com/user-attachments/assets/a2da4a9e-2787-4450-8f9b-2b2aada71e54)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/a2da4a9e-2787-4450-8f9b-2b2aada71e54"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Product Reviews</b></p>
+    </td>
+  </tr>
 
-## Related Products Section
-![Related Products](https://github.com/user-attachments/assets/e7323b23-4013-423e-b61d-3e66b3337f92)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/e7323b23-4013-423e-b61d-3e66b3337f92"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Related Products</b></p>
+    </td>
 
-## Nearby Stores Page
-![Nearby Stores](https://github.com/user-attachments/assets/64f01cb4-89a3-4514-ac73-725e75fc0401)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/64f01cb4-89a3-4514-ac73-725e75fc0401"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Nearby Stores</b></p>
+    </td>
+  </tr>
 
-## Customer's Wishlist Page
-![Wishlist main](https://github.com/user-attachments/assets/3000266c-654a-48f3-a826-5746f9b708e6)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/3000266c-654a-48f3-a826-5746f9b708e6"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Customer's Wishlist</b></p>
+    </td>
 
-## Cart Page
-![Cart](https://github.com/user-attachments/assets/e56565cd-daa4-497b-aa81-2d706ae43a8f)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/e56565cd-daa4-497b-aa81-2d706ae43a8f"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Cart</b></p>
+    </td>
+  </tr>
 
-## Order Page
-![Single Customer Order](https://github.com/user-attachments/assets/0ee110be-b32f-4333-8e8f-bed8da0e5c54)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/0ee110be-b32f-4333-8e8f-bed8da0e5c54"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Order</b></p>
+    </td>
 
-## Payment Page
-![Payment](https://github.com/user-attachments/assets/64a1fe43-3fc1-4643-b6ae-dcda1874d398)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/64a1fe43-3fc1-4643-b6ae-dcda1874d398"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Payment</b></p>
+    </td>
+  </tr>
 
-## Payment Successful Page
-![Payment Successful](https://github.com/user-attachments/assets/f279a9df-7e80-45a9-bd64-f0e72eab2482)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/f279a9df-7e80-45a9-bd64-f0e72eab2482"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Payment Successful</b></p>
+    </td>
 
-## Order Invoice sent to customer's Gmail (For online payment) 
-![Invoice Email](https://github.com/user-attachments/assets/ae5533fe-979d-4038-9f5d-2449df3f8bb0)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/ae5533fe-979d-4038-9f5d-2449df3f8bb0"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Order Invoice sent to customer's Gmail (For online payment)</b></p>
+    </td>
+  </tr>
 
-## Order Invoice sent to customer's Gmail (For offline payment)
-![Cash on delivery order invoice (main)](https://github.com/user-attachments/assets/a5f51fe8-ffc7-4854-800b-18c5741815f8)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/a5f51fe8-ffc7-4854-800b-18c5741815f8"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Order Invoice sent to customer's Gmail (For offline payment)</b></p>
+    </td>
 
-## Payment Failed Page
-![Payment Failed](https://github.com/user-attachments/assets/77f3a818-cb98-4a75-90ff-eb68a7911145)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/77f3a818-cb98-4a75-90ff-eb68a7911145"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Payment Failed</b></p>
+    </td>
+  </tr>
 
-## Customer Orders Page
-![All Customer Orders](https://github.com/user-attachments/assets/6b2656b2-f885-4372-bd74-bad358598dd6)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/6b2656b2-f885-4372-bd74-bad358598dd6"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Customer Orders</b></p>
+    </td>
 
-## Customer Profile Page
-![My profile](https://github.com/user-attachments/assets/9afc9322-95e9-4029-8741-0e3528f4ee13)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/9afc9322-95e9-4029-8741-0e3528f4ee13"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Customer Profile</b></p>
+    </td>
+  </tr>
 
-## Edit Profile Page
-![Edit Profile page](https://github.com/user-attachments/assets/0c3b2837-bd1f-497b-a690-41c27cbbed68)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/0c3b2837-bd1f-497b-a690-41c27cbbed68"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Edit Profile</b></p>
+    </td>
 
-## Change Password Page
-![Change Password](https://github.com/user-attachments/assets/de4bfe26-9a6b-4364-a7aa-c92e27d84ee8)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/de4bfe26-9a6b-4364-a7aa-c92e27d84ee8"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Change Password</b></p>
+    </td>
+  </tr>
 
-## Dynamic Currency Feature
-![Dynamic Currency](https://github.com/user-attachments/assets/18813f25-f82a-4620-9499-7e36ffd4d1f2)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/18813f25-f82a-4620-9499-7e36ffd4d1f2"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Dynamic Currency Feature</b></p>
+    </td>
 
-## Admin Page (Dashboard)
-![Dashboard](https://github.com/user-attachments/assets/c1dc3970-6ef4-404c-aff7-e193cff03298)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/c1dc3970-6ef4-404c-aff7-e193cff03298"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Admin (Dashboard)</b></p>
+    </td>
+  </tr>
 
-## Inventory Management Page (Dashboard)
-![Dashboard Products](https://github.com/user-attachments/assets/95ba5689-f28f-433e-b863-d04e5cdfbded)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/95ba5689-f28f-433e-b863-d04e5cdfbded"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Inventory Management (Dashboard)</b></p>
+    </td>
 
-## Edit Inventory Page (Dashboard)
-![Dashboard Update Product](https://github.com/user-attachments/assets/3134ca91-69a0-4035-85cc-cf893b803a88)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/3134ca91-69a0-4035-85cc-cf893b803a88"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Edit Inventory (Dashboard)</b></p>
+    </td>
+  </tr>
 
-## Coupons Management Page (Dashboard)
-![Dashboard Coupons](https://github.com/user-attachments/assets/dfa24ef7-5597-4556-b0c9-484cc964dea0)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/dfa24ef7-5597-4556-b0c9-484cc964dea0"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Coupons Management (Dashboard)</b></p>
+    </td>
 
-## Create Coupon Page (Dashboard)
-![Create Coupon](https://github.com/user-attachments/assets/560cb39a-47b7-4230-a574-bd44d65cee24)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/560cb39a-47b7-4230-a574-bd44d65cee24"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Create Coupon (Dashboard)</b></p>
+    </td>
+  </tr>
 
-## Customer Orders Management Page (Dashboard) 
-![Dashboard Orders](https://github.com/user-attachments/assets/35307848-18b6-470d-ba97-514df13c04f7)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/35307848-18b6-470d-ba97-514df13c04f7"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Customer Orders Management (Dashboard)</b></p>
+    </td>
 
-## Edit Customer's Order Page (Online Payment - Stripe) (Dashboard)
-![Dashboard Order Delivered ](https://github.com/user-attachments/assets/c8dd5916-8543-446c-b4ad-c9a65bcf1682)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/c8dd5916-8543-446c-b4ad-c9a65bcf1682"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Edit Customer's Order (Online Payment - Stripe)</b></p>
+    </td>
+  </tr>
 
-## Edit Customer's Order Page (Offline Payment - Cash on delivery) (Dashboard) 
-![Mark order as paid](https://github.com/user-attachments/assets/a310c5bf-7340-42dc-b112-da2802ef2ce1)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/a310c5bf-7340-42dc-b112-da2802ef2ce1"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Edit Customer's Order (Offline Payment - Cash on delivery)</b></p>
+    </td>
 
-## All Customers Management Page (Dashboard)
-![Dashboard Users](https://github.com/user-attachments/assets/9c83faf4-c0ed-4bd5-9bed-31ebeca0ca11)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/9c83faf4-c0ed-4bd5-9bed-31ebeca0ca11"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Customers Management (Dashboard)</b></p>
+    </td>
+  </tr>
 
-## Managing customer support assistance using chat (Dashboard)
-<img width="1365" height="635" alt="Chats" src="https://github.com/user-attachments/assets/34c479da-2b61-4f34-ad6d-ab72695bb6c6" />
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/34c479da-2b61-4f34-ad6d-ab72695bb6c6"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Managing customer support assistance using chat (Dashboard)</b></p>
+    </td>
 
-## Chat between Customer and Customer support agent
-<img width="1366" height="632" alt="bothchats" src="https://github.com/user-attachments/assets/f2798efd-1221-4608-80ea-21dcf0c835fc" />
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/f2798efd-1221-4608-80ea-21dcf0c835fc"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Chat between Customer and Customer support agent</b></p>
+    </td>
+  </tr>
 
-## Product Reviews Management Page (Dashboard)
-![Dashboard Reviews](https://github.com/user-attachments/assets/8496be5b-5f92-484b-87e0-e9b358e9f836)
+  <tr>
+    <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/8496be5b-5f92-484b-87e0-e9b358e9f836"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>Product Reviews Management (Dashboard)</b></p>
+    </td>
 
-## 404 (Not Found) Page
-![404](https://github.com/user-attachments/assets/fa91b1ab-046b-4b3e-863e-47d2ae716186)
+   <td width="50%" valign="top" align="center">
+      <img 
+        src="https://github.com/user-attachments/assets/fa91b1ab-046b-4b3e-863e-47d2ae716186"
+        style="width:100%; height:300px; object-fit:cover; border-radius:10px;"
+      >
+      <p align="center"><b>404 (Not Found) Page</b></p>
+    </td>
+  </tr>
+</table>
