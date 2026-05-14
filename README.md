@@ -10,6 +10,7 @@
 - [Performance Optimizations](#performance-optimizations)
 - [Challenges Faced](#challenges-faced)
 - [Future Enhancements](#future-enhancements)
+- [App Images](#app-images)
 
 ## Project Overview
 ### 1) What's the project about?
@@ -307,7 +308,7 @@ profiles, and an order tracking system
 - Gradual transition to **microservices** architecture if specific modules become performance bottlenecks
 - This ensures the system evolves efficiently based on real-world traffic demands.
 
-## Product Images 
+## App Images 
 <table width="100%">
   <tr>
     <td width="50%" valign="top" align="center">
