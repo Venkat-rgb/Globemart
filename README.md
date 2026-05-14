@@ -2,6 +2,15 @@
   Globemart (AI-Powered Global Ecommerce Platform)
 </h1>
 
+## Contents
+- [Project Overview](#project-overview)
+- [Tech Stack](#tech-stack)
+- [Project Architecture](#project-architecture)
+- [Key Features](#key-features)
+- [Performance Optimizations](#performance-optimizations)
+- [Challenges Faced](#challenges-faced)
+- [Future Enhancements](#future-enhancements)
+
 ## Project Overview
 ### 1) What's the project about?
 - **Globemart** is a production-level **AI-powered global e-commerce platform** built using the **MERN** stack. It enables users worldwide to shop seamlessly with advanced features like
@@ -13,6 +22,7 @@
   - Dynamic currency conversion based on customer location
   - Secure payments
   - Automated coupon management using cron jobs.
+
 - The platform also includes a powerful **Admin Dashboard** for **sales analytics** and managing users, inventory, orders, reviews, chats, and coupons, and it is deployed using **Docker** with a **CI/CD** pipeline on a VPS for automated production deployment.
 
 
@@ -239,20 +249,20 @@ profiles, and an order tracking system
 - Built a **RAG (Retrieval-Augmented Generation)** pipeline trained on my Globemart data (policies, products, reviews), ensuring the LLM generates context-aware and accurate responses instead of generic outputs.
 
 ### 2) Real-Time Customer Support Chat
-**Challenge**: Implementing real-time chat was not just about sending messages, it required handling multiple real-time states like:
+**Challenge**: Implementing real-time chat was not just about sending messages, it required handling multiple real-time states, like:
 - Online/Offline presence
 - Typing indicators
 - Unread message counts
 - Message seen status
 - Maintaining consistency across all these states with low latency was challenging.
 
-**Solution**: I implemented an event-driven architecture using **Socket.io**, where different events handle different states (message, typing, seen, presence).
+**Solution**: I implemented an event-driven architecture using Socket.io, where separate events manage different chat states such as messages, typing indicators, seen status, and user presence. For each feature, I developed **reusable custom hooks** on the frontend to support both customer-side and admin-side chat functionality, while maintaining a clean, scalable codebase.
 
 ### 3) Nearby Stores (Proximity Service)
 **Challenge**: Calculating the physical distance between a user and multiple stores in real-time for every store would be inefficient.
 
 **Solution**: 
-- I used **MongoDB geospatial indexing (2dsphere index)** and **$nearSphere** queries to fetch nearby stores based on user location and efficiently calculate distances using the **haversine** formula
+- I used **MongoDB geospatial indexing (2dsphere index)** and **$nearSphere** queries to fetch nearby stores based on user location and efficiently calculate distances using the **Haversine** formula
 - This allows the database to perform optimized distance-based searches, ensuring fast and scalable retrieval of nearby stores.
 
 ### 4) Complex Authentication and Authorization
