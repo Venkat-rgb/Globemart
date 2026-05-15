@@ -49,7 +49,7 @@ export const extractKeywords = async (query) => {
     Now extract from the user query:`;
 
     const extractedKeywords = await llm.models.generateContent({
-      model: "gemma-3-27b-it",
+      model: process.env.CHAT_MODEL,
       contents: `${systemPrompt}\n\n${query}`,
       config: {
         temperature: 0,

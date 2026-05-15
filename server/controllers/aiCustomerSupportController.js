@@ -126,7 +126,7 @@ const handleCompanyPolicies = async (state) => {
     // 1) Generate the embeddings for the user query
     const queryEmbedding = await generateEmbedding(
       userMessage,
-      "RETRIEVAL_QUERY"
+      "RETRIEVAL_QUERY",
     );
 
     // 2) Perform vector search and get the similar documents
@@ -437,7 +437,7 @@ const handleProductReviewSummary = async (state) => {
     };
   } catch (err) {
     logger.error(
-      `Error while handling product review summary: ${err?.message}`
+      `Error while handling product review summary: ${err?.message}`,
     );
     return {
       ...state,
@@ -545,7 +545,7 @@ export const customerSupportChat = catchAsync(async (req, res, next) => {
   // Limiting the length of message
   if (trimmedUserMessage.length > 400) {
     return next(
-      new AppError("Please enter your query under 400 characters!", 400)
+      new AppError("Please enter your query under 400 characters!", 400),
     );
   }
 
@@ -644,7 +644,7 @@ export const deleteChat = catchAsync(async (req, res) => {
   await Conversation.findOneAndUpdate(
     { userId },
     { messages: [], waitingForProductName: false, productNameIntent: null },
-    { new: true }
+    { new: true },
   );
 
   res.status(200).json({

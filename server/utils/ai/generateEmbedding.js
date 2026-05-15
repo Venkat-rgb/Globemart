@@ -5,7 +5,7 @@ import { logger } from "../logger.js";
 export const generateEmbedding = async (text, type) => {
   try {
     const embeddingsRes = await llm.models.embedContent({
-      model: "gemini-embedding-001",
+      model: process.env.EMBEDDING_MODEL,
       contents: text,
       config: {
         outputDimensionality: 1536,
