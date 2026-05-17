@@ -109,7 +109,7 @@ export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
   // Limit the no of characters user speaks
   if (trimmedText.length > 400) {
     return next(
-      new AppError("Make sure your query is less than 400 characters", 400)
+      new AppError("Make sure your query is less than 400 characters", 400),
     );
   }
 
@@ -164,7 +164,7 @@ export const getProduct = catchAsync(async (req, res, next) => {
     product = JSON.parse(myCache.get(cacheKey));
   } else {
     // Making API call to database as product is not in cache
-    product = await Product.findById(id);
+    product = await Product.findById(id).select("-embedding");
 
     // Returning error if product doesn't exist in DB
     if (!product) {
@@ -195,12 +195,12 @@ export const createProduct = catchAsync(async (req, res, next) => {
   // Checking if price and discount are there so that we can calculate discountPrice
   if (reqFields?.price > 50 && reqFields?.discount > 1) {
     const productDiscount = Number(
-      (reqFields?.price * (reqFields?.discount / 100)).toFixed(2)
+      (reqFields?.price * (reqFields?.discount / 100)).toFixed(2),
     );
 
     // Adding new discountPrice property to reqField
     reqFields["discountPrice"] = Number(
-      (reqFields?.price - productDiscount).toFixed(2)
+      (reqFields?.price - productDiscount).toFixed(2),
     );
   }
 
@@ -295,11 +295,11 @@ export const updateProduct = catchAsync(async (req, res, next) => {
     beforeUpdatingProduct?.discount !== +reqFields?.discount
   ) {
     const productDiscount = Number(
-      (reqFields?.price * (reqFields?.discount / 100)).toFixed(2)
+      (reqFields?.price * (reqFields?.discount / 100)).toFixed(2),
     );
 
     reqFields["discountPrice"] = Number(
-      (reqFields?.price - productDiscount).toFixed(2)
+      (reqFields?.price - productDiscount).toFixed(2),
     );
   }
 
@@ -329,7 +329,7 @@ export const updateProduct = catchAsync(async (req, res, next) => {
     for (let i = 0; i < modifiedProduct?.images?.length; ++i) {
       // Deleting the image from cloudinary
       await cloudinary.v2.uploader.destroy(
-        modifiedProduct?.images[i]?.public_id
+        modifiedProduct?.images[i]?.public_id,
       );
     }
 
@@ -377,7 +377,7 @@ export const updateProduct = catchAsync(async (req, res, next) => {
   }
 
   logger.info(
-    `Updated Product_${modifiedProduct?._id} info and images successfully`
+    `Updated Product_${modifiedProduct?._id} info and images successfully`,
   );
   logger.info(`Updated Product_${modifiedProduct?._id} embedding successfully`);
 
@@ -409,7 +409,7 @@ export const updateProduct = catchAsync(async (req, res, next) => {
 export const deleteProduct = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
-  const product = await Product.findById(id);
+  const product = await Product.findById(id).select("-embedding");
 
   if (!product) {
     return next(new AppError(`Product does not exist!`, 400));
