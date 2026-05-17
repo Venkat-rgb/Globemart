@@ -79,14 +79,14 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
                 draft.messages.push(userMessageObj);
                 draft.messages.push(agentRes?.message);
               }
-            }
-          )
+            },
+          ),
         );
       } catch (err) {
         toast.error(err?.message || err?.data?.message);
       }
     },
-    [messages]
+    [messages],
   );
 
   // Deleting the chat messages
@@ -110,8 +110,8 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
               // delete all the chat messages in draft
               draft.messages = [];
             }
-          }
-        )
+          },
+        ),
       );
     } catch (err) {
       toast.error(err?.message || err?.data?.message);
