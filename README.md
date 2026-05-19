@@ -217,7 +217,6 @@ profiles, and an order tracking system
 - **Infinite Scrolling** – Implemented infinite scroll for wishlist and product lists so that data is fetched only when users reach the end of the list, improving performance and user experience.
 - **API Caching with RTK Query** – Used RTK Query’s built-in caching to reuse previously fetched API responses, reducing redundant network requests and improving response time 
 - **Image Optimization with Cloudinary CDN** – Served product images through Cloudinary CDN instead of the application server, reducing server load and improving image delivery latency globally.
-- Put images of LCP, FCP scores
 
 ### Backend Optimizations
 - **Server-side Caching** – Cached frequently requested data to minimize repeated database queries, reducing database load and improving API response latency.
