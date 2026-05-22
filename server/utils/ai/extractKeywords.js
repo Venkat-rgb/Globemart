@@ -41,7 +41,7 @@ export const extractKeywords = async (query) => {
     Output: {"category": "headphones", "discountPrice": {"$gte": 5000}}
 
     Input: "Show me watches of price 500"
-    Output: {"category": "watches", "discountPrice": {"$gte: 500}}
+    Output: {"category": "watches", "discountPrice": {"$gte": 500}}
 
     Input: "I want a nice white kurta"
     Output: {"category": "men clothes"}

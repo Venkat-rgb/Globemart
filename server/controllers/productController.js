@@ -114,13 +114,16 @@ export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
   }
 
   // Generate embedding for user query
-  const userEmbedding = await generateEmbedding(trimmedText, "RETRIEVAL_QUERY");
-
   // Extract the price and category from user query
-  const extractedKeywords = await extractKeywords(trimmedText);
+  const [userEmbedding, extractedKeywords] = await Promise.all([
+    generateEmbedding(trimmedText, "RETRIEVAL_QUERY"),
+    extractKeywords(trimmedText),
+  ]);
+
   const keywordsJSON = markdownToJSON(extractedKeywords);
 
   // Search the products using user query embedding and mongodb vector search
+  // First pre-filtering is applied and then vector search is performed
   const similarProducts = await Product.aggregate([
     {
       $vectorSearch: {
@@ -129,10 +132,8 @@ export const getProductsThroughVoice = catchAsync(async (req, res, next) => {
         path: "embedding",
         queryVector: userEmbedding,
         numCandidates: 50,
+        filter: keywordsJSON,
       },
-    },
-    {
-      $match: keywordsJSON,
     },
     {
       $project: {
