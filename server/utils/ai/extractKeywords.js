@@ -26,7 +26,7 @@ export const extractKeywords = async (query) => {
     3. If the query contains a price, but no filters like: less than, under, greater than, or more, then apply $gte to the price
     4. Return valid JSON only, no additional text
     5. If no clear category match, return an empty object {}
-    6. If no price is mentioned, omit the discountPrice field entirely. If no keyword in the query matches the provided categories, but the price is mentioned, then omit the category field, but include the discountPrice field
+    6. If no price is mentioned in user query, omit the discountPrice field entirely. If no keyword in the query matches the provided categories, but the price is mentioned, then omit the category field, but include the discountPrice field
     7. Note that there are only 2 possible fields you can return in JSON (category, discountPrice). Do not create and return own fields on your own  
 
 

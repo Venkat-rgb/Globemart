@@ -9,13 +9,16 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "seed_product_embedding": "node scripts/seedProductEmbedding.js",
+    "seed_company_docs_embedding": "node scripts/seedCompanyDocsEmbedding.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@google/genai": "^1.16.0",
+    "@langchain/community": "^0.3.59",
     "@langchain/core": "^0.3.77",
     "@langchain/langgraph": "^0.4.9",
     "bcrypt": "^5.1.0",
@@ -34,6 +37,7 @@
     "node-cache": "^5.1.2",
     "node-schedule": "^2.1.1",
     "nodemailer": "^6.9.1",
+    "pdf-parse": "^1.1.1",
     "stripe": "^13.5.0",
     "validator": "^13.9.0",
     "winston": "^3.18.3"
