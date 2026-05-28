@@ -17,6 +17,12 @@ const AgentChatFooter = ({ sendMessageToAI, isAgentResponseLoading }) => {
         return;
       }
 
+      // Limit the user query to 400 characters
+      if (userQuery.length > 400) {
+        toast.error(`Please enter your query under 400 characters!`);
+        return;
+      }
+
       // Sending the user query to AI
       sendMessageToAI(userQuery);
 

@@ -1,4 +1,4 @@
-import { llm } from "../../server.js";
+import { basicLLM } from "./llm.js";
 import { logger } from "../logger.js";
 
 // Extracting keywords from user query
@@ -48,7 +48,7 @@ export const extractKeywords = async (query) => {
 
     Now extract from the user query:`;
 
-    const extractedKeywords = await llm.models.generateContent({
+    const extractedKeywords = await basicLLM.models.generateContent({
       model: process.env.CHAT_MODEL,
       contents: `${systemPrompt}\n\n${query}`,
       config: {

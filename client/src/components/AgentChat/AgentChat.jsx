@@ -11,12 +11,14 @@ import {
 } from "../../redux/features/agentChat/agentChatApiSlice";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const AgentChat = ({ userId, setIsAgentChatOpen }) => {
   // Stores chat messages
   const [messages, setMessages] = useState([]);
 
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   // Fetching agent chat messages
   const [getAgentChat, { isFetching: isAgentChatLoading }] =
@@ -59,10 +61,18 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
 
         setMessages((prev) => [...prev, userMessageObj]);
 
+        let productId = "";
+
+        // Getting the productId from pathname
+        if (!pathname.includes("admin") && pathname.includes("/product/")) {
+          productId = pathname.split("/").at(-1);
+        }
+
         // Getting the response from AI
         const agentRes = await chatWithAIAgent({
           userMessage: userQuery,
           userId,
+          productId,
         }).unwrap();
 
         // Pushing the AI message to chat
@@ -86,7 +96,7 @@ const AgentChat = ({ userId, setIsAgentChatOpen }) => {
         toast.error(err?.message || err?.data?.message);
       }
     },
-    [messages],
+    [pathname, messages],
   );
 
   // Deleting the chat messages

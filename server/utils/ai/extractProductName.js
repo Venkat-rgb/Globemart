@@ -1,4 +1,4 @@
-import { llm } from "../../server.js";
+import { basicLLM } from "./llm.js";
 import { logger } from "../logger.js";
 
 export const extractProductName = async (userMessage = "") => {
@@ -22,7 +22,7 @@ export const extractProductName = async (userMessage = "") => {
   
    Now answer the user query: ${userMessage}`;
 
-    const productName = await llm.models.generateContent({
+    const productName = await basicLLM.models.generateContent({
       model: process.env.CHAT_MODEL,
       contents: extractProductNamePrompt,
       config: {

@@ -1,10 +1,10 @@
-import { llm } from "../../server.js";
+import { basicLLM } from "./llm.js";
 import { logger } from "../logger.js";
 
 // Generate embeddings
 export const generateEmbedding = async (text, type) => {
   try {
-    const embeddingsRes = await llm.models.embedContent({
+    const embeddingsRes = await basicLLM.models.embedContent({
       model: process.env.EMBEDDING_MODEL,
       contents: text,
       config: {

@@ -19,7 +19,7 @@ const messageSchema = new mongoose.Schema(
   },
   {
     strict: true,
-  }
+  },
 );
 
 const conversationSchema = new mongoose.Schema(
@@ -30,30 +30,10 @@ const conversationSchema = new mongoose.Schema(
       required: [true, "Session ID is required!"],
     },
     messages: [messageSchema],
-    intent: {
-      type: String,
-      enum: [
-        "general",
-        "policy",
-        "product_info",
-        "product_review_summary",
-        "unknown",
-      ],
-      default: "unknown",
-    },
-    waitingForProductName: {
-      type: Boolean,
-      default: false,
-    },
-    productNameIntent: {
-      type: String,
-      enum: ["product_info", "product_review_summary", null],
-      default: null,
-    },
   },
   {
     strict: true,
-  }
+  },
 );
 
 export const Conversation = mongoose.model("Conversation", conversationSchema);

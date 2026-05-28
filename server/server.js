@@ -46,7 +46,6 @@ import { startCouponJob } from "./utils/jobs/couponJob.js";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 import NodeCache from "node-cache";
-import { GoogleGenAI } from "@google/genai";
 import { globalLimiter } from "./middlewares/rateLimiters.js";
 import mongoose from "mongoose";
 
@@ -91,11 +90,6 @@ cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-// Initializing LLM
-export const llm = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
 });
 
 // Initializing Node cache, expiring all the cache keys in 1 hr

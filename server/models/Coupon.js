@@ -56,7 +56,7 @@ const couponSchema = new mongoose.Schema(
   {
     timestamps: true,
     strict: true,
-  }
+  },
 );
 
 // Creating couponText based on below parameters
@@ -65,14 +65,13 @@ couponSchema.methods.setCouponText = function (
   couponCode,
   discount,
   startDate,
-  endDate
+  endDate,
 ) {
   try {
     // Calculating number of days left for coupon validity
-
     const numOfDaysLeft = getNumOfDaysLeft(
       new Date(endDate),
-      new Date(startDate)
+      new Date(startDate),
     );
 
     return `Sales for '${occasionName}' occasion are waiting for you, enter coupon ${couponCode} to get ${discount}% off! (${numOfDaysLeft} ${
