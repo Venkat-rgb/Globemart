@@ -4,6 +4,7 @@
 
 ## Contents
 - [Project Overview](#project-overview)
+- [Video Demo](#video-demo)
 - [Tech Stack](#tech-stack)
 - [Project Architecture](#project-architecture)
 - [Key Features](#key-features)
@@ -37,6 +38,8 @@
 
 - Apart from solving these problems, I built this project to deeply understand the complete **SDLC** of a real-world product — from planning and development to deployment, scalability, and DevOps. This project taught me **Product Ownership** and helped me develop a **strong product-thinking mindset** and understand how large-scale applications are built and maintained end-to-end.
 
+## Video Demo
+- Timestamps are attached in the video description: https://www.youtube.com/watch?v=cuLdY5N6rpA
 
 ## Tech Stack
 
