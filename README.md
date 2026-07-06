@@ -186,28 +186,29 @@ sequenceDiagram
 ```
 
 ## Key Features
-- Engineered an end-to-end **AI Customer support agent RAG (Retrieval-Augmented Generation)**
-pipeline using **LangChain** and **LangGraph**, capable of **answering policy FAQs**, **retrieving product
-details**, and **summarizing product reviews** from the platform's knowledge base.
-- Implemented **AI-powered voice product search** using **Gemma-3-27B-IT** model and **vector
-embeddings**, enabling natural queries like ‘show wedding kurta under 5000‘.
-- Developed a **real-time customer support chat** system using **Socket.io** with **typing indicators**, **online
-presence**, **unread notifications**, **emoji support**, and **message read status**.
-- Architected a **Geospatial Nearby Stores** feature using **MongoDB geospatial indexes** and **Haversine**
-formula, displaying store locations on interactive **Leaflet maps** with route visualization and distance
-calculation when the product is out of stock.
-- Integrated payment processing with **Stripe** supporting online payments and offline order flow, with
+- Engineered an end-to-end **AI-Powered Customer Support Agent** using **LangChain** and **LangGraph** to
+build a **RAG pipeline** capable of **answering policy FAQs**, **retrieving product details**, and **summarizing
+customer reviews**, reducing human intervention for routine queries.
+- Implemented **AI-Powered Voice Product Search** using **Gemini** and **vector embeddings**, improving
+search efficiency through semantic product search with price and category filtering.
+- Developed a highly reliable **Real-Time Customer Support Chat** service using **Socket.io** with **typing
+indicators**, **online presence**, **unread notifications**, **emoji support**, and **message read status** for
+seamless customer-agent communication.
+- Architected a scalable **Geospatial Nearby Stores** solution using **MongoDB geospatial indexes** and the
+**Haversine** formula, displaying store locations on interactive **Leaflet maps** with route visualization and
+distance calculations to help customers locate **out-of-stock** products.
+- Integrated payment processing using **Stripe**, supporting online payments and **Cash on Delivery**, with
 **automated invoice generation** and **order confirmation emails** via **Nodemailer**.
-- Built a **Dynamic currency conversion system** supporting 165+ global currencies based on user location
-using FreeCurrencyAPI.
-- Implemented **automated coupon lifecycle management** using **node-schedule jobs** to activate and
-expire coupons daily at midnight without manual intervention.
-- Developed a comprehensive **Admin Dashboard** with **sales analytics** (last week, 6 months chart),
-inventory, coupons, orders management, customer reviews monitoring, real-time admin chat support.
-- **Containerized** and deployed the full stack application using **Docker**, **CI/CD pipeline**, and **Nginx** as
-reverse proxy on a **VPS** (Virtual Private Server)
+- Built a **Dynamic Currency Conversion System** supporting 165+ global currencies based on user
+location, enabling users to shop and view product prices in their local currency.
+- Developed and maintained an **Automated Coupon Lifecycle Management** using **node-schedule jobs** to
+activate and expire coupons daily at midnight without manual intervention.
+- Developed a scalable **Admin Dashboard** for enterprise application management with **sales analytics**,
+**inventory**, **coupons**, **orders**, **real-time admin chat support**, and **customer review monitoring**.
+- **Containerized** and deployed maintainable software services using **Docker**, **CI/CD pipeline**, and **Nginx** as
+a reverse proxy on a **VPS** Infrastructure.
 - Built complete e-commerce functionality including product catalog with filters, cart, wishlist, reviews, user
-profiles, and an order tracking system
+profiles, and an order tracking system.
 
 
 ## Performance Optimizations
