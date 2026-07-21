@@ -132,7 +132,7 @@ export const chatReadLimiter = rateLimit({
 // 6) Products Limiter
 export const productsLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // wait time 1 min
-  max: 50, // 50 requests per minute
+  max: 2000, // 50 requests per minute
   message: {
     message: "Too many requests, please try again after a minute",
   },
@@ -152,7 +152,7 @@ export const productLimiter = rateLimit({
 
 export const featuredProductsLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // wait time 1 min
-  max: 20, // 20 requests per minute
+  max: 2000, // 20 requests per minute
   message: {
     message: "Too many requests, please try again after a minute",
   },
@@ -244,7 +244,7 @@ export const wishlistLimiter = rateLimit({
 // 12) Global middleware
 export const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // wait time 15 min
-  max: 200, // max 200 requests
+  max: 2000, // max 200 requests
   message: {
     message:
       "Too many requests from this IP, please try again after 15 minutes",
