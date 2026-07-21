@@ -73,8 +73,8 @@
 ### 🚀 AI Integration 
 - **LangChain.js** – building LLM-powered workflows
 - **LangGraph.js** – RAG agent orchestration
-- **gemini-embedding-001** – vector embeddings
-- **gemma-3-27b-it** – LLM for AI responses
+- **gemini-embedding-2** – vector embeddings
+- **gemini-3.1-flash-lite** – LLM for AI responses
 
 ### 🚀 Deployment (DevOps & Infrastructure) 
 - **Docker** – containerization
