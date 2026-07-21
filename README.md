@@ -69,6 +69,7 @@
 
 ### 🚀 Payment Gateway
 - **Stripe** – secure online payment processing
+- **Cash on Delivery** - for offline payments
 
 ### 🚀 AI Integration 
 - **LangChain.js** – building LLM-powered workflows
